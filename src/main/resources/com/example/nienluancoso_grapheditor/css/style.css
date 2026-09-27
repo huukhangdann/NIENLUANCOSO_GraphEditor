@@ -10,3 +10,10 @@
     -fx-background-color: lightGray;
 }
 
+#topContainer{
+    -fx-background-color: lightGreen;
+}
+
+#botContainer{
+    -fx-background-color: lightYellow;
+}

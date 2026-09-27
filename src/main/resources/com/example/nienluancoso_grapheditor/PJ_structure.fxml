@@ -17,7 +17,7 @@
 
 <BorderPane prefHeight="650.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.nienluancoso_grapheditor.HelloController">
    <top>
-      <VBox prefHeight="60.0" BorderPane.alignment="CENTER">
+      <VBox fx:id="topContainer" id="topContainer" prefHeight="60.0" BorderPane.alignment="CENTER">
          <children>
             <MenuBar minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0">
               <menus>
@@ -80,7 +80,7 @@
       <Pane id="graphPane" fx:id="graphPane" prefHeight="313.0" prefWidth="299.0" BorderPane.alignment="CENTER" />
    </center>
    <bottom>
-      <HBox prefHeight="23.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+      <HBox fx:id="botContainer" id="botContainer" prefHeight="23.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
             <Label text="Ready">
                <HBox.margin>
@@ -90,13 +90,13 @@
             <Region HBox.hgrow="ALWAYS" />
             <Label text="Vertices: 0">
                <HBox.margin>
-                  <Insets right="15.0" />
+                  <Insets right="15.0" top="5.0" />
                </HBox.margin>
             </Label>
             <Separator orientation="VERTICAL" />
             <Label text="Edges: 0">
                <HBox.margin>
-                  <Insets left="15.0" right="15.0" />
+                  <Insets left="15.0" right="15.0" top="5.0" />
                </HBox.margin>
             </Label>
          </children></HBox>

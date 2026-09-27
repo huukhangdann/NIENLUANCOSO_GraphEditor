@@ -12,6 +12,10 @@ public class HelloController {
     @FXML
     private HBox rightContainer;
     @FXML
+    private VBox topContainer;
+    @FXML
+    private HBox botContainer;
+    @FXML
     private Pane graphPane;
     @FXML
     private Button leftToggleButton;
