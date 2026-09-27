@@ -186,6 +186,8 @@
 /* graphPane */
 #graphPane {
     -fx-background-color:#FFFFFF;
+    -fx-border-color: -fx-border-color-light;
+    -fx-border-width: 1px;
 }
 
 /* Bot */
@@ -204,4 +206,14 @@
 
 .headingLabel{
     -fx-font-weight: bold;
+}
+
+#testLayoutText{
+    -fx-font-family: SVN-Bango;
+    -fx-font-size: 20px;
+    -fx-text-fill: -fx-border-color-light;
+    -fx-border-color: #CBD5E0;
+    -fx-border-style: dashed;
+    -fx-border-width: 1px;
+    -fx-padding: 10px 16px;
 }
