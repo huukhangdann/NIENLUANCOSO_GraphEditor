@@ -143,7 +143,7 @@
     -fx-border-color: -fx-accent-teal;
 }
 
-/* NÚT TOGGLE TỐI GIẢN*/
+/* Nút toggle */
 #leftToggleButton {
     -fx-background-color: transparent; /* Trùng màu nền với leftContainer */
     -fx-border-color: transparent;

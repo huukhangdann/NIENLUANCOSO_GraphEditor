@@ -17,9 +17,9 @@
 
 <BorderPane prefHeight="650.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.nienluancoso_grapheditor.HelloController">
    <top>
-      <VBox id="topContainer" fx:id="topContainer" prefHeight="60.0" BorderPane.alignment="CENTER">
+      <VBox id="topContainer" fx:id="topContainer" BorderPane.alignment="CENTER">
          <children>
-            <MenuBar minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0">
+            <MenuBar minHeight="-Infinity" minWidth="-Infinity">
               <menus>
                 <Menu mnemonicParsing="false" text="File">
                   <items>
@@ -60,7 +60,8 @@
                 </Menu>
               </menus>
             </MenuBar>
-            <ToolBar minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0">
+            <Separator prefWidth="200.0" />
+            <ToolBar minHeight="-Infinity" minWidth="-Infinity">
               <items>
                   <Button mnemonicParsing="false" text="New" />
                   <Button mnemonicParsing="false" text="Open" />
@@ -72,6 +73,9 @@
                   <Button mnemonicParsing="false" text="Delete" />
                   <Button mnemonicParsing="false" text="Clear" />
               </items>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
             </ToolBar>
          </children>
       </VBox>
