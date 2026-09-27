@@ -102,7 +102,7 @@
          </children></HBox>
    </bottom>
    <left>
-      <HBox id="leftContainer" fx:id="leftContainer" prefWidth="150.0" BorderPane.alignment="CENTER">
+      <HBox id="leftContainer" fx:id="leftContainer" BorderPane.alignment="CENTER">
          <children>
             <VBox fx:id="leftPanel" prefWidth="120.0">
                <children>
@@ -168,13 +168,8 @@
       </HBox>
    </left>
    <right>
-      <HBox id="rightContainer" fx:id="rightContainer" prefWidth="190.0" BorderPane.alignment="CENTER">
+      <HBox id="rightContainer" fx:id="rightContainer" prefWidth="190.0" BorderPane.alignment="CENTER_RIGHT">
          <children>
-            <Button fx:id="rightToggleButton" mnemonicParsing="false" text="▶">
-               <HBox.margin>
-                  <Insets bottom="3.0" left="3.0" right="5.0" top="3.0" />
-               </HBox.margin>
-            </Button>
             <VBox fx:id="rightPanel" prefWidth="160.0">
                <children>
                   <Label text="Properties">
