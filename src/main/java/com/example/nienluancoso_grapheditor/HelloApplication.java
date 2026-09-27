@@ -14,6 +14,7 @@ public class HelloApplication extends Application {
         Scene scene = new Scene(fxmlLoader.load());
 
         String css = this.getClass().getResource("/com/example/nienluancoso_grapheditor/css/style.css").toExternalForm();
+        scene.getStylesheets().add(css);
 
         stage.setTitle("Graph Editor");
         stage.setScene(scene);

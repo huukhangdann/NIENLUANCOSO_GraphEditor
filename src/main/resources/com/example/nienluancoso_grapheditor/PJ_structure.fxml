@@ -65,10 +65,10 @@
                   <Button mnemonicParsing="false" text="New" />
                   <Button mnemonicParsing="false" text="Open" />
                 <Button mnemonicParsing="false" text="Save" />
-                  <Separator orientation="VERTICAL"/>
+                  <Separator orientation="VERTICAL" />
                   <Button mnemonicParsing="false" text="Undo" />
                   <Button mnemonicParsing="false" text="Redo" />
-                  <Separator orientation="VERTICAL"/>
+                  <Separator orientation="VERTICAL" />
                   <Button mnemonicParsing="false" text="Delete" />
                   <Button mnemonicParsing="false" text="Clear" />
               </items>
@@ -77,7 +77,7 @@
       </VBox>
    </top>
    <center>
-      <Pane fx:id="graphPane" id="graphPane" prefHeight="313.0" prefWidth="299.0" BorderPane.alignment="CENTER" />
+      <Pane id="graphPane" fx:id="graphPane" prefHeight="313.0" prefWidth="299.0" BorderPane.alignment="CENTER" />
    </center>
    <bottom>
       <HBox prefHeight="23.0" prefWidth="600.0" BorderPane.alignment="CENTER">
@@ -93,7 +93,7 @@
                   <Insets right="15.0" />
                </HBox.margin>
             </Label>
-            <Separator orientation="VERTICAL"/>
+            <Separator orientation="VERTICAL" />
             <Label text="Edges: 0">
                <HBox.margin>
                   <Insets left="15.0" right="15.0" />
@@ -102,7 +102,7 @@
          </children></HBox>
    </bottom>
    <left>
-      <HBox fx:id="leftContainer" id="leftContainer" prefWidth="150.0" BorderPane.alignment="CENTER">
+      <HBox id="leftContainer" fx:id="leftContainer" prefWidth="150.0" BorderPane.alignment="CENTER">
          <children>
             <VBox fx:id="leftPanel" prefWidth="120.0">
                <children>
@@ -159,7 +159,7 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
             </VBox>
-            <Button fx:id="leftToggleButton" mnemonicParsing="false" text="◀">
+            <Button fx:id="leftToggleButton" mnemonicParsing="false" onAction="#leftPanelToggleHandle" text="◀">
                <HBox.margin>
                   <Insets right="5.0" top="5.0" />
                </HBox.margin>
@@ -168,7 +168,7 @@
       </HBox>
    </left>
    <right>
-      <HBox fx:id="rightContainer" id="rightContainer" prefWidth="190.0" BorderPane.alignment="CENTER">
+      <HBox id="rightContainer" fx:id="rightContainer" prefWidth="190.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="rightToggleButton" mnemonicParsing="false" text="▶">
                <HBox.margin>
