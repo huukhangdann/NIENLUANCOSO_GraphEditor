@@ -10,9 +10,12 @@ import java.io.IOException;
 public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        stage.setTitle("Hello!");
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PJ_structure.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+
+        String css = this.getClass().getResource("/com/example/nienluancoso_grapheditor/css/style.css").toExternalForm();
+
+        stage.setTitle("Graph Editor");
         stage.setScene(scene);
         stage.show();
     }

@@ -1,0 +1,12 @@
+#leftContainer{
+    -fx-background-color: lightPink;
+}
+
+#rightContainer{
+    -fx-background-color: lightBlue;
+}
+
+#graphPane{
+    -fx-background-color: lightGray;
+}
+
