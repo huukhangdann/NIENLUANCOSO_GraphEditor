@@ -1,0 +1,207 @@
+/* General style */
+.root {
+    -fx-font-family: "Segoe UI", "Inter", "Helvetica Neue", sans-serif;
+    -fx-font-size: 14px;
+    -fx-base: #F1F5F9;
+    -fx-background-color: #F1F5F9;
+
+    /* Màu */
+    -fx-accent-teal: #3B9797;
+    -fx-accent-teal-hover: #2E7979;
+    -fx-bg-sidebar: #F1F5F9;
+    -fx-bg-white: #FFFFFF;
+    -fx-border-color-light: #E2E8F0;
+    -fx-text-primary: #2D3748;
+    -fx-text-muted: #64748B;
+}
+
+/* Top */
+#topContainer {
+    -fx-background-color: -fx-bg-white;
+    -fx-border-color: transparent transparent -fx-border-color-light transparent;
+    -fx-border-width: 1px;
+}
+
+.menu-bar {
+    -fx-background-color: -fx-bg-white;
+    -fx-padding: 4px 8px;
+}
+
+.menu-bar .menu .label {
+    -fx-text-fill: -fx-text-primary;
+    -fx-font-size: 13px;
+}
+
+.menu-bar .menu:showing, .menu-bar .menu:hover {
+    -fx-background-color: #EDF2F7;
+    -fx-background-radius: 4px;
+}
+
+.context-menu {
+    -fx-background-color: -fx-bg-white;
+    -fx-border-color: -fx-border-color-light;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 8, 0, 0, 4);
+}
+
+.menu-item .label {
+    -fx-text-fill: -fx-text-primary;
+    -fx-font-size: 13px;
+}
+
+.menu-item:focused {
+    -fx-background-color: #E6FFFA;
+    -fx-text-fill: -fx-accent-teal;
+}
+
+.tool-bar {
+    -fx-background-color: -fx-bg-white;
+    -fx-padding: 6px 12px;
+    -fx-spacing: 8px;
+}
+
+.tool-bar .button {
+    -fx-background-color: -fx-bg-white;
+    -fx-text-fill: -fx-text-primary;
+    -fx-border-color: -fx-border-color-light;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-padding: 6px 14px;
+    -fx-font-size: 12.5px;
+}
+
+.tool-bar .button:hover {
+    -fx-background-color: #EDF2F7;
+    -fx-border-color: #CBD5E0;
+}
+
+.tool-bar .button:pressed {
+    -fx-background-color: #E2E8F0;
+}
+
+.separator:vertical .line {
+    -fx-border-color: -fx-border-color-light;
+    -fx-border-width: 0 1 0 0;
+}
+
+.separator:horizontal .line {
+    -fx-border-color: -fx-border-color-light;
+    -fx-border-width: 1 0 0 0;
+}
+
+/* leftPanel, rightPanel */
+#leftContainer, #rightContainer {
+    -fx-background-color: -fx-bg-sidebar;
+    -fx-padding: 0px; /* Bỏ padding ngoài để full tràn viền */
+}
+
+#leftContainer {
+    -fx-border-color: transparent -fx-border-color-light transparent transparent;
+    -fx-border-width: 1px;
+}
+
+#rightContainer {
+    -fx-border-color: transparent transparent transparent -fx-border-color-light;
+    -fx-border-width: 1px;
+}
+#leftPanel, #rightPanel {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0px;
+    -fx-border-color: transparent;
+    -fx-effect: none;
+    -fx-spacing: 10px;
+    -fx-padding: 14px;
+}
+
+#rightPanel {
+    -fx-pref-width: 290px;
+    -fx-max-width: infinity;
+}
+
+.vbox > .label {
+    -fx-text-fill: -fx-text-muted;
+    -fx-font-size: 11.5px;
+}
+
+/* Button bên trong Left/Right Panel */
+#leftPanel .button, #rightPanel .button {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: -fx-text-primary;
+    -fx-border-color: -fx-border-color-light;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-alignment: CENTER-LEFT;
+    -fx-padding: 7px 12px;
+    -fx-font-size: 13px;
+    -fx-max-width: infinity;
+}
+
+#leftPanel .button:hover, #rightPanel .button:hover {
+    -fx-background-color: #E6FFFA;
+    -fx-text-fill: -fx-accent-teal;
+    -fx-border-color: -fx-accent-teal;
+}
+
+/* NÚT TOGGLE TỐI GIẢN*/
+#leftToggleButton {
+    -fx-background-color: transparent; /* Trùng màu nền với leftContainer */
+    -fx-border-color: transparent;
+    -fx-background-radius: 4px;
+    -fx-text-fill: -fx-text-muted;
+    -fx-font-size: 11px;
+    -fx-padding: 6px 4px;
+    -fx-cursor: hand;
+    -fx-margin: 8px 4px 0 2px;
+}
+
+#leftToggleButton:hover {
+    -fx-background-color: #E2E8F0; /* Nổi nhẹ khi hover */
+    -fx-text-fill: -fx-text-primary;
+}
+
+/* CheckBox */
+.check-box {
+    -fx-text-fill: -fx-text-primary;
+    -fx-font-size: 13px;
+}
+
+.check-box .box {
+    -fx-background-color: -fx-bg-white;
+    -fx-border-color: -fx-border-color-light;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+    -fx-padding: 3px;
+}
+
+.check-box:selected .box {
+    -fx-background-color: -fx-accent-teal;
+    -fx-border-color: -fx-accent-teal;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: white;
+}
+
+/* graphPane */
+#graphPane {
+    -fx-background-color:#FFFFFF;
+}
+
+/* Bot */
+#botContainer {
+    -fx-background-color: -fx-bg-white;
+    -fx-border-color: -fx-border-color-light transparent transparent transparent;
+    -fx-border-width: 1px;
+    -fx-alignment: CENTER-LEFT;
+    -fx-padding: 2px 8px;
+}
+
+#botContainer .label {
+    -fx-text-fill: -fx-text-muted;
+    -fx-font-size: 12px;
+}
+
+.headingLabel{
+    -fx-font-weight: bold;
+}
