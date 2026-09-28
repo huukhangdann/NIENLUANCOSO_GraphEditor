@@ -8,9 +8,9 @@ public class Vertex {
     public Vertex() {
     }
 
-    public Vertex(double y, double x) {
-        this.y = y;
+    public Vertex(double x, double y) {
         this.x = x;
+        this.y = y;
     }
 
     public int getId() {

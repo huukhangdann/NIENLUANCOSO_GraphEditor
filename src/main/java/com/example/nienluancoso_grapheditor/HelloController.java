@@ -51,9 +51,6 @@ public class HelloController {
         label.layoutYProperty().bind(graphPane.heightProperty().subtract(label.heightProperty()).divide(2));
         graphPane.getChildren().add(label);
 
-        // Graph Init
-        Graph graph = new Graph();
-
         // Pane Click
         handleGraphPaneClicked(graph);
 
@@ -64,9 +61,10 @@ public class HelloController {
             double x = event.getX();
             double y = event.getY();
             Vertex vertex = new Vertex(x, y);
-            VertexView vertexView = new VertexView(vertex);
             graph.addVertex(vertex);
+            VertexView vertexView = new VertexView(vertex);
             graphPane.getChildren().add(vertexView);
+            System.out.println(graph);
         });
     }
 }

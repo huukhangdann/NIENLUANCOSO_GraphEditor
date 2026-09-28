@@ -12,10 +12,17 @@ public class VertexView extends Pane {
     private Label label;
 
     public VertexView(Vertex vertex) {
-        this.circle = new Circle(vertex.getX(), vertex.getY(), 20);
-        System.out.println(circle);
+        this.circle = new Circle(20);
         circle.setFill(Color.RED);
-        this.label = new Label((vertex.getId() - 1) + "A");
+        System.out.println(vertex.getId() - 1);
+        this.label = new Label((char) ('A' + vertex.getId() - 1) + "");
+        label.setLayoutX(circle.getCenterX());
+        label.setLayoutY(circle.getCenterY());
+
+        // add circle and label to vertex view's children list
+        this.getChildren().addAll(circle, label);
+        this.setLayoutX(vertex.getX());
+        this.setLayoutY(vertex.getY());
     }
 
     public Circle getCircle() {
