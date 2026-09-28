@@ -64,7 +64,6 @@ public class HelloController {
             graph.addVertex(vertex);
             VertexView vertexView = new VertexView(vertex);
             graphPane.getChildren().add(vertexView);
-            System.out.println(graph);
         });
     }
 }

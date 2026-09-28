@@ -1,0 +1,12 @@
+.vertex {
+    -fx-fill: #ffffff;
+    -fx-stroke: #333333;
+    -fx-stroke-width: 2;
+}
+
+.vertex-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+    -fx-alignment: center;
+}

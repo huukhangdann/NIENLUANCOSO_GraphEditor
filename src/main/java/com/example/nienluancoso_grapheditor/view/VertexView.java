@@ -16,7 +16,6 @@ public class VertexView extends Pane {
     public VertexView(Vertex vertex) {
         this.circle = new Circle(0,0,20);
         circle.setFill(Color.RED);
-        System.out.println(vertex.getId() - 1);
         this.label = new Label((char) ('A' + vertex.getId() - 1) + "");
 
         // Middle align the label
@@ -27,6 +26,9 @@ public class VertexView extends Pane {
         label.setLayoutY(-20);
         label.setMouseTransparent(true);   // Avoid mouse clicked event
 
+        // CSS
+        circle.getStyleClass().add("vertex");
+        label.getStyleClass().add("vertex-label");
 
         // add circle and label to vertex view's children list
         this.getChildren().addAll(circle, label);
