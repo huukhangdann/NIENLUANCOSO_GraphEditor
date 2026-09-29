@@ -4,24 +4,25 @@ import com.example.nienluancoso_grapheditor.model.Vertex;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
 
 
-public class VertexView extends Pane {
+public class VertexView extends StackPane {
     private Circle circle;
     private Label label;
     private static VertexView selectedVertex = null;
+    private static final double RADIUS = 20;
+    private static final double SIZE = RADIUS * 2;
+
 
     public VertexView(Vertex vertex) {
-        this.circle = new Circle(0,0,20);
+        this.circle = new Circle(RADIUS);
         this.label = new Label((char) ('A' + vertex.getId() - 1) + "");
 
         // Middle align the label
-        label.setPrefWidth(40);
-        label.setPrefHeight(40);
+        label.setPrefSize(SIZE, SIZE);
         label.setAlignment(Pos.CENTER);
-        label.setLayoutX(-20);
-        label.setLayoutY(-20);
         label.setMouseTransparent(true);   // Avoid mouse clicked event
         circle.setMouseTransparent(true);
 
@@ -31,8 +32,8 @@ public class VertexView extends Pane {
 
         // add circle and label to vertex view's children list
         this.getChildren().addAll(circle, label);
-        this.setLayoutX(vertex.getX());
-        this.setLayoutY(vertex.getY());
+        this.setLayoutX(vertex.getX() - RADIUS);
+        this.setLayoutY(vertex.getY() - RADIUS);
     }
 
     public void onSelect(boolean value){

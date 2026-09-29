@@ -65,9 +65,21 @@ public class HelloController {
             Vertex vertex = new Vertex(x, y);
             graph.addVertex(vertex);
             VertexView vertexView = new VertexView(vertex);
+
             // Vertex clicked
             handleVertexClicked(vertexView);
+
+            // Vertex dragged
+            handleVertexDragged(vertexView);
+
             graphPane.getChildren().add(vertexView);
+        });
+    }
+
+    private void handleVertexDragged(VertexView vertexView) {
+        vertexView.setOnMouseDragged(event -> {
+            vertexView.setLayoutX(event.getX());
+            vertexView.setLayoutY(event.getY());
         });
     }
 
@@ -77,11 +89,9 @@ public class HelloController {
             // self-click
             if(selectedVertexView == vertexView){
                 selectedVertexView.onSelect(false);
-                selectedVertexView = null;
             }
             else {
                 if (selectedVertexView != null) selectedVertexView.onSelect(false);
-                selectedVertexView = vertexView;
                 vertexView.onSelect(true);
             }
             event.consume(); // stop bubbling to the pane
