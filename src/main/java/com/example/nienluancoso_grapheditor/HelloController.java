@@ -4,6 +4,7 @@ import com.example.nienluancoso_grapheditor.model.Graph;
 import com.example.nienluancoso_grapheditor.model.Vertex;
 import com.example.nienluancoso_grapheditor.view.VertexView;
 import javafx.fxml.FXML;
+import javafx.geometry.Point2D;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -78,21 +79,23 @@ public class HelloController {
 
     private void handleVertexDragged(VertexView vertexView) {
         vertexView.setOnMouseDragged(event -> {
-            vertexView.setLayoutX(event.getX());
-            vertexView.setLayoutY(event.getY());
+            Point2D point = graphPane.sceneToLocal(event.getSceneX(), event.getSceneY());
+            vertexView.setCenterX(point.getX());
+            vertexView.setCenterY(point.getY());
         });
     }
 
     public void handleVertexClicked(VertexView vertexView){
         vertexView.setOnMouseClicked(event -> {
-            VertexView selectedVertexView = VertexView.getSelectedVertex();
-            // self-click
-            if(selectedVertexView == vertexView){
-                selectedVertexView.onSelect(false);
-            }
-            else {
-                if (selectedVertexView != null) selectedVertexView.onSelect(false);
-                vertexView.onSelect(true);
+            if (event.isStillSincePress()){
+                VertexView selectedVertexView = VertexView.getSelectedVertex();
+                // self-click
+                if (selectedVertexView == vertexView) {
+                    selectedVertexView.onSelect(false);
+                } else {
+                    if (selectedVertexView != null) selectedVertexView.onSelect(false);
+                    vertexView.onSelect(true);
+                }
             }
             event.consume(); // stop bubbling to the pane
         });
