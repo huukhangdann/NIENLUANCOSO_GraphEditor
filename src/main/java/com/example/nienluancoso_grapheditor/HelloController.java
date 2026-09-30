@@ -3,6 +3,7 @@ package com.example.nienluancoso_grapheditor;
 import com.example.nienluancoso_grapheditor.model.Edge;
 import com.example.nienluancoso_grapheditor.model.Graph;
 import com.example.nienluancoso_grapheditor.model.Vertex;
+import com.example.nienluancoso_grapheditor.view.EdgeView;
 import com.example.nienluancoso_grapheditor.view.VertexView;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -11,6 +12,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class HelloController {
@@ -35,6 +39,7 @@ public class HelloController {
     private Label label = new Label();
     private VertexView firstVertexClicked = null;
     private Line previewLine = null;
+    private final Map<Vertex, VertexView> vertexVertexViewMap = new HashMap<>();
 
     @FXML
     public void leftPanelToggleHandle() {
@@ -55,6 +60,9 @@ public class HelloController {
 
         // Pane Click
         handleGraphPaneClicked();
+
+        // Mouse moved for preview line
+        handleMouseMoved();
 
     }
 
@@ -85,6 +93,7 @@ public class HelloController {
                 Vertex vertex = new Vertex(x, y);
                 graph.addVertex(vertex);
                 VertexView vertexView = new VertexView(vertex);
+                vertexVertexViewMap.put(vertex, vertexView);
 
                 // set callback when vertexView clicked
                 vertexView.setOnClicked(vertexClicked -> {
@@ -109,8 +118,6 @@ public class HelloController {
                 // Vertex dragged
                 vertexView.handleVertexDragged(graphPane);
 
-                // Mouse moved for preview line
-                handleMouseMoved();
 
                 graphPane.getChildren().add(vertexView);
             }
@@ -143,6 +150,9 @@ public class HelloController {
     public void createEdge(Vertex u, Vertex v){
         Edge edge = new Edge(u, v);
         graph.addEdge(edge);
+        EdgeView edgeView = new EdgeView(edge, vertexVertexViewMap.get(u), vertexVertexViewMap.get(v));
+        graphPane.getChildren().add(edgeView.getLine());
+        edgeView.getLine().toBack();
     }
 
     public void removePreviewLine(){

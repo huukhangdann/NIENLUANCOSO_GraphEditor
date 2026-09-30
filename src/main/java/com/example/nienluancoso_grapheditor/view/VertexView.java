@@ -1,6 +1,8 @@
 package com.example.nienluancoso_grapheditor.view;
 
 import com.example.nienluancoso_grapheditor.model.Vertex;
+import javafx.beans.binding.DoubleBinding;
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -79,6 +81,14 @@ public class VertexView extends StackPane {
 
     public double getCenterY(){
         return this.getLayoutY() + RADIUS;
+    }
+
+    public DoubleBinding getCenterXProperty(){
+        return this.layoutXProperty().add(RADIUS);
+    }
+
+    public DoubleBinding getCenterYProperty(){
+        return this.layoutYProperty().add(RADIUS);
     }
 
     public void setCenterX(double x){
