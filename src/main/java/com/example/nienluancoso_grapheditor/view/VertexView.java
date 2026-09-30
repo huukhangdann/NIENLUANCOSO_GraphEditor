@@ -4,6 +4,7 @@ import com.example.nienluancoso_grapheditor.model.Vertex;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
 
@@ -80,7 +81,7 @@ public class VertexView extends StackPane {
         return RADIUS;
     }
 
-    public void handleVertexDragged() {
+    public void handleVertexDragged(Pane graphPane) {
         this.setOnMousePressed(event -> {
             clickedPointOffset = new Point2D(
                     this.getRadius() - event.getX(),

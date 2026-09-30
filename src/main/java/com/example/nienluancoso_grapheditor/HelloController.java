@@ -76,7 +76,7 @@ public class HelloController {
             vertexView.handleVertexClicked();
 
             // Vertex dragged
-            vertexView.handleVertexDragged();
+            vertexView.handleVertexDragged(graphPane);
 
             graphPane.getChildren().add(vertexView);
         });
