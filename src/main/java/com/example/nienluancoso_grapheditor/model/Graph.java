@@ -1,6 +1,5 @@
 package com.example.nienluancoso_grapheditor.model;
 
-import java.nio.file.WatchEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,14 +47,14 @@ public class Graph {
     }
 
     public void addEdge(Edge edge){
-        if(!isValid(edge))
+        if(!isValidEdge(edge))
             return;
         edgeList.add(edge);
         System.out.println("Edge created!");
     }
 
-    public boolean isValid(Edge edge){
-        if(edge.getFirstVertex() == edge.getSecondVertex())
+    public boolean isValidEdge(Edge edge){
+        if(edge.getVertex1() == edge.getVertex2())
             return false;
         if(hasEdge(edge))
             return false;
@@ -71,9 +70,9 @@ public class Graph {
     public boolean hasEdge(Edge edge){
         boolean flag = false;
         for(Edge e: edgeList){
-            if((e.getFirstVertex() == edge.getFirstVertex() && (e.getSecondVertex() == edge.getSecondVertex())))
+            if((e.getVertex1() == edge.getVertex1() && (e.getVertex2() == edge.getVertex2())))
                 return true;
-            if((e.getFirstVertex() == edge.getSecondVertex()) && (e.getSecondVertex() == edge.getFirstVertex()))
+            if((e.getVertex1() == edge.getVertex2()) && (e.getVertex2() == edge.getVertex1()))
                 return true;
         }
         return false;

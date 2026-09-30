@@ -1,5 +1,6 @@
 package com.example.nienluancoso_grapheditor;
 
+import com.example.nienluancoso_grapheditor.model.Edge;
 import com.example.nienluancoso_grapheditor.model.Graph;
 import com.example.nienluancoso_grapheditor.model.Vertex;
 import com.example.nienluancoso_grapheditor.view.VertexView;
@@ -30,6 +31,7 @@ public class HelloController {
 
     private final Graph graph = new Graph();
     private Label label = new Label();
+    private VertexView firstVertexClicked = null;
 
     @FXML
     public void leftPanelToggleHandle() {
@@ -79,8 +81,20 @@ public class HelloController {
                 graph.addVertex(vertex);
                 VertexView vertexView = new VertexView(vertex);
 
+                // set callback when vertexView clicked
+                vertexView.setOnClicked(vertexClicked -> {
+                    if(firstVertexClicked == null){
+                        firstVertexClicked = vertexClicked;
+                    }
+                    else{
+                        createEdge(firstVertexClicked.getVertex(), vertexClicked.getVertex());
+                        vertexClicked.onSelect(false);
+                        firstVertexClicked = null;
+                    }
+                });
+
                 // vertexView connect -> vertex
-                vertexView.setUserData(vertex);
+                vertexView.setVertex(vertex);
 
                 // VertexView clicked
                 vertexView.handleVertexClicked();
@@ -96,4 +110,8 @@ public class HelloController {
         });
     }
 
+    public void createEdge(Vertex u, Vertex v){
+        Edge edge = new Edge(u, v);
+        graph.addEdge(edge);
+    }
 }

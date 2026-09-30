@@ -8,15 +8,21 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
 
+import java.util.function.Consumer;
+
 
 public class VertexView extends StackPane {
     private Circle circle;
     private Label label;
+    private Vertex vertex;
     private static VertexView selectedVertex = null;
     private static final double RADIUS = 20;
     private static final double SIZE = RADIUS * 2;
 
     private Point2D clickedPointOffset;
+
+    // callback clicked vertex
+    private Consumer<VertexView> onVertexClicked;
 
 
     public VertexView(Vertex vertex) {
@@ -61,6 +67,14 @@ public class VertexView extends StackPane {
         return selectedVertex;
     }
 
+    public Vertex getVertex() {
+        return vertex;
+    }
+
+    public void setVertex(Vertex vertex) {
+        this.vertex = vertex;
+    }
+
     public double getCenterX(){
         return this.getLayoutX() + RADIUS;
     }
@@ -93,7 +107,7 @@ public class VertexView extends StackPane {
             this.setCenterY(point.getY() + clickedPointOffset.getY());
 
             // update view -> modal
-            ((Vertex) this.getUserData()).update(this);
+            ((Vertex) this.getVertex()).update(this);
         });
     }
 
@@ -107,10 +121,22 @@ public class VertexView extends StackPane {
                 } else {
                     if (selectedVertexView != null) selectedVertexView.onSelect(false);
                     this.onSelect(true);
+                    onVertexClicked.accept(this);
                 }
             }
             event.consume(); // stop bubbling to the pane
         });
+    }
+
+    public void setOnClicked(Consumer<VertexView> callback){
+        this.onVertexClicked = callback;
+    }
+
+    @Override
+    public String toString() {
+        return "VertexView{" +
+                "vertex=" + vertex +
+                '}';
     }
 }
 

@@ -1,30 +1,30 @@
 package com.example.nienluancoso_grapheditor.model;
 
 public class Edge {
-    private Vertex firstVertex;
-    private Vertex secondVertex;
+    private Vertex vertex1;
+    private Vertex vertex2;
     private int weight;
 
-    public Edge(Vertex firstVertex, Vertex secondVertex, int weight) {
-        this.firstVertex = firstVertex;
-        this.secondVertex = secondVertex;
-        this.weight = weight;
+    public Edge(Vertex vertex1, Vertex vertex2) {
+        this.vertex1 = vertex1;
+        this.vertex2 = vertex2;
+      //  this.weight = weight;
     }
 
-    public Vertex getFirstVertex() {
-        return firstVertex;
+    public Vertex getVertex1() {
+        return vertex1;
     }
 
-    public void setFirstVertex(Vertex firstVertex) {
-        this.firstVertex = firstVertex;
+    public void setVertex1(Vertex vertex1) {
+        this.vertex1 = vertex1;
     }
 
-    public Vertex getSecondVertex() {
-        return secondVertex;
+    public Vertex getVertex2() {
+        return vertex2;
     }
 
-    public void setSecondVertex(Vertex secondVertex) {
-        this.secondVertex = secondVertex;
+    public void setVertex2(Vertex vertex2) {
+        this.vertex2 = vertex2;
     }
 
     public int getWeight() {
