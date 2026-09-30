@@ -73,5 +73,9 @@ public class VertexView extends StackPane {
     public void setCenterY(double y){
         this.setLayoutY(y - RADIUS);
     }
+
+    public double getRadius(){
+        return RADIUS;
+    }
 }
 

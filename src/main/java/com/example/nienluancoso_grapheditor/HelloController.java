@@ -30,6 +30,8 @@ public class HelloController {
 
     private final Graph graph = new Graph();
 
+    private Point2D clickedPointOffset;
+
     @FXML
     public void leftPanelToggleHandle() {
         boolean visible = leftPanel.isVisible();
@@ -39,11 +41,11 @@ public class HelloController {
     }
 
     @FXML
-    private void initialize(){
+    private void initialize() {
         setUpGraphCanvas();
     }
 
-    public void setUpGraphCanvas(){
+    public void setUpGraphCanvas() {
 //        // Text Test Canvas
 //        Label label = new Label("Create your first vertex here!");
 //        label.setId("testLayoutText");
@@ -56,9 +58,9 @@ public class HelloController {
 
     }
 
-    public void handleGraphPaneClicked(){
+    public void handleGraphPaneClicked() {
         graphPane.setOnMouseClicked(event -> {
-            if(VertexView.hasSelectedVertex()){
+            if (VertexView.hasSelectedVertex()) {
                 VertexView.getSelectedVertex();
             }
             double x = event.getX();
@@ -78,16 +80,21 @@ public class HelloController {
     }
 
     private void handleVertexDragged(VertexView vertexView) {
+        vertexView.setOnMousePressed(event -> {
+            clickedPointOffset = new Point2D(
+                    vertexView.getRadius() - event.getX(),
+                    vertexView.getRadius() - event.getY());
+        });
         vertexView.setOnMouseDragged(event -> {
             Point2D point = graphPane.sceneToLocal(event.getSceneX(), event.getSceneY());
-            vertexView.setCenterX(point.getX());
-            vertexView.setCenterY(point.getY());
+            vertexView.setCenterX(point.getX() + clickedPointOffset.getX());
+            vertexView.setCenterY(point.getY() + clickedPointOffset.getY());
         });
     }
 
-    public void handleVertexClicked(VertexView vertexView){
+    public void handleVertexClicked(VertexView vertexView) {
         vertexView.setOnMouseClicked(event -> {
-            if (event.isStillSincePress()){
+            if (event.isStillSincePress()) {
                 VertexView selectedVertexView = VertexView.getSelectedVertex();
                 // self-click
                 if (selectedVertexView == vertexView) {
