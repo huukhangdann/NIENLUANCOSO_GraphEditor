@@ -18,3 +18,10 @@
 .vertex-label-selected {
     -fx-text-fill: blue;
 }
+
+.preview-line{
+     -fx-stroke: #94A3B8;
+     -fx-stroke-width: 2;
+     -fx-stroke-dash-array: 6 6;
+     -fx-opacity: 0.65;
+ }

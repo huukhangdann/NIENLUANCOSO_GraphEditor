@@ -14,7 +14,7 @@ import java.util.function.Consumer;
 public class VertexView extends StackPane {
     private Circle circle;
     private Label label;
-    private Vertex vertex;
+    private final Vertex vertex;
     private static VertexView selectedVertex = null;
     private static final double RADIUS = 20;
     private static final double SIZE = RADIUS * 2;
@@ -43,6 +43,7 @@ public class VertexView extends StackPane {
         this.getChildren().addAll(circle, label);
         this.setLayoutX(vertex.getX() - RADIUS);
         this.setLayoutY(vertex.getY() - RADIUS);
+        this.vertex = vertex;
     }
 
     public void onSelect(boolean value){
@@ -71,9 +72,6 @@ public class VertexView extends StackPane {
         return vertex;
     }
 
-    public void setVertex(Vertex vertex) {
-        this.vertex = vertex;
-    }
 
     public double getCenterX(){
         return this.getLayoutX() + RADIUS;
@@ -121,7 +119,9 @@ public class VertexView extends StackPane {
                 } else {
                     if (selectedVertexView != null) selectedVertexView.onSelect(false);
                     this.onSelect(true);
-                    onVertexClicked.accept(this);
+                    if (onVertexClicked != null) {
+                        onVertexClicked.accept(this);
+                    }
                 }
             }
             event.consume(); // stop bubbling to the pane

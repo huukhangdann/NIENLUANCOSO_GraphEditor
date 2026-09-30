@@ -10,6 +10,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Line;
+
 
 public class HelloController {
     @FXML
@@ -32,6 +34,7 @@ public class HelloController {
     private final Graph graph = new Graph();
     private Label label = new Label();
     private VertexView firstVertexClicked = null;
+    private Line previewLine = null;
 
     @FXML
     public void leftPanelToggleHandle() {
@@ -83,24 +86,29 @@ public class HelloController {
 
                 // set callback when vertexView clicked
                 vertexView.setOnClicked(vertexClicked -> {
+                    // first Vertex clicked
                     if(firstVertexClicked == null){
                         firstVertexClicked = vertexClicked;
+                        // Create preview line
+                        createPreviewLine();
                     }
+                    // second Vertex clicked
                     else{
                         createEdge(firstVertexClicked.getVertex(), vertexClicked.getVertex());
+                        removePreviewLine();
                         vertexClicked.onSelect(false);
                         firstVertexClicked = null;
                     }
                 });
-
-                // vertexView connect -> vertex
-                vertexView.setVertex(vertex);
 
                 // VertexView clicked
                 vertexView.handleVertexClicked();
 
                 // Vertex dragged
                 vertexView.handleVertexDragged(graphPane);
+
+                // Mouse moved for preview line
+                handleMouseMoved();
 
                 graphPane.getChildren().add(vertexView);
             }
@@ -110,8 +118,30 @@ public class HelloController {
         });
     }
 
+    private void handleMouseMoved() {
+        graphPane.setOnMouseMoved(event -> {
+            if(previewLine!=null){
+                previewLine.setEndX(event.getX());
+                previewLine.setEndY(event.getY());
+            }
+        });
+    }
+
+    private void createPreviewLine() {
+        previewLine = new Line();
+        previewLine.getStyleClass().add("preview-line");
+        previewLine.setStartX(firstVertexClicked.getCenterX());
+        previewLine.setStartY(firstVertexClicked.getCenterY());
+        graphPane.getChildren().add(previewLine);
+        previewLine.toBack();
+    }
+
     public void createEdge(Vertex u, Vertex v){
         Edge edge = new Edge(u, v);
         graph.addEdge(edge);
+    }
+
+    public void removePreviewLine(){
+        previewLine = null;
     }
 }
