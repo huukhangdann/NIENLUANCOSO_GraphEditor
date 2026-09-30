@@ -76,7 +76,9 @@ public class HelloController {
         graphPane.setOnMouseClicked(event -> {
             if(graph.getSize()==0)
                 onTestTextCanvas(false);
-
+            if(previewLine!=null){
+                removePreviewLine();
+            }
             if(!VertexView.hasSelectedVertex()){
                 double x = event.getX();
                 double y = event.getY();
@@ -132,6 +134,8 @@ public class HelloController {
         previewLine.getStyleClass().add("preview-line");
         previewLine.setStartX(firstVertexClicked.getCenterX());
         previewLine.setStartY(firstVertexClicked.getCenterY());
+        previewLine.setEndX(firstVertexClicked.getCenterX());
+        previewLine.setEndY(firstVertexClicked.getCenterY());
         graphPane.getChildren().add(previewLine);
         previewLine.toBack();
     }
@@ -142,6 +146,10 @@ public class HelloController {
     }
 
     public void removePreviewLine(){
-        previewLine = null;
+        if(previewLine!=null){
+            graphPane.getChildren().remove(previewLine);
+            previewLine = null;
+        }
+        firstVertexClicked = null;
     }
 }

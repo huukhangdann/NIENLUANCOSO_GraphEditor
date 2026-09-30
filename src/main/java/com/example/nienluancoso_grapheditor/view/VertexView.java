@@ -119,9 +119,9 @@ public class VertexView extends StackPane {
                 } else {
                     if (selectedVertexView != null) selectedVertexView.onSelect(false);
                     this.onSelect(true);
-                    if (onVertexClicked != null) {
-                        onVertexClicked.accept(this);
-                    }
+                }
+                if (onVertexClicked != null) {
+                    onVertexClicked.accept(this);
                 }
             }
             event.consume(); // stop bubbling to the pane

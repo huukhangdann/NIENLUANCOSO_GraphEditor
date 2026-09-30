@@ -46,11 +46,12 @@ public class Graph {
                 '}';
     }
 
-    public void addEdge(Edge edge){
+    public boolean addEdge(Edge edge){
         if(!isValidEdge(edge))
-            return;
+            return false;
         edgeList.add(edge);
         System.out.println("Edge created!");
+        return true;
     }
 
     public boolean isValidEdge(Edge edge){
