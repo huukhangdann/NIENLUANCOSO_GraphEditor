@@ -29,7 +29,7 @@ public class HelloController {
     private VBox rightPanel;
 
     private final Graph graph = new Graph();
-
+    private Label label = new Label();
 
     @FXML
     public void leftPanelToggleHandle() {
@@ -54,7 +54,6 @@ public class HelloController {
     }
 
     private void onTestTextCanvas(boolean value) {
-        Label label = new Label();
         if(value){
             label.setText("Create your first vertex here!");
             label.setId("testLayoutText");
