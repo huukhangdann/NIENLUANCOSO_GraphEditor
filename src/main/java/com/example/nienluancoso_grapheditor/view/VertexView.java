@@ -1,9 +1,9 @@
 package com.example.nienluancoso_grapheditor.view;
 
 import com.example.nienluancoso_grapheditor.model.Vertex;
+import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
 
@@ -14,6 +14,8 @@ public class VertexView extends StackPane {
     private static VertexView selectedVertex = null;
     private static final double RADIUS = 20;
     private static final double SIZE = RADIUS * 2;
+
+    private Point2D clickedPointOffset;
 
 
     public VertexView(Vertex vertex) {
@@ -76,6 +78,39 @@ public class VertexView extends StackPane {
 
     public double getRadius(){
         return RADIUS;
+    }
+
+    public void handleVertexDragged() {
+        this.setOnMousePressed(event -> {
+            clickedPointOffset = new Point2D(
+                    this.getRadius() - event.getX(),
+                    this.getRadius() - event.getY());
+        });
+        this.setOnMouseDragged(event -> {
+            Point2D point = graphPane.sceneToLocal(event.getSceneX(), event.getSceneY());
+            this.setCenterX(point.getX() + clickedPointOffset.getX());
+            this.setCenterY(point.getY() + clickedPointOffset.getY());
+
+            // update view -> modal
+            ((Vertex) this.getUserData()).update(this);
+            System.out.println(this.getUserData());
+        });
+    }
+
+    public void handleVertexClicked() {
+        this.setOnMouseClicked(event -> {
+            if (event.isStillSincePress()) {
+                VertexView selectedVertexView = VertexView.getSelectedVertex();
+                // self-click
+                if (selectedVertexView == this) {
+                    selectedVertexView.onSelect(false);
+                } else {
+                    if (selectedVertexView != null) selectedVertexView.onSelect(false);
+                    this.onSelect(true);
+                }
+            }
+            event.consume(); // stop bubbling to the pane
+        });
     }
 }
 

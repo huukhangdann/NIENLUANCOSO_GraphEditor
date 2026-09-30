@@ -30,7 +30,6 @@ public class HelloController {
 
     private final Graph graph = new Graph();
 
-    private Point2D clickedPointOffset;
 
     @FXML
     public void leftPanelToggleHandle() {
@@ -73,46 +72,14 @@ public class HelloController {
             // vertexView connect -> vertex
             vertexView.setUserData(vertex);
 
-            // Vertex clicked
-            handleVertexClicked(vertexView);
+            // VertexView clicked
+            vertexView.handleVertexClicked();
 
             // Vertex dragged
-            handleVertexDragged(vertexView);
+            vertexView.handleVertexDragged();
 
             graphPane.getChildren().add(vertexView);
         });
     }
 
-    private void handleVertexDragged(VertexView vertexView) {
-        vertexView.setOnMousePressed(event -> {
-            clickedPointOffset = new Point2D(
-                    vertexView.getRadius() - event.getX(),
-                    vertexView.getRadius() - event.getY());
-        });
-        vertexView.setOnMouseDragged(event -> {
-            Point2D point = graphPane.sceneToLocal(event.getSceneX(), event.getSceneY());
-            vertexView.setCenterX(point.getX() + clickedPointOffset.getX());
-            vertexView.setCenterY(point.getY() + clickedPointOffset.getY());
-
-            // update view -> modal
-            ((Vertex) vertexView.getUserData()).update(vertexView);
-            System.out.println(vertexView.getUserData());
-        });
-    }
-
-    public void handleVertexClicked(VertexView vertexView) {
-        vertexView.setOnMouseClicked(event -> {
-            if (event.isStillSincePress()) {
-                VertexView selectedVertexView = VertexView.getSelectedVertex();
-                // self-click
-                if (selectedVertexView == vertexView) {
-                    selectedVertexView.onSelect(false);
-                } else {
-                    if (selectedVertexView != null) selectedVertexView.onSelect(false);
-                    vertexView.onSelect(true);
-                }
-            }
-            event.consume(); // stop bubbling to the pane
-        });
-    }
 }
