@@ -67,7 +67,11 @@ public class HelloController {
             double y = event.getY();
             Vertex vertex = new Vertex(x, y);
             graph.addVertex(vertex);
+            System.out.println(vertex);
             VertexView vertexView = new VertexView(vertex);
+
+            // vertexView connect -> vertex
+            vertexView.setUserData(vertex);
 
             // Vertex clicked
             handleVertexClicked(vertexView);
@@ -89,6 +93,10 @@ public class HelloController {
             Point2D point = graphPane.sceneToLocal(event.getSceneX(), event.getSceneY());
             vertexView.setCenterX(point.getX() + clickedPointOffset.getX());
             vertexView.setCenterY(point.getY() + clickedPointOffset.getY());
+
+            // update view -> modal
+            ((Vertex) vertexView.getUserData()).update(vertexView);
+            System.out.println(vertexView.getUserData());
         });
     }
 

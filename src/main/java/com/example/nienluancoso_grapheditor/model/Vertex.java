@@ -1,5 +1,7 @@
 package com.example.nienluancoso_grapheditor.model;
 
+import com.example.nienluancoso_grapheditor.view.VertexView;
+
 public class Vertex {
     private int id;
     private double x;
@@ -44,5 +46,10 @@ public class Vertex {
                 ", x=" + x +
                 ", y=" + y +
                 '}';
+    }
+
+    public void update(VertexView vertexView){
+        this.x = vertexView.getCenterX();
+        this.y = vertexView.getCenterY();
     }
 }
