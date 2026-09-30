@@ -94,7 +94,6 @@ public class VertexView extends StackPane {
 
             // update view -> modal
             ((Vertex) this.getUserData()).update(this);
-            System.out.println(this.getUserData());
         });
     }
 

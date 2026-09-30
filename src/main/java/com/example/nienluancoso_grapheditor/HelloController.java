@@ -58,14 +58,10 @@ public class HelloController {
 
     public void handleGraphPaneClicked() {
         graphPane.setOnMouseClicked(event -> {
-            if (VertexView.hasSelectedVertex()) {
-                VertexView.getSelectedVertex();
-            }
             double x = event.getX();
             double y = event.getY();
             Vertex vertex = new Vertex(x, y);
             graph.addVertex(vertex);
-            System.out.println(vertex);
             VertexView vertexView = new VertexView(vertex);
 
             // vertexView connect -> vertex
