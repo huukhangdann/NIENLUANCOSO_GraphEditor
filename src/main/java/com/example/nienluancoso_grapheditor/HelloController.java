@@ -5,6 +5,7 @@ import com.example.nienluancoso_grapheditor.model.Vertex;
 import com.example.nienluancoso_grapheditor.view.VertexView;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -44,36 +45,55 @@ public class HelloController {
     }
 
     public void setUpGraphCanvas() {
-//        // Text Test Canvas
-//        Label label = new Label("Create your first vertex here!");
-//        label.setId("testLayoutText");
-//        label.layoutXProperty().bind(graphPane.widthProperty().subtract(label.widthProperty()).divide(2));
-//        label.layoutYProperty().bind(graphPane.heightProperty().subtract(label.heightProperty()).divide(2));
-//        graphPane.getChildren().add(label);
+        // Text Test Canvas
+        onTestTextCanvas(true);
 
         // Pane Click
         handleGraphPaneClicked();
 
     }
 
+    private void onTestTextCanvas(boolean value) {
+        Label label = new Label();
+        if(value){
+            label.setText("Create your first vertex here!");
+            label.setId("testLayoutText");
+            label.layoutXProperty().bind(graphPane.widthProperty().subtract(label.widthProperty()).divide(2));
+            label.layoutYProperty().bind(graphPane.heightProperty().subtract(label.heightProperty()).divide(2));
+            graphPane.getChildren().add(label);
+        }
+        else{
+            label.setVisible(false);
+            label.setManaged(false);
+        }
+    }
+
     public void handleGraphPaneClicked() {
         graphPane.setOnMouseClicked(event -> {
-            double x = event.getX();
-            double y = event.getY();
-            Vertex vertex = new Vertex(x, y);
-            graph.addVertex(vertex);
-            VertexView vertexView = new VertexView(vertex);
+            if(graph.getSize()==0)
+                onTestTextCanvas(false);
 
-            // vertexView connect -> vertex
-            vertexView.setUserData(vertex);
+            if(!VertexView.hasSelectedVertex()){
+                double x = event.getX();
+                double y = event.getY();
+                Vertex vertex = new Vertex(x, y);
+                graph.addVertex(vertex);
+                VertexView vertexView = new VertexView(vertex);
 
-            // VertexView clicked
-            vertexView.handleVertexClicked();
+                // vertexView connect -> vertex
+                vertexView.setUserData(vertex);
 
-            // Vertex dragged
-            vertexView.handleVertexDragged(graphPane);
+                // VertexView clicked
+                vertexView.handleVertexClicked();
 
-            graphPane.getChildren().add(vertexView);
+                // Vertex dragged
+                vertexView.handleVertexDragged(graphPane);
+
+                graphPane.getChildren().add(vertexView);
+            }
+            else{
+                VertexView.getSelectedVertex().onSelect(false);
+            }
         });
     }
 

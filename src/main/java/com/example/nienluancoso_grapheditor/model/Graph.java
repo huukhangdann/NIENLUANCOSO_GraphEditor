@@ -25,6 +25,9 @@ public class Graph {
         System.out.println("Vertex added!");
     }
 
+    public int getSize(){
+        return vertexList.size();
+    }
 
     @Override
     public String toString() {
