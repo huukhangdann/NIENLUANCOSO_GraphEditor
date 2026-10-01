@@ -151,8 +151,8 @@ public class HelloController {
         Edge edge = new Edge(u, v);
         graph.addEdge(edge);
         EdgeView edgeView = new EdgeView(edge, vertexVertexViewMap.get(u), vertexVertexViewMap.get(v));
-        graphPane.getChildren().add(edgeView.getLine());
-        edgeView.getLine().toBack();
+        graphPane.getChildren().add(edgeView);
+        edgeView.toBack();
     }
 
     public void removePreviewLine(){
