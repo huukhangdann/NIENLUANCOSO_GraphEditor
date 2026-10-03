@@ -1,8 +1,10 @@
 package com.example.nienluancoso_grapheditor.view;
 
 import com.example.nienluancoso_grapheditor.model.Edge;
-import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
+import javafx.beans.binding.DoubleBinding;
+import javafx.beans.binding.DoubleExpression;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
@@ -13,7 +15,8 @@ public class EdgeView extends Pane {
     private final Edge edge;
     private final Label weightLabel = new Label();
     private final TextField weightTextField = new TextField();
-    private final int PADDING = 40;
+    private final static int PADDING = 40;
+    private final static int GAP = 15;
 
     public EdgeView(Edge edge, VertexView vertexView1, VertexView vertexView2) {
         this.getStyleClass().add("edge-view");
@@ -48,7 +51,67 @@ public class EdgeView extends Pane {
         line.endXProperty().bind(vertexView2.getCenterXProperty().subtract(this.layoutXProperty()));
         line.endYProperty().bind(vertexView2.getCenterYProperty().subtract(this.layoutYProperty()));
 
-        this.getChildren().add(line);
+        // TextField creation
+        weightTextField.setPrefWidth(60);
+        weightTextField.setAlignment(Pos.CENTER);
+
+        // Binding to line (line (binding)-> vertexView)
+        DoubleBinding dx = Bindings.createDoubleBinding(
+                () -> line.getEndX() - line.getStartX(),
+                line.startXProperty(),
+                line.endXProperty()
+        );
+        DoubleBinding dy = Bindings.createDoubleBinding(
+                () -> line.getEndY() - line.getStartY(),
+                line.startYProperty(),
+                line.endYProperty()
+        );
+
+        DoubleBinding ndx = dy.negate();
+        DoubleBinding ndy = dx;
+
+        DoubleBinding length = Bindings.createDoubleBinding(
+                () -> Math.sqrt(ndx.get() * ndx.get() + ndy.get() * ndy.get()),
+                ndx,
+                ndy
+        );
+
+        // unitVector
+        DoubleBinding unitX = Bindings.createDoubleBinding(
+                () -> ndx.get()/length.get(),
+                ndx,
+                length
+        );
+
+        DoubleBinding unitY = Bindings.createDoubleBinding(
+                () -> ndy.get()/length.get(),
+                ndy,
+                length
+        );
+
+        // midPoint
+        DoubleBinding midPointX = Bindings.createDoubleBinding(
+                () -> (line.getStartX() + line.getEndX()) / 2,
+                line.startXProperty(),
+                line.endXProperty());
+
+        DoubleBinding midPointY = Bindings.createDoubleBinding(
+                () -> (line.getStartY() + line.getEndY()) / 2,
+                line.startYProperty(),
+                line.endYProperty());
+
+        weightTextField.layoutXProperty().bind(Bindings.createDoubleBinding(
+                () -> midPointX.get() + GAP + unitX.get(),
+                midPointX,
+                unitX
+        ));
+
+        weightTextField.layoutXProperty().bind(Bindings.createDoubleBinding(
+                () -> midPointY.get() + GAP + unitY.get(),
+                midPointY,
+                unitY
+        ));
+        this.getChildren().addAll(line, weightTextField);
     }
 
     public Line getLine() {
