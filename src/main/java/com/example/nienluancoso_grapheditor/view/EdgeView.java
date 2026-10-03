@@ -101,13 +101,13 @@ public class EdgeView extends Pane {
                 line.endYProperty());
 
         weightTextField.layoutXProperty().bind(Bindings.createDoubleBinding(
-                () -> midPointX.get() + GAP + unitX.get(),
+                () -> midPointX.get() + GAP*unitX.get() - weightTextField.getWidth()/2,
                 midPointX,
                 unitX
         ));
 
-        weightTextField.layoutXProperty().bind(Bindings.createDoubleBinding(
-                () -> midPointY.get() + GAP + unitY.get(),
+        weightTextField.layoutYProperty().bind(Bindings.createDoubleBinding(
+                () -> midPointY.get() + GAP*unitY.get() - weightTextField.getWidth()/2 ,
                 midPointY,
                 unitY
         ));
