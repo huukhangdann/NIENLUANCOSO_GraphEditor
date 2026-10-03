@@ -16,7 +16,7 @@ public class EdgeView extends Pane {
     private final Label weightLabel = new Label();
     private final TextField weightTextField = new TextField();
     private final static int PADDING = 40;
-    private final static int GAP = 15;
+    private final static int GAP = 20;
 
     public EdgeView(Edge edge, VertexView vertexView1, VertexView vertexView2) {
         this.getStyleClass().add("edge-view");
@@ -103,14 +103,17 @@ public class EdgeView extends Pane {
         weightTextField.layoutXProperty().bind(Bindings.createDoubleBinding(
                 () -> midPointX.get() + GAP*unitX.get() - weightTextField.getWidth()/2,
                 midPointX,
-                unitX
+                unitX,
+                weightTextField.widthProperty()
         ));
 
         weightTextField.layoutYProperty().bind(Bindings.createDoubleBinding(
-                () -> midPointY.get() + GAP*unitY.get() - weightTextField.getWidth()/2 ,
+                () -> midPointY.get() + GAP*unitY.get() - weightTextField.getHeight()/2,
                 midPointY,
-                unitY
+                unitY,
+                weightTextField.heightProperty()
         ));
+
         this.getChildren().addAll(line, weightTextField);
     }
 
