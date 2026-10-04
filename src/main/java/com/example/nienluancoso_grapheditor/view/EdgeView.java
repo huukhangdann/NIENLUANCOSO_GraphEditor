@@ -1,6 +1,7 @@
 package com.example.nienluancoso_grapheditor.view;
 
 import com.example.nienluancoso_grapheditor.model.Edge;
+import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
@@ -9,11 +10,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
+import javafx.util.Duration;
 
 public class EdgeView extends Pane {
     private final Line line;
     private final Edge edge;
     private final Label weightLabel = new Label();
+    private final Label weightLabelErr = new Label();
     private final TextField weightTextField = new TextField();
     private final static int PADDING = 40;
     private final static int GAP = 20;
@@ -30,7 +33,7 @@ public class EdgeView extends Pane {
 
         handleWeightEnter();
 
-        this.getChildren().addAll(line, weightTextField, weightLabel);
+        this.getChildren().addAll(line, weightTextField, weightLabel, weightLabelErr);
         Platform.runLater(weightTextField::requestFocus);
     }
 
@@ -109,7 +112,7 @@ public class EdgeView extends Pane {
                 weightTextField.setVisible(false);
 
             } catch (NumberFormatException e) {
-                handleUnvalidWeight();
+                handleInvalidWeight();
             }
         });
     }
@@ -125,8 +128,41 @@ public class EdgeView extends Pane {
 
     }
 
-    private void handleUnvalidWeight() {
-        System.out.println("Unvalid Weight enter!");
+    private void handleInvalidWeight() {
+        setUpWeightLabelErr();
+    }
+
+    private void setUpWeightLabelErr() {
+        weightLabelErr.setText("Enter integer weight!");
+        weightLabelErr.setPrefWidth(120);
+        weightLabelErr.setAlignment(Pos.CENTER);
+        weightLabelErr.getStyleClass().add("weight-text-err-label");
+        showWeightError();
+
+        weightLabelErr.layoutXProperty().bind(weightTextField.layoutXProperty().subtract(30));
+        weightLabelErr.layoutYProperty().bind(weightTextField.layoutYProperty().add(23));
+    }
+
+    private void showWeightError() {
+        weightLabelErr.setVisible(true);
+        weightLabelErr.setOpacity(1.0);
+
+        FadeTransition fade = new FadeTransition(
+                Duration.millis(1200),
+                weightLabelErr
+        );
+
+        fade.setFromValue(1.0);
+        fade.setToValue(0.0);
+
+        fade.setDelay(Duration.millis(800));
+
+        fade.setOnFinished(event -> {
+            weightLabelErr.setVisible(false);
+            weightLabelErr.setOpacity(1.0);
+        });
+
+        fade.play();
     }
 
     private void setUpEdgeViewBinding(VertexView vertexView1, VertexView vertexView2) {
