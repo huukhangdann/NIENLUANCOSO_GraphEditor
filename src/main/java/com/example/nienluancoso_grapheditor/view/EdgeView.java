@@ -22,6 +22,7 @@ public class EdgeView extends Pane {
     private final static int GAP = 20;
 
     public EdgeView(Edge edge, VertexView vertexView1, VertexView vertexView2) {
+        this.setMouseTransparent(true);
         this.edge = edge;
         line = new Line();
         line.getStyleClass().add("graph-line");
@@ -33,11 +34,30 @@ public class EdgeView extends Pane {
 
         handleWeightEnter();
 
+        handleWeightEdit();
+
         this.getChildren().addAll(line, weightTextField, weightLabel, weightLabelErr);
+        weightLabel.toFront();
         Platform.runLater(weightTextField::requestFocus);
     }
 
+    private void handleWeightEdit() {
+        weightLabel.setOnMouseClicked(event -> {
+            event.consume();
+            if(event.getClickCount() == 2){
+                weightLabel.setVisible(false);
+                weightTextField.setVisible(true);
+                weightTextField.setText(String.valueOf(edge.getWeight()));
+                Platform.runLater(() -> {
+                    weightTextField.requestFocus();
+                    weightTextField.selectAll();
+                });
+            }
+        } );
+    }
+
     private void setUpWeightInput() {
+        weightLabel.setVisible(false);
         // TextField creation
         weightTextField.setPrefWidth(60);
         weightTextField.setAlignment(Pos.CENTER);
@@ -109,6 +129,7 @@ public class EdgeView extends Pane {
             try {
                 int weight = Integer.parseInt(weightText);
                 setUpWeightLabel(weight);
+                edge.setWeight(weight);
                 weightTextField.setVisible(false);
 
             } catch (NumberFormatException e) {
@@ -118,6 +139,7 @@ public class EdgeView extends Pane {
     }
 
     private void setUpWeightLabel(int weight) {
+        weightLabel.setVisible(true);
         weightLabel.setText(String.valueOf(weight));
         weightLabel.setPrefWidth(60);
         weightLabel.setAlignment(Pos.CENTER);
