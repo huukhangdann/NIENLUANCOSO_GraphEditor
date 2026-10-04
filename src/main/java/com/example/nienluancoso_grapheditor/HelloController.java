@@ -149,10 +149,11 @@ public class HelloController {
 
     public void createEdge(Vertex u, Vertex v){
         Edge edge = new Edge(u, v);
-        graph.addEdge(edge);
-        EdgeView edgeView = new EdgeView(edge, vertexVertexViewMap.get(u), vertexVertexViewMap.get(v));
-        graphPane.getChildren().add(edgeView);
-        edgeView.toBack();
+        if(graph.addEdge(edge)) {
+            EdgeView edgeView = new EdgeView(edge, vertexVertexViewMap.get(u), vertexVertexViewMap.get(v));
+            graphPane.getChildren().add(edgeView);
+            edgeView.toBack();
+        }
     }
 
     public void removePreviewLine(){

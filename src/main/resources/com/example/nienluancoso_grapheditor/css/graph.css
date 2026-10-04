@@ -19,18 +19,46 @@
     -fx-text-fill: blue;
 }
 
-.preview-line{
-     -fx-stroke: RED;
-     -fx-stroke-width: 1;
-     -fx-opacity: 0.65;
- }
+.preview-line {
+    -fx-stroke: RED;
+    -fx-stroke-width: 1;
+    -fx-opacity: 0.65;
+}
 
-.graph-line{
+.graph-line {
     -fx-stroke-width: 2;
 }
 
-.edge-view {
-    -fx-background-color: rgba(0, 150, 255, 0.2);
-    -fx-border-color: #2196F3;
-    -fx-border-width: 1;
+/*.edge-view {*/
+/*    -fx-background-color: rgba(0, 150, 255, 0.2);*/
+/*    -fx-border-color: #2196F3;*/
+/*    -fx-border-width: 1;*/
+/*}*/
+
+.edge-weight-field {
+    -fx-background-color: rgba(255, 255, 255, 0.85);
+    -fx-background-radius: 4px;
+
+    -fx-border-color: rgba(80, 80, 80, 0.35);
+    -fx-border-width: 1px;
+    -fx-border-radius: 4px;
+
+    -fx-text-fill: #444444;
+    -fx-font-size: 12px;
+
+    -fx-padding: 2px 5px;
+}
+
+.edge-weight-field:focused {
+    -fx-border-color: rgba(80, 80, 80, 0.55);
+    -fx-background-color: rgba(255, 255, 255, 0.95);
+}
+
+.weight-text-label {
+    -fx-background-color: white;
+    -fx-text-fill: #333333;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-padding: 2px 6px;
+    -fx-background-radius: 4px;
 }
