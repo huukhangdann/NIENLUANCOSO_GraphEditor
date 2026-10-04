@@ -55,7 +55,7 @@
 }
 
 .weight-text-label {
-    -fx-background-color: white;
+    -fx-background-color: transparent;
     -fx-text-fill: #333333;
     -fx-font-size: 12px;
     -fx-font-weight: bold;

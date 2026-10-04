@@ -28,10 +28,10 @@ public class EdgeView extends Pane {
 
         setUpWeightInput();
 
-        this.getChildren().addAll(line, weightTextField);
-        Platform.runLater(weightTextField::requestFocus);
+        handleWeightEnter();
 
-        handleWeightInput();
+        this.getChildren().addAll(line, weightTextField, weightLabel);
+        Platform.runLater(weightTextField::requestFocus);
     }
 
     private void setUpWeightInput() {
@@ -100,7 +100,7 @@ public class EdgeView extends Pane {
         ));
     }
 
-    private void handleWeightInput() {
+    private void handleWeightEnter() {
         weightTextField.setOnAction(event -> {
             String weightText = weightTextField.getText().trim();
             try {
@@ -115,6 +115,7 @@ public class EdgeView extends Pane {
     }
 
     private void setUpWeightLabel(int weight) {
+        weightLabel.setText(String.valueOf(weight));
         weightLabel.setPrefWidth(60);
         weightLabel.setAlignment(Pos.CENTER);
         weightLabel.getStyleClass().add("weight-text-label");
