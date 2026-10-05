@@ -86,14 +86,16 @@ public class WeightView extends Pane {
                 line.endYProperty());
 
         weightTextField.layoutXProperty().bind(Bindings.createDoubleBinding(
-                () -> midPointX.get() + GAP * unitX.get() - weightTextField.getWidth() / 2,
+                () -> edgeView.getLayoutX() + midPointX.get() + GAP * unitX.get() - weightTextField.getWidth() / 2,
+                edgeView.layoutXProperty(),
                 midPointX,
                 unitX,
                 weightTextField.widthProperty()
         ));
 
         weightTextField.layoutYProperty().bind(Bindings.createDoubleBinding(
-                () -> midPointY.get() + GAP * unitY.get() - weightTextField.getHeight() / 2,
+                () -> edgeView.getLayoutY() +midPointY.get() + GAP * unitY.get() - weightTextField.getHeight() / 2,
+                edgeView.layoutYProperty(),
                 midPointY,
                 unitY,
                 weightTextField.heightProperty()
