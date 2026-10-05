@@ -5,6 +5,7 @@ import com.example.nienluancoso_grapheditor.model.Graph;
 import com.example.nienluancoso_grapheditor.model.Vertex;
 import com.example.nienluancoso_grapheditor.view.EdgeView;
 import com.example.nienluancoso_grapheditor.view.VertexView;
+import com.example.nienluancoso_grapheditor.view.WeightView;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -150,8 +151,9 @@ public class HelloController {
     public void createEdge(Vertex u, Vertex v){
         Edge edge = new Edge(u, v);
         if(graph.addEdge(edge)) {
-            EdgeView edgeView = new EdgeView(edge, vertexVertexViewMap.get(u), vertexVertexViewMap.get(v));
-            graphPane.getChildren().add(edgeView);
+            EdgeView edgeView = new EdgeView(vertexVertexViewMap.get(u), vertexVertexViewMap.get(v));
+            WeightView weightView = new WeightView(edge, edgeView);
+            graphPane.getChildren().addAll(edgeView, weightView);
             edgeView.toBack();
         }
     }
