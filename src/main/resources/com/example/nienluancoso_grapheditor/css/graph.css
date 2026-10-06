@@ -29,12 +29,6 @@
     -fx-stroke-width: 2;
 }
 
-.edge-view {
-    -fx-background-color: rgba(0, 150, 255, 0.2);
-    -fx-border-color: #2196F3;
-    -fx-border-width: 1;
-}
-
 .edge-weight-field {
     -fx-background-color: rgba(255, 255, 255, 0.85);
     -fx-background-radius: 4px;
@@ -69,6 +63,11 @@
     -fx-font-weight: bold;
 }
 
-.weight-view{
-    -fx-background-color: red;
-}
+/*.weight-view{*/
+/*    -fx-background-color: red;*/
+/*}*/
+/*.edge-view {*/
+/*    -fx-background-color: rgba(0, 150, 255, 0.2);*/
+/*    -fx-border-color: #2196F3;*/
+/*    -fx-border-width: 1;*/
+/*}*/

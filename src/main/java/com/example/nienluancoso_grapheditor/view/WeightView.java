@@ -6,7 +6,6 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -30,14 +29,15 @@ public class WeightView extends Pane {
 
         this.getStyleClass().add("weight-view");
 
-        weightViewBinding(edgeView);
-
         setUpWeightInput(edgeView);
+
+        weightViewBinding(edgeView);
 
         handleWeightEnter(edge);
 
         handleWeightEdit(edge);
 
+        handleWeightViewPressed();
         handleWeightViewDragged();
 
         Platform.runLater(weightTextField::requestFocus);
@@ -172,6 +172,7 @@ public class WeightView extends Pane {
         this.setOnMousePressed(event -> {
             lastMouseX = event.getSceneX();
             lastMouseY = event.getSceneY();
+            event.consume();
         });
     }
 
@@ -179,9 +180,13 @@ public class WeightView extends Pane {
         this.setOnMouseDragged(event -> {
             double dx = event.getSceneX() - lastMouseX;
             double dy = event.getSceneY() - lastMouseY;
-            offsetX.set(dx);
-            offsetY.set(dy);
-            System.out.println(dx + " " + dy);
+
+            offsetX.set(offsetX.get() + dx);
+            offsetY.set(offsetY.get() + dy);
+
+            lastMouseX = event.getSceneX();
+            lastMouseY = event.getSceneY();
+
             event.consume();
         });
     }
