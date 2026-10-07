@@ -4,6 +4,7 @@ import com.example.nienluancoso_grapheditor.model.Edge;
 import com.example.nienluancoso_grapheditor.model.Graph;
 import com.example.nienluancoso_grapheditor.model.Vertex;
 import com.example.nienluancoso_grapheditor.view.EdgeView;
+import com.example.nienluancoso_grapheditor.view.InteractionBlocker;
 import com.example.nienluancoso_grapheditor.view.VertexView;
 import com.example.nienluancoso_grapheditor.view.WeightView;
 import javafx.fxml.FXML;
@@ -41,6 +42,7 @@ public class HelloController {
     private VertexView firstVertexClicked = null;
     private Line previewLine = null;
     private final Map<Vertex, VertexView> vertexVertexViewMap = new HashMap<>();
+    private final Pane interactionBlocker = new InteractionBlocker();
 
     @FXML
     public void leftPanelToggleHandle() {
@@ -53,6 +55,14 @@ public class HelloController {
     @FXML
     private void initialize() {
         setUpGraphCanvas();
+        setUpInteractionBlocker();
+    }
+
+    private void setUpInteractionBlocker() {
+        System.out.println("interactionblocker!");
+        interactionBlocker.prefHeight(graphPane.getPrefHeight());
+        interactionBlocker.prefWidth(graphPane.getPrefWidth());
+        graphPane.getChildren().add(interactionBlocker);
     }
 
     public void setUpGraphCanvas() {
