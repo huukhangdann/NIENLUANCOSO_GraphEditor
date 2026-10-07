@@ -3,10 +3,7 @@ package com.example.nienluancoso_grapheditor;
 import com.example.nienluancoso_grapheditor.model.Edge;
 import com.example.nienluancoso_grapheditor.model.Graph;
 import com.example.nienluancoso_grapheditor.model.Vertex;
-import com.example.nienluancoso_grapheditor.view.EdgeView;
-import com.example.nienluancoso_grapheditor.view.InteractionBlocker;
-import com.example.nienluancoso_grapheditor.view.VertexView;
-import com.example.nienluancoso_grapheditor.view.WeightView;
+import com.example.nienluancoso_grapheditor.view.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -20,6 +17,8 @@ import java.util.Map;
 
 
 public class HelloController {
+    @FXML
+    public NotificationView notificationView;
     @FXML
     private HBox leftContainer;
     @FXML
@@ -56,6 +55,17 @@ public class HelloController {
     private void initialize() {
         setUpGraphCanvas();
         setUpInteractionBlocker();
+        setUpNotificationView();
+    }
+
+    private void setUpNotificationView() {
+        notificationView.layoutXProperty().bind(
+                graphPane.widthProperty()
+                        .subtract(notificationView.widthProperty())
+                        .subtract(20)
+        );
+
+        notificationView.setLayoutY(20);
     }
 
     private void setUpInteractionBlocker() {
@@ -99,6 +109,7 @@ public class HelloController {
                 removePreviewLine();
             }
             if(!VertexView.hasSelectedVertex()){
+                showNotification("Notification is working!");
                 double x = event.getX();
                 double y = event.getY();
                 Vertex vertex = new Vertex(x, y);
@@ -185,7 +196,6 @@ public class HelloController {
             weightView.toFront();
         });
     }
-
     public void removePreviewLine(){
         if(previewLine!=null){
             graphPane.getChildren().remove(previewLine);
@@ -193,4 +203,9 @@ public class HelloController {
         }
         firstVertexClicked = null;
     }
+
+    public void showNotification(String message){
+        notificationView.show(message);
+    }
 }
+
