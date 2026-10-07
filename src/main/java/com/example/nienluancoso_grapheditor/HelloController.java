@@ -42,7 +42,7 @@ public class HelloController {
     private VertexView firstVertexClicked = null;
     private Line previewLine = null;
     private final Map<Vertex, VertexView> vertexVertexViewMap = new HashMap<>();
-    private final Pane interactionBlocker = new InteractionBlocker();
+    private final InteractionBlocker interactionBlocker = new InteractionBlocker();
 
     @FXML
     public void leftPanelToggleHandle() {
@@ -60,8 +60,8 @@ public class HelloController {
 
     private void setUpInteractionBlocker() {
         System.out.println("interactionblocker!");
-        interactionBlocker.prefHeight(graphPane.getPrefHeight());
-        interactionBlocker.prefWidth(graphPane.getPrefWidth());
+        interactionBlocker.prefHeightProperty().bind(graphPane.heightProperty());
+        interactionBlocker.prefWidthProperty().bind(graphPane.widthProperty());
         graphPane.getChildren().add(interactionBlocker);
     }
 
@@ -163,9 +163,27 @@ public class HelloController {
         if(graph.addEdge(edge)) {
             EdgeView edgeView = new EdgeView(vertexVertexViewMap.get(u), vertexVertexViewMap.get(v));
             WeightView weightView = new WeightView(edge, edgeView);
+            setWeightViewCallback(weightView);
             graphPane.getChildren().addAll(edgeView, weightView);
             edgeView.toBack();
+            interactionBlocker.toFront();
+            interactionBlocker.setBlocking(true);
+            weightView.toFront();
         }
+    }
+
+    private void setWeightViewCallback(WeightView weightView) {
+        weightView.setOnWeightEntered(()->{ //callback entered weight
+            interactionBlocker.toBack();
+            interactionBlocker.setBlocking(false);
+            interactionBlocker.setVisible(false);
+        });
+        weightView.setOnEditingWeight(()->{
+            interactionBlocker.setVisible(true);
+            interactionBlocker.toFront();
+            interactionBlocker.setBlocking(true);
+            weightView.toFront();
+        });
     }
 
     public void removePreviewLine(){

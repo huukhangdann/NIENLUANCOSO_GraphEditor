@@ -15,6 +15,8 @@ import javafx.scene.shape.Line;
 public class WeightView extends Pane {
     private final Label weightLabel = new Label();
     private final TextField weightTextField = new TextField();
+    private Runnable onWeightEntered;
+    private Runnable onEditingWeight;
 
     // Binding Variable for dragging weight label
     private final DoubleProperty offsetX = new SimpleDoubleProperty(0);
@@ -132,7 +134,7 @@ public class WeightView extends Pane {
                 setUpWeightLabel(weight);
                 edge.setWeight(weight);
                 weightTextField.setVisible(false);
-
+                this.onWeightEntered.run();
             } catch (NumberFormatException e) {
                 System.out.println("ERROR INPUT");
             }
@@ -156,7 +158,7 @@ public class WeightView extends Pane {
         weightLabel.setOnMouseClicked(event -> {
             event.consume();
             if(event.getClickCount() == 2){
-                this.toFront();
+                this.onEditingWeight.run(); // run callback -> controller
                 weightLabel.setVisible(false);
                 weightTextField.setVisible(true);
                 weightTextField.setText(String.valueOf(edge.getWeight()));
@@ -189,5 +191,13 @@ public class WeightView extends Pane {
 
             event.consume();
         });
+    }
+
+    public void setOnWeightEntered(Runnable callback){
+        this.onWeightEntered = callback;
+    }
+
+    public void setOnEditingWeight(Runnable callback){
+        this.onEditingWeight = callback;
     }
 }

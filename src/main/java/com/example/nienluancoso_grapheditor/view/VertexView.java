@@ -109,6 +109,9 @@ public class VertexView extends StackPane {
                     this.getRadius() - event.getY());
         });
         this.setOnMouseDragged(event -> {
+            if(this==selectedVertex){
+                return;
+            }
             Point2D point = graphPane.sceneToLocal(event.getSceneX(), event.getSceneY());
             this.setCenterX(point.getX() + clickedPointOffset.getX());
             this.setCenterY(point.getY() + clickedPointOffset.getY());

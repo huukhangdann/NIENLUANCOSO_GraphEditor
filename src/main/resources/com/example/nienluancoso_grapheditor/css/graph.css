@@ -71,6 +71,6 @@
     -fx-border-color: #2196F3;
     -fx-border-width: 1;
 }
-interaction-blocker {
-    -fx-background-color: pink;
-}
+/*.interaction-blocker {*/
+/*    -fx-background-color: pink;*/
+/*}*/
