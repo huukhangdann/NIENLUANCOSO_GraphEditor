@@ -34,4 +34,12 @@ public class Edge {
     public void setWeight(int weight) {
         this.weight = weight;
     }
+
+    @Override
+    public String toString() {
+        return "Edge{" +
+                vertex1.getId() + vertex2.getId() +
+                ", weight=" + weight +
+                '}';
+    }
 }

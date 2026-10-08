@@ -6,7 +6,6 @@ import javafx.scene.shape.Line;
 import java.util.function.Consumer;
 
 public class EdgeView extends Line {
-    private final Line line;
     private final static int PADDING = 0;
     private static EdgeView selectedEdgeView = null;
     private final Edge edge;
@@ -15,22 +14,16 @@ public class EdgeView extends Line {
 
 
     public EdgeView(VertexView vertexView1, VertexView vertexView2, Edge edge) {
-        line = new Line();
         this.edge = edge;
-        this.setMouseTransparent(true);
-        line.setMouseTransparent(false);
-        line.getStyleClass().add("graph-line");
-        this.getStyleClass().add("edge-view");
+        this.getStyleClass().add("graph-line");
 
         setUpEdgeViewBinding(vertexView1, vertexView2);
 
         setUpEdgeClicked();
-
-        line.toBack();
     }
 
     private void setUpEdgeClicked() {
-        line.setOnMouseClicked(event -> {
+        this.setOnMouseClicked(event -> {
             EdgeView selectedEdgeView = EdgeView.selectedEdgeView;
             // self-click
             if(selectedEdgeView == this)
@@ -50,11 +43,13 @@ public class EdgeView extends Line {
 
     public void onSelect(boolean value) {
         if(value) {
-            line.getStyleClass().add("line-selected");
+            this.weightView.getStyleClassWeighLabel().add("weight-selected");
+            this.getStyleClass().add("line-selected");
             System.out.println("edge selected!");
             selectedEdgeView = this;
         } else {
-            line.getStyleClass().remove("line-selected");
+            this.getStyleClass().remove("line-selected");
+            this.weightView.getStyleClassWeighLabel().remove("weight-selected");
             selectedEdgeView = null;
         }
     }
@@ -62,14 +57,14 @@ public class EdgeView extends Line {
 
     private void setUpEdgeViewBinding(VertexView vertexView1, VertexView vertexView2) {
        // Binding line to the vertexView (change vertexView to the local coordinate)
-        line.startXProperty().bind(vertexView1.getCenterXProperty().subtract(this.layoutXProperty()));
-        line.startYProperty().bind(vertexView1.getCenterYProperty().subtract(this.layoutYProperty()));
-        line.endXProperty().bind(vertexView2.getCenterXProperty().subtract(this.layoutXProperty()));
-        line.endYProperty().bind(vertexView2.getCenterYProperty().subtract(this.layoutYProperty()));
+        this.startXProperty().bind(vertexView1.getCenterXProperty().subtract(this.layoutXProperty()));
+        this.startYProperty().bind(vertexView1.getCenterYProperty().subtract(this.layoutYProperty()));
+        this.endXProperty().bind(vertexView2.getCenterXProperty().subtract(this.layoutXProperty()));
+        this.endYProperty().bind(vertexView2.getCenterYProperty().subtract(this.layoutYProperty()));
     }
 
     public Line getLine() {
-        return line;
+        return this;
     }
 
     public Edge getEdge() {

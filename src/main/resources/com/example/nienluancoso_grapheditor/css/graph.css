@@ -81,6 +81,10 @@
     -fx-stroke: blue;
 }
 
+.weight-selected {
+    -fx-text-fill: blue;
+}
+
 .weight-view {
     -fx-background-color: red;
 }

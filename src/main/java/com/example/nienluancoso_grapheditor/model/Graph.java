@@ -42,8 +42,8 @@ public class Graph {
     @Override
     public String toString() {
         return "Graph{" +
-                "vertexList=" + vertexList +
-                '}';
+                "vertexList=" + vertexList + "\n"
+                + "edgeList=" + edgeList + "}";
     }
 
     public boolean addEdge(Edge edge){

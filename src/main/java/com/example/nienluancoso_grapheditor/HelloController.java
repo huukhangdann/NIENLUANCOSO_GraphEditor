@@ -262,6 +262,11 @@ public class HelloController {
         }
         else if(selectedEdgeView!=null){
             graph.removeEdge(selectedEdgeView.getEdge());
+            graphPane.getChildren().remove(selectedEdgeView);
+            graphPane.getChildren().remove(selectedEdgeView.getWeightView());
+            edgeWeightViewMap.remove(selectedEdgeView.getEdge());
+            edgeWeightViewMap.remove(selectedEdgeView.getEdge());
+            selectedEdgeView = null;
         }
 
     }
