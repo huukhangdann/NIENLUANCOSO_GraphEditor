@@ -7,6 +7,9 @@ import com.example.nienluancoso_grapheditor.view.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -19,6 +22,8 @@ import java.util.Map;
 public class HelloController {
     @FXML
     public NotificationView notificationView;
+    @FXML
+    public BorderPane root;
     @FXML
     private HBox leftContainer;
     @FXML
@@ -53,6 +58,7 @@ public class HelloController {
 
     @FXML
     private void initialize() {
+        root.addEventFilter(KeyEvent.KEY_PRESSED, this::handleKeyPressed);
         setUpGraphCanvas();
         setUpInteractionBlocker();
         setUpNotificationView();
@@ -212,8 +218,19 @@ public class HelloController {
 
     }
 
+    public void handleKeyPressed(KeyEvent event){
+        if(event.getCode() == KeyCode.DELETE){
+            deleteSelected();
+        }
+    }
+
     public void showNotification(String message){
         notificationView.show(message);
+    }
+
+    public void deleteSelected(){
+        if(firstVertexClicked==null) return;
+        //graph.removeVertex();
     }
 }
 

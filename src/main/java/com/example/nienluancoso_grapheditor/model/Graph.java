@@ -78,4 +78,8 @@ public class Graph {
         }
         return false;
     }
+
+    public void removeVertex(Vertex vertex){
+
+    }
 }
