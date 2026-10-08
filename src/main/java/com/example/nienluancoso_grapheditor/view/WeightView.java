@@ -6,17 +6,22 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.event.Event;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 
+import java.util.function.Consumer;
+
 public class WeightView extends Pane {
     private final Label weightLabel = new Label();
     private final TextField weightTextField = new TextField();
     private Runnable onWeightEntered;
     private Runnable onEditingWeight;
+    private Consumer<String> OnNotification;
+    private boolean isTyping = false;
 
     // Binding Variable for dragging weight label
     private final DoubleProperty offsetX = new SimpleDoubleProperty(0);
@@ -119,11 +124,11 @@ public class WeightView extends Pane {
 
     private void setUpWeightInput(EdgeView edgeView) {
         weightLabel.setVisible(false);
+        isTyping = true;
         // TextField creation
         weightTextField.setPrefWidth(60);
         weightTextField.setAlignment(Pos.CENTER);
         weightTextField.getStyleClass().add("edge-weight-field");
-
     }
 
     private void handleWeightEnter(Edge edge) {
@@ -131,12 +136,17 @@ public class WeightView extends Pane {
             String weightText = weightTextField.getText().trim();
             try {
                 int weight = Integer.parseInt(weightText);
+                if(weight<0 || weight>1000){
+                    this.OnNotification.accept("Weight must have value between 0 and 1000!");
+                    return;
+                }
                 setUpWeightLabel(weight);
                 edge.setWeight(weight);
+                isTyping = false;
                 weightTextField.setVisible(false);
                 this.onWeightEntered.run();
             } catch (NumberFormatException e) {
-                System.out.println("ERROR INPUT");
+                this.OnNotification.accept("Weight must be integer!");
             }
         });
     }
@@ -199,5 +209,9 @@ public class WeightView extends Pane {
 
     public void setOnEditingWeight(Runnable callback){
         this.onEditingWeight = callback;
+    }
+
+    public void setOnNotification(Consumer<String> callback) {
+        this.OnNotification = callback;
     }
 }

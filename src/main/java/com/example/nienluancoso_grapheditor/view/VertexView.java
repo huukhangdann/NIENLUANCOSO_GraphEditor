@@ -103,6 +103,7 @@ public class VertexView extends StackPane {
     }
 
     public void handleVertexDragged(Pane graphPane) {
+
         this.setOnMousePressed(event -> {
             clickedPointOffset = new Point2D(
                     this.getRadius() - event.getX(),

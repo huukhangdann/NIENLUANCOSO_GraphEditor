@@ -109,7 +109,6 @@ public class HelloController {
                 removePreviewLine();
             }
             if(!VertexView.hasSelectedVertex()){
-                showNotification("Notification is working!");
                 double x = event.getX();
                 double y = event.getY();
                 Vertex vertex = new Vertex(x, y);
@@ -178,7 +177,7 @@ public class HelloController {
             graphPane.getChildren().addAll(edgeView, weightView);
             edgeView.toBack();
             interactionBlocker.toFront();
-            interactionBlocker.setBlocking(true);
+            interactionBlocker.block(true);
             weightView.toFront();
         }
     }
@@ -186,15 +185,17 @@ public class HelloController {
     private void setWeightViewCallback(WeightView weightView) {
         weightView.setOnWeightEntered(()->{ //callback entered weight
             interactionBlocker.toBack();
-            interactionBlocker.setBlocking(false);
+            interactionBlocker.block(false);
             interactionBlocker.setVisible(false);
         });
         weightView.setOnEditingWeight(()->{
             interactionBlocker.setVisible(true);
             interactionBlocker.toFront();
-            interactionBlocker.setBlocking(true);
+            interactionBlocker.block(true);
             weightView.toFront();
         });
+        weightView.setOnNotification(this::showNotification);
+        interactionBlocker.setOnClickedBlocker(this::showNotification);
     }
     public void removePreviewLine(){
         if(previewLine!=null){
