@@ -5,6 +5,7 @@ import com.example.nienluancoso_grapheditor.view.VertexView;
 public class Vertex {
     private int id;
     private double x;
+    private String label;
     private double y;
 
     public Vertex() {
@@ -37,6 +38,14 @@ public class Vertex {
 
     public void setY(double y) {
         this.y = y;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 
     @Override

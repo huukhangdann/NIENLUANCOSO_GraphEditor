@@ -2,11 +2,13 @@ package com.example.nienluancoso_grapheditor.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class Graph {
     private List<Vertex> vertexList;
     private List<Edge> edgeList;
     private int nextVertexID = 1;
+    private Set<String> usedLabels;
 
     public Graph() {
         this.vertexList = new ArrayList<>();
@@ -32,6 +34,8 @@ public class Graph {
     public void addVertex(Vertex vertex) {
         vertexList.add(vertex);
         vertex.setId(nextVertexID++);
+        vertex.setLabel(generateNextLabel());
+        usedLabels.add(vertex.getLabel());
         System.out.println("Vertex added!");
     }
 
@@ -83,5 +87,28 @@ public class Graph {
         // Find relative edge
         edgeList.removeIf(edge -> edge.containsVertex(vertex));
         vertexList.remove(vertex);
+        usedLabels.remove(vertex.getLabel());
+    }
+
+    private String generateNextLabel() {
+        int index = 0;
+        while (true) {
+            String label = generateLabel(index);
+            if (usedLabels!=null && !usedLabels.contains(label)) {
+                return label;
+            }
+            index++;
+        }
+    }
+
+    private String generateLabel(int index) {
+        StringBuilder label = new StringBuilder();
+
+        do {
+            label.insert(0, (char) ('A' + index % 26));
+            index = index / 26 - 1;
+        } while (index >= 0);
+
+        return label.toString();
     }
 }

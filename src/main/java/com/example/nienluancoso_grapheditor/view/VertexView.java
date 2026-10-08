@@ -29,7 +29,7 @@ public class VertexView extends StackPane {
 
     public VertexView(Vertex vertex) {
         this.circle = new Circle(RADIUS);
-        this.label = new Label((char) ('A' + vertex.getId() - 1) + "");
+        this.label = new Label(vertex.getLabel());
 
         // Middle align the label
         label.setPrefSize(SIZE, SIZE);
