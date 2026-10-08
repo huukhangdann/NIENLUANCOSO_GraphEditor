@@ -19,6 +19,7 @@ public class VertexView extends StackPane {
     private static VertexView selectedVertex = null;
     private static final double RADIUS = 20;
     private static final double SIZE = RADIUS * 2;
+    private static boolean onBlockDragging = false;
 
     private Point2D clickedPointOffset;
 
@@ -110,7 +111,7 @@ public class VertexView extends StackPane {
                     this.getRadius() - event.getY());
         });
         this.setOnMouseDragged(event -> {
-            if(this==selectedVertex){
+            if(this==selectedVertex || this.onBlockDragging){
                 return;
             }
             Point2D point = graphPane.sceneToLocal(event.getSceneX(), event.getSceneY());
@@ -150,6 +151,10 @@ public class VertexView extends StackPane {
         return "VertexView{" +
                 "vertex=" + vertex +
                 '}';
+    }
+
+    public static void setOnBlockDragging(boolean value){
+        onBlockDragging = value;
     }
 }
 

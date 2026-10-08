@@ -108,6 +108,10 @@ public class HelloController {
             if(previewLine!=null){
                 removePreviewLine();
             }
+            if(interactionBlocker.isBlocking()){
+                event.consume();
+                return;
+            }
             if(!VertexView.hasSelectedVertex()){
                 double x = event.getX();
                 double y = event.getY();
@@ -166,6 +170,7 @@ public class HelloController {
         previewLine.setEndY(firstVertexClicked.getCenterY());
         graphPane.getChildren().add(previewLine);
         previewLine.toBack();
+        VertexView.setOnBlockDragging(true);
     }
 
     public void createEdge(Vertex u, Vertex v){
@@ -203,6 +208,8 @@ public class HelloController {
             previewLine = null;
         }
         firstVertexClicked = null;
+        VertexView.setOnBlockDragging(false);
+
     }
 
     public void showNotification(String message){
