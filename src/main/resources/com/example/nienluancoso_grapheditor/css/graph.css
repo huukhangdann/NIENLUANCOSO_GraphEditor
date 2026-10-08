@@ -81,16 +81,16 @@
     -fx-stroke: blue;
 }
 
-/*.weight-view {*/
-/*    -fx-background-color: red;*/
-/*}*/
+.weight-view {
+    -fx-background-color: red;
+}
 
-/*.edge-view {*/
-/*    -fx-background-color: rgba(0, 150, 255, 0.2);*/
-/*    -fx-border-color: #2196F3;*/
-/*    -fx-border-width: 1;*/
-/*}*/
+.edge-view {
+    -fx-background-color: rgba(0, 150, 255, 0.2);
+    -fx-border-color: #2196F3;
+    -fx-border-width: 1;
+}
 
-/*.interaction-blocker {*/
-/*    -fx-background-color: pink;*/
-/*}*/
+.interaction-blocker {
+    -fx-background-color: pink;
+}

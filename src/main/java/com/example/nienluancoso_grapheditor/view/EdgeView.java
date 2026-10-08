@@ -1,22 +1,24 @@
 package com.example.nienluancoso_grapheditor.view;
 
 import com.example.nienluancoso_grapheditor.model.Edge;
-import javafx.beans.binding.Bindings;
-import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 
-public class EdgeView extends Pane {
+import java.util.function.Consumer;
+
+public class EdgeView extends Line {
     private final Line line;
-    private final static int PADDING = 40;
+    private final static int PADDING = 0;
     private static EdgeView selectedEdgeView = null;
     private final Edge edge;
     private WeightView weightView;
-    private Runnable selectEdgeViewCallback;
+    private Consumer<EdgeView> selectEdgeViewCallback;
 
 
     public EdgeView(VertexView vertexView1, VertexView vertexView2, Edge edge) {
         line = new Line();
         this.edge = edge;
+        this.setMouseTransparent(true);
+        line.setMouseTransparent(false);
         line.getStyleClass().add("graph-line");
         this.getStyleClass().add("edge-view");
 
@@ -24,7 +26,6 @@ public class EdgeView extends Pane {
 
         setUpEdgeClicked();
 
-        this.getChildren().add(line);
         line.toBack();
     }
 
@@ -40,14 +41,14 @@ public class EdgeView extends Pane {
                 this.onSelect(true);
 
                 if(selectEdgeViewCallback!=null){
-                    selectEdgeViewCallback.run();
+                    selectEdgeViewCallback.accept(this);
                 }
             }
             event.consume();
         });
     }
 
-    private void onSelect(boolean value) {
+    public void onSelect(boolean value) {
         if(value) {
             line.getStyleClass().add("line-selected");
             System.out.println("edge selected!");
@@ -60,28 +61,7 @@ public class EdgeView extends Pane {
 
 
     private void setUpEdgeViewBinding(VertexView vertexView1, VertexView vertexView2) {
-        // Binding layoutX, layoutY of the edgeView Pane to the vertexView
-        this.layoutXProperty().bind(Bindings.createDoubleBinding(
-                () -> Math.min(vertexView1.getCenterX(), vertexView2.getCenterX()) - PADDING,
-                vertexView1.layoutXProperty(),
-                vertexView2.layoutXProperty()));
-        this.layoutYProperty().bind(Bindings.createDoubleBinding(
-                () -> Math.min(vertexView1.getCenterY(), vertexView2.getCenterY()) - PADDING,
-                vertexView1.layoutYProperty(),
-                vertexView2.layoutYProperty()));
-
-        // Binding area (width and height) of the edgeView Pane to the vertexView
-        this.prefWidthProperty().bind(Bindings.createDoubleBinding(
-                () -> Math.abs(vertexView1.getCenterX() - vertexView2.getCenterX()) + 2 * PADDING,
-                vertexView1.layoutXProperty(),
-                vertexView2.layoutXProperty()));
-        this.prefHeightProperty().bind(Bindings.createDoubleBinding(
-                () -> Math.abs(vertexView1.getCenterY() - vertexView2.getCenterY()) + 2 * PADDING,
-                vertexView1.layoutYProperty(),
-                vertexView2.layoutYProperty()));
-
-
-        // Binding line to the vertexView (change vertexView to the local coordinate)
+       // Binding line to the vertexView (change vertexView to the local coordinate)
         line.startXProperty().bind(vertexView1.getCenterXProperty().subtract(this.layoutXProperty()));
         line.startYProperty().bind(vertexView1.getCenterYProperty().subtract(this.layoutYProperty()));
         line.endXProperty().bind(vertexView2.getCenterXProperty().subtract(this.layoutXProperty()));
@@ -104,7 +84,7 @@ public class EdgeView extends Pane {
         this.weightView = weightView;
     }
 
-    public void setSelectEdgeViewCallback(Runnable selectEdgeViewCallback) {
+    public void setSelectEdgeViewCallback(Consumer<EdgeView> selectEdgeViewCallback) {
         this.selectEdgeViewCallback = selectEdgeViewCallback;
     }
 }

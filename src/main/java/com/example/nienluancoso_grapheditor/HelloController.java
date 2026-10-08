@@ -121,6 +121,8 @@ public class HelloController {
                 event.consume();
                 return;
             }
+            if(selectedEdgeView!=null)
+                selectedEdgeView.onSelect(false);
             if(!VertexView.hasSelectedVertex()){
                 if(event.getClickCount()==2) {
                     double x = event.getX();
@@ -135,6 +137,10 @@ public class HelloController {
                         // first Vertex clicked
                         if (firstVertexClicked == null) {
                             firstVertexClicked = vertexClicked;
+                            if(selectedEdgeView!=null){
+                                selectedEdgeView.onSelect(false);
+                                selectedEdgeView=null;
+                            }
                             // Create preview line
                             createPreviewLine();
                         }
@@ -220,11 +226,12 @@ public class HelloController {
     }
 
     public void setEdgeCallBack(EdgeView edgeView){
-        edgeView.setSelectEdgeViewCallback(()->{
+        edgeView.setSelectEdgeViewCallback((selectedEV)->{
             // select edge when selecting vertex
+            this.selectedEdgeView = selectedEV;
             if(firstVertexClicked!=null){
-                removePreviewLine();
                 firstVertexClicked.onSelect(false);
+                removePreviewLine();
             }
         });
     }
