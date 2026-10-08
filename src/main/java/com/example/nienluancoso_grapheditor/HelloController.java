@@ -258,7 +258,7 @@ public class HelloController {
 
     public void deleteSelected(){
         if(firstVertexClicked!=null) {
-            graph.removeVertex(firstVertexClicked.getVertex()); // Delete selected vertex
+            deleteSelectedVertex();
         }
         else if(selectedEdgeView!=null){
             deleteSelectedEdge();
@@ -273,6 +273,20 @@ public class HelloController {
         edgeWeightViewMap.remove(selectedEdgeView.getEdge());
         edgeEdgeViewMap.remove(selectedEdgeView.getEdge());
         selectedEdgeView = null;
+    }
+
+    private void deleteSelectedVertex() {
+        for(Edge e: graph.getEdgeList()){
+            if(e.containsVertex(firstVertexClicked.getVertex())){
+                graphPane.getChildren().remove(edgeEdgeViewMap.get(e));
+                edgeEdgeViewMap.remove(e);
+                graphPane.getChildren().remove(edgeWeightViewMap.get(e));
+                edgeWeightViewMap.remove(e);
+            }
+        graph.removeVertex(firstVertexClicked.getVertex());
+        graphPane.getChildren().remove(firstVertexClicked);
+        firstVertexClicked=null;
+        }
     }
 }
 

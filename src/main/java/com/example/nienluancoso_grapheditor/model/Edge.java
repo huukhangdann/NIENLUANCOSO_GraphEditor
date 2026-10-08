@@ -35,6 +35,10 @@ public class Edge {
         this.weight = weight;
     }
 
+    public boolean containsVertex(Vertex vertex){
+        return (vertex1==vertex || vertex2==vertex);
+    }
+
     @Override
     public String toString() {
         return "Edge{" +
