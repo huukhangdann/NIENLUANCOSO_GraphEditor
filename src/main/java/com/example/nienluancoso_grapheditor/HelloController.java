@@ -289,8 +289,9 @@ public class HelloController {
         graph.removeVertex(firstVertexClicked.getVertex());
         vertexVertexViewMap.remove(firstVertexClicked.getVertex());
         graphPane.getChildren().remove(firstVertexClicked);
-        firstVertexClicked=null;
         firstVertexClicked.onSelect(false);
+        firstVertexClicked = null;
+
     }
 }
 
