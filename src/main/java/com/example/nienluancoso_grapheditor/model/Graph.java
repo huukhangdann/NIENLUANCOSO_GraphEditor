@@ -1,6 +1,7 @@
 package com.example.nienluancoso_grapheditor.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -8,7 +9,7 @@ public class Graph {
     private List<Vertex> vertexList;
     private List<Edge> edgeList;
     private int nextVertexID = 1;
-    private Set<String> usedLabels;
+    private Set<String> usedLabels = new HashSet<>();
 
     public Graph() {
         this.vertexList = new ArrayList<>();
@@ -94,7 +95,7 @@ public class Graph {
         int index = 0;
         while (true) {
             String label = generateLabel(index);
-            if (usedLabels!=null && !usedLabels.contains(label)) {
+            if (!usedLabels.contains(label)) {
                 return label;
             }
             index++;
