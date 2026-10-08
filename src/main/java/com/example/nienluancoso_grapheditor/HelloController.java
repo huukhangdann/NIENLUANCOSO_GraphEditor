@@ -276,8 +276,6 @@ public class HelloController {
     }
 
     private void deleteSelectedVertex() {
-        if(previewLine!=null)
-            removePreviewLine();
         for(Edge e: graph.getEdgeList()) {
             if (e.containsVertex(firstVertexClicked.getVertex())) {
                 graphPane.getChildren().remove(edgeEdgeViewMap.get(e));
@@ -291,7 +289,8 @@ public class HelloController {
         graphPane.getChildren().remove(firstVertexClicked);
         firstVertexClicked.onSelect(false);
         firstVertexClicked = null;
-
+        if(previewLine!=null)
+            removePreviewLine();
     }
 }
 
