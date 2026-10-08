@@ -261,14 +261,18 @@ public class HelloController {
             graph.removeVertex(firstVertexClicked.getVertex()); // Delete selected vertex
         }
         else if(selectedEdgeView!=null){
-            graph.removeEdge(selectedEdgeView.getEdge());
-            graphPane.getChildren().remove(selectedEdgeView);
-            graphPane.getChildren().remove(selectedEdgeView.getWeightView());
-            edgeWeightViewMap.remove(selectedEdgeView.getEdge());
-            edgeWeightViewMap.remove(selectedEdgeView.getEdge());
-            selectedEdgeView = null;
+            deleteSelectedEdge();
         }
 
+    }
+
+    private void deleteSelectedEdge() {
+        graph.removeEdge(selectedEdgeView.getEdge());
+        graphPane.getChildren().remove(selectedEdgeView);
+        graphPane.getChildren().remove(selectedEdgeView.getWeightView());
+        edgeWeightViewMap.remove(selectedEdgeView.getEdge());
+        edgeEdgeViewMap.remove(selectedEdgeView.getEdge());
+        selectedEdgeView = null;
     }
 }
 
