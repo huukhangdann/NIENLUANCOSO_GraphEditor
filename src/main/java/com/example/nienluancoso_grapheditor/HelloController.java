@@ -276,17 +276,19 @@ public class HelloController {
     }
 
     private void deleteSelectedVertex() {
-        for(Edge e: graph.getEdgeList()){
-            if(e.containsVertex(firstVertexClicked.getVertex())){
+        if(previewLine!=null)
+            removePreviewLine();
+        for(Edge e: graph.getEdgeList()) {
+            if (e.containsVertex(firstVertexClicked.getVertex())) {
                 graphPane.getChildren().remove(edgeEdgeViewMap.get(e));
                 edgeEdgeViewMap.remove(e);
                 graphPane.getChildren().remove(edgeWeightViewMap.get(e));
                 edgeWeightViewMap.remove(e);
             }
+        }
         graph.removeVertex(firstVertexClicked.getVertex());
         graphPane.getChildren().remove(firstVertexClicked);
         firstVertexClicked=null;
-        }
     }
 }
 
