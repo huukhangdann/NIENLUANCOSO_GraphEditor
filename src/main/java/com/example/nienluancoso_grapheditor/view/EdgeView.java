@@ -1,5 +1,6 @@
 package com.example.nienluancoso_grapheditor.view;
 
+import com.example.nienluancoso_grapheditor.model.Edge;
 import javafx.beans.binding.Bindings;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
@@ -7,19 +8,55 @@ import javafx.scene.shape.Line;
 public class EdgeView extends Pane {
     private final Line line;
     private final static int PADDING = 40;
+    private static EdgeView selectedEdgeView = null;
+    private final Edge edge;
+    private WeightView weightView;
+    private Runnable selectEdgeViewCallback;
 
-    public EdgeView(VertexView vertexView1, VertexView vertexView2) {
-        this.setMouseTransparent(true);
+
+    public EdgeView(VertexView vertexView1, VertexView vertexView2, Edge edge) {
         line = new Line();
+        this.edge = edge;
         line.getStyleClass().add("graph-line");
         this.getStyleClass().add("edge-view");
 
         setUpEdgeViewBinding(vertexView1, vertexView2);
 
+        setUpEdgeClicked();
+
         this.getChildren().add(line);
         line.toBack();
     }
 
+    private void setUpEdgeClicked() {
+        line.setOnMouseClicked(event -> {
+            EdgeView selectedEdgeView = EdgeView.selectedEdgeView;
+            // self-click
+            if(selectedEdgeView == this)
+                selectedEdgeView.onSelect(false);
+            else {
+                // deselect other edges
+                if(selectedEdgeView!=null) selectedEdgeView.onSelect(false);
+                this.onSelect(true);
+
+                if(selectEdgeViewCallback!=null){
+                    selectEdgeViewCallback.run();
+                }
+            }
+            event.consume();
+        });
+    }
+
+    private void onSelect(boolean value) {
+        if(value) {
+            line.getStyleClass().add("line-selected");
+            System.out.println("edge selected!");
+            selectedEdgeView = this;
+        } else {
+            line.getStyleClass().remove("line-selected");
+            selectedEdgeView = null;
+        }
+    }
 
 
     private void setUpEdgeViewBinding(VertexView vertexView1, VertexView vertexView2) {
@@ -54,4 +91,21 @@ public class EdgeView extends Pane {
     public Line getLine() {
         return line;
     }
+
+    public Edge getEdge() {
+        return edge;
+    }
+
+    public WeightView getWeightView() {
+        return weightView;
+    }
+
+    public void setWeightView(WeightView weightView) {
+        this.weightView = weightView;
+    }
+
+    public void setSelectEdgeViewCallback(Runnable selectEdgeViewCallback) {
+        this.selectEdgeViewCallback = selectEdgeViewCallback;
+    }
 }
+

@@ -80,6 +80,10 @@ public class Graph {
     }
 
     public void removeVertex(Vertex vertex){
+        System.out.println("Delete Vertex " + vertex);
+
+        // Find relative edge
+
 
     }
 }

@@ -44,8 +44,11 @@ public class HelloController {
     private final Graph graph = new Graph();
     private Label label = new Label();
     private VertexView firstVertexClicked = null;
+    private EdgeView selectedEdgeView = null;
     private Line previewLine = null;
     private final Map<Vertex, VertexView> vertexVertexViewMap = new HashMap<>();
+    private final Map<Edge, EdgeView> edgeEdgeViewMap = new HashMap<>();
+    private final Map<Edge, WeightView> edgeWeightViewMap = new HashMap<>();
     private final InteractionBlocker interactionBlocker = new InteractionBlocker();
 
     @FXML
@@ -119,38 +122,40 @@ public class HelloController {
                 return;
             }
             if(!VertexView.hasSelectedVertex()){
-                double x = event.getX();
-                double y = event.getY();
-                Vertex vertex = new Vertex(x, y);
-                graph.addVertex(vertex);
-                VertexView vertexView = new VertexView(vertex);
-                vertexVertexViewMap.put(vertex, vertexView);
+                if(event.getClickCount()==2) {
+                    double x = event.getX();
+                    double y = event.getY();
+                    Vertex vertex = new Vertex(x, y);
+                    graph.addVertex(vertex);
+                    VertexView vertexView = new VertexView(vertex);
+                    vertexVertexViewMap.put(vertex, vertexView);
 
-                // set callback when vertexView clicked
-                vertexView.setOnClicked(vertexClicked -> {
-                    // first Vertex clicked
-                    if(firstVertexClicked == null){
-                        firstVertexClicked = vertexClicked;
-                        // Create preview line
-                        createPreviewLine();
-                    }
-                    // second Vertex clicked
-                    else{
-                        createEdge(firstVertexClicked.getVertex(), vertexClicked.getVertex());
-                        removePreviewLine();
-                        vertexClicked.onSelect(false);
-                        firstVertexClicked = null;
-                    }
-                });
+                    // set callback when vertexView clicked
+                    vertexView.setOnClicked(vertexClicked -> {
+                        // first Vertex clicked
+                        if (firstVertexClicked == null) {
+                            firstVertexClicked = vertexClicked;
+                            // Create preview line
+                            createPreviewLine();
+                        }
+                        // second Vertex clicked
+                        else {
+                            createEdge(firstVertexClicked.getVertex(), vertexClicked.getVertex());
+                            removePreviewLine();
+                            vertexClicked.onSelect(false);
+                            firstVertexClicked = null;
+                        }
+                    });
 
-                // VertexView clicked
-                vertexView.handleVertexClicked();
+                    // VertexView clicked
+                    vertexView.handleVertexClicked();
 
-                // Vertex dragged
-                vertexView.handleVertexDragged(graphPane);
+                    // Vertex dragged
+                    vertexView.handleVertexDragged(graphPane);
 
 
-                graphPane.getChildren().add(vertexView);
+                    graphPane.getChildren().add(vertexView);
+                }
             }
             else{
                 VertexView.getSelectedVertex().onSelect(false);
@@ -182,8 +187,13 @@ public class HelloController {
     public void createEdge(Vertex u, Vertex v){
         Edge edge = new Edge(u, v);
         if(graph.addEdge(edge)) {
-            EdgeView edgeView = new EdgeView(vertexVertexViewMap.get(u), vertexVertexViewMap.get(v));
+            // Init and connect model-view
+            EdgeView edgeView = new EdgeView(vertexVertexViewMap.get(u), vertexVertexViewMap.get(v), edge);
+            setEdgeCallBack(edgeView);
+            edgeEdgeViewMap.put(edge, edgeView);
             WeightView weightView = new WeightView(edge, edgeView);
+            edgeWeightViewMap.put(edge, weightView);
+
             setWeightViewCallback(weightView);
             graphPane.getChildren().addAll(edgeView, weightView);
             edgeView.toBack();
@@ -208,6 +218,17 @@ public class HelloController {
         weightView.setOnNotification(this::showNotification);
         interactionBlocker.setOnClickedBlocker(this::showNotification);
     }
+
+    public void setEdgeCallBack(EdgeView edgeView){
+        edgeView.setSelectEdgeViewCallback(()->{
+            // select edge when selecting vertex
+            if(firstVertexClicked!=null){
+                removePreviewLine();
+                firstVertexClicked.onSelect(false);
+            }
+        });
+    }
+
     public void removePreviewLine(){
         if(previewLine!=null){
             graphPane.getChildren().remove(previewLine);
@@ -229,8 +250,13 @@ public class HelloController {
     }
 
     public void deleteSelected(){
-        if(firstVertexClicked==null) return;
-        //graph.removeVertex();
+        if(firstVertexClicked!=null) {
+            graph.removeVertex(firstVertexClicked.getVertex()); // Delete selected vertex
+        }
+        else if(selectedEdgeView!=null){
+            graph.removeEdge(selectedEdgeView.getEdge());
+        }
+
     }
 }
 

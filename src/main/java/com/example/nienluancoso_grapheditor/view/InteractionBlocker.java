@@ -30,4 +30,5 @@ public class InteractionBlocker extends Pane {
     public void setOnClickedBlocker(Consumer<String> callback){
         this.onClickedBlocker = callback;
     }
+
 }

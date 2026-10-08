@@ -32,6 +32,8 @@ public class WeightView extends Pane {
 
     public WeightView(Edge edge, EdgeView edgeView){
         setPickOnBounds(false);
+        // connect edgeView-weightView
+        edgeView.setWeightView(this);
 
         this.getStyleClass().add("weight-view");
 
