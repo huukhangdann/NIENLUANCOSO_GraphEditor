@@ -131,6 +131,7 @@ public class HelloController {
                     graph.addVertex(vertex);
                     VertexView vertexView = new VertexView(vertex);
                     vertexVertexViewMap.put(vertex, vertexView);
+                    setVertexViewCallback(vertexView);
 
                     // set callback when vertexView clicked
                     vertexView.setOnClicked(vertexClicked -> {
@@ -225,7 +226,24 @@ public class HelloController {
         interactionBlocker.setOnClickedBlocker(this::showNotification);
     }
 
-    public void setEdgeCallBack(EdgeView edgeView){
+    private void setVertexViewCallback(VertexView vertexView) {
+        vertexView.setOnEditingLabel(() -> {
+            interactionBlocker.toBack();
+            interactionBlocker.block(false);
+            interactionBlocker.setVisible(false);
+        });
+        vertexView.setOnLabelEntered(() -> {
+            interactionBlocker.setVisible(true);
+            interactionBlocker.toFront();
+            interactionBlocker.block(true);
+            vertexView.toFront();
+        });
+        vertexView.setOnNotification(this::showNotification);
+        interactionBlocker.setOnClickedBlocker(this::showNotification);
+    }
+
+
+    private void setEdgeCallBack(EdgeView edgeView){
         edgeView.setSelectEdgeViewCallback((selectedEV)->{
             // select edge when selecting vertex
             this.selectedEdgeView = selectedEV;
