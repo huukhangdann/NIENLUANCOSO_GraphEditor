@@ -228,15 +228,15 @@ public class HelloController {
 
     private void setVertexViewCallback(VertexView vertexView) {
         vertexView.setOnEditingLabel(() -> {
-            interactionBlocker.toBack();
-            interactionBlocker.block(false);
-            interactionBlocker.setVisible(false);
-        });
-        vertexView.setOnLabelEntered(() -> {
             interactionBlocker.setVisible(true);
             interactionBlocker.toFront();
             interactionBlocker.block(true);
             vertexView.toFront();
+        });
+        vertexView.setOnLabelEntered(() -> {
+            interactionBlocker.toBack();
+            interactionBlocker.block(false);
+            interactionBlocker.setVisible(false);
         });
         vertexView.setOnNotification(this::showNotification);
         interactionBlocker.setOnClickedBlocker(this::showNotification);

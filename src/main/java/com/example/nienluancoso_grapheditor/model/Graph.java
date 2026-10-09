@@ -9,7 +9,7 @@ public class Graph {
     private List<Vertex> vertexList;
     private List<Edge> edgeList;
     private int nextVertexID = 1;
-    private Set<String> usedLabels = new HashSet<>();
+    private final static Set<String> usedLabels = new HashSet<>();
 
     public Graph() {
         this.vertexList = new ArrayList<>();
@@ -111,5 +111,9 @@ public class Graph {
         } while (index >= 0);
 
         return label.toString();
+    }
+
+    public static Set<String> getUsedLabels(){
+        return usedLabels;
     }
 }

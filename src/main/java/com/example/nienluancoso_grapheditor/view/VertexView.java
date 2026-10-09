@@ -1,5 +1,6 @@
 package com.example.nienluancoso_grapheditor.view;
 
+import com.example.nienluancoso_grapheditor.model.Graph;
 import com.example.nienluancoso_grapheditor.model.Vertex;
 import javafx.application.Platform;
 import javafx.beans.binding.DoubleBinding;
@@ -11,6 +12,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
 
+import java.util.Set;
 import java.util.function.Consumer;
 
 
@@ -23,6 +25,7 @@ public class VertexView extends StackPane {
     private static final double RADIUS = 20;
     private static final double SIZE = RADIUS * 2;
     private static boolean onBlockDragging = false;
+
 
     private Runnable onLabelEntered;
     private Runnable onEditingLabel;
@@ -51,14 +54,13 @@ public class VertexView extends StackPane {
         // CSS
         circle.getStyleClass().add("vertex");
         label.getStyleClass().add("vertex-label");
-
-        // add circle and label to vertex view's children list
-        this.getChildren().addAll(circle, label);
+        this.getChildren().addAll(circle, label, labelTextField);
         this.setLayoutX(vertex.getX() - RADIUS);
         this.setLayoutY(vertex.getY() - RADIUS);
         this.vertex = vertex;
 
         handleLabelEditEnter();
+
     }
 
     public void onSelect(boolean value){
@@ -174,7 +176,14 @@ public class VertexView extends StackPane {
                 OnNotification.accept("Label must contain 1 to 3 letters A-Z!");
                 return;
             }
+            else if (Graph.getUsedLabels().contains(labelText)) {
+                OnNotification.accept("You already have vertex " + labelText);
+                return;
+            }
+
+            Graph.getUsedLabels().remove(label.getText());
             label.setText(labelText);
+            Graph.getUsedLabels().add(labelText);
             labelTextField.setVisible(false);
             label.setVisible(true);
             this.onLabelEntered.run();

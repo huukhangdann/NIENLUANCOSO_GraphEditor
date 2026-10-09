@@ -12,7 +12,7 @@ public class InteractionBlocker extends Pane {
         this.getStyleClass().add("interaction-blocker");
         this.setOnMouseClicked(event -> {
             if(isBlocking){
-                onClickedBlocker.accept("Please enter weight first!");
+                onClickedBlocker.accept("Please enter the text field first!");
                 event.consume();
             }
         });
