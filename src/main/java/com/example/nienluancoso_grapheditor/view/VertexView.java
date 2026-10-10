@@ -174,13 +174,14 @@ public class VertexView extends StackPane {
                 OnNotification.accept("Label must contain 1 to 3 letters A-Z!");
                 return;
             }
-            else if (Graph.getUsedLabels().contains(labelText)) {
+            else if ((!labelText.equals(label.getText())) && Graph.getUsedLabels().contains(labelText)) {
                 OnNotification.accept("You already have vertex " + labelText);
                 return;
             }
 
             Graph.getUsedLabels().remove(label.getText());
             label.setText(labelText);
+            vertex.setLabel(labelText);
             Graph.getUsedLabels().add(labelText);
             labelTextField.setVisible(false);
             label.setVisible(true);
