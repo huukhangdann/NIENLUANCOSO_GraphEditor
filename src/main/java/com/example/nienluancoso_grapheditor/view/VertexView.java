@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
+
 import java.util.function.Consumer;
 
 
@@ -38,7 +39,7 @@ public class VertexView extends StackPane {
     public VertexView(Vertex vertex) {
         this.circle = new Circle(RADIUS);
         this.label = new Label(vertex.getLabel());
-        this.labelTextField  = new TextField();
+        this.labelTextField = new TextField();
         labelTextField.setVisible(false);
 
         // Middle align the label
@@ -61,25 +62,24 @@ public class VertexView extends StackPane {
 
     }
 
-    public void onSelect(boolean value){
-        if(value) {
+    public void onSelect(boolean value) {
+        if (value) {
             circle.getStyleClass().add("vertex-selected");
             label.getStyleClass().add("vertex-label-selected");
             System.out.println("vertex selected!");
             selectedVertex = this;
-        }
-        else {
+        } else {
             circle.getStyleClass().remove("vertex-selected");
             label.getStyleClass().remove("vertex-label-selected");
             selectedVertex = null;
         }
     }
 
-    public static boolean hasSelectedVertex(){
-        return selectedVertex!=null;
+    public static boolean hasSelectedVertex() {
+        return selectedVertex != null;
     }
 
-    public static VertexView getSelectedVertex(){
+    public static VertexView getSelectedVertex() {
         return selectedVertex;
     }
 
@@ -88,31 +88,31 @@ public class VertexView extends StackPane {
     }
 
 
-    public double getCenterX(){
+    public double getCenterX() {
         return this.getLayoutX() + RADIUS;
     }
 
-    public double getCenterY(){
+    public double getCenterY() {
         return this.getLayoutY() + RADIUS;
     }
 
-    public DoubleBinding getCenterXProperty(){
+    public DoubleBinding getCenterXProperty() {
         return this.layoutXProperty().add(RADIUS);
     }
 
-    public DoubleBinding getCenterYProperty(){
+    public DoubleBinding getCenterYProperty() {
         return this.layoutYProperty().add(RADIUS);
     }
 
-    public void setCenterX(double x){
+    public void setCenterX(double x) {
         this.setLayoutX(x - RADIUS);
     }
 
-    public void setCenterY(double y){
+    public void setCenterY(double y) {
         this.setLayoutY(y - RADIUS);
     }
 
-    public double getRadius(){
+    public double getRadius() {
         return RADIUS;
     }
 
@@ -124,12 +124,43 @@ public class VertexView extends StackPane {
                     this.getRadius() - event.getY());
         });
         this.setOnMouseDragged(event -> {
-            if(this==selectedVertex || onBlockDragging){
+            if (this == selectedVertex || onBlockDragging) {
                 return;
             }
-            Point2D point = graphPane.sceneToLocal(event.getSceneX(), event.getSceneY());
-            this.setCenterX(point.getX() + clickedPointOffset.getX());
-            this.setCenterY(point.getY() + clickedPointOffset.getY());
+
+            Point2D point = graphPane.sceneToLocal(
+                    event.getSceneX(),
+                    event.getSceneY()
+            );
+
+            // Tọa độ tâm đỉnh dự kiến
+            double x = point.getX() + clickedPointOffset.getX();
+            double y = point.getY() + clickedPointOffset.getY();
+
+            // Giới hạn để toàn bộ hình tròn nằm trong graphPane
+            double radius = getRadius();
+
+            double minX = radius;
+            double maxX = graphPane.getWidth() - radius;
+
+            double minY = radius;
+            double maxY = graphPane.getHeight() - radius;
+
+            // Xử lý trường hợp canvas nhỏ hơn đường kính đỉnh
+            double centerX = maxX < minX
+                    ? graphPane.getWidth() / 2.0
+                    : Math.max(minX, Math.min(x, maxX));
+
+            double centerY = maxY < minY
+                    ? graphPane.getHeight() / 2.0
+                    : Math.max(minY, Math.min(y, maxY));
+
+            // Cập nhật View
+            setCenterX(centerX);
+            setCenterY(centerY);
+
+            // Đồng bộ tọa độ về Model
+            getVertex().updateCoordinate(centerX, centerY);
 
             // update view -> modal
             ((Vertex) this.getVertex()).updateCoordinate(getCenterX(), getCenterY());
@@ -173,8 +204,7 @@ public class VertexView extends StackPane {
             if (!labelText.matches("[A-Z]{1,3}")) {
                 OnNotification.accept("Label must contain 1 to 3 letters A-Z!");
                 return;
-            }
-            else if ((!labelText.equals(label.getText())) && Graph.getUsedLabels().contains(labelText)) {
+            } else if ((!labelText.equals(label.getText())) && Graph.getUsedLabels().contains(labelText)) {
                 OnNotification.accept("You already have vertex " + labelText);
                 return;
             }
@@ -190,7 +220,7 @@ public class VertexView extends StackPane {
         });
     }
 
-    public void setOnClicked(Consumer<VertexView> callback){
+    public void setOnClicked(Consumer<VertexView> callback) {
         this.onVertexClicked = callback;
     }
 
@@ -201,7 +231,7 @@ public class VertexView extends StackPane {
                 '}';
     }
 
-    public static void setOnBlockDragging(boolean value){
+    public static void setOnBlockDragging(boolean value) {
         onBlockDragging = value;
     }
 

@@ -5,6 +5,7 @@ import com.example.nienluancoso_grapheditor.model.Graph;
 import com.example.nienluancoso_grapheditor.model.Vertex;
 import com.example.nienluancoso_grapheditor.view.*;
 import javafx.fxml.FXML;
+import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
@@ -14,6 +15,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -41,6 +43,8 @@ public class HelloController {
     @FXML
     private VBox rightPanel;
 
+    private final Group graphContent = new Group();
+
     private final Graph graph = new Graph();
     private Label label = new Label();
     private VertexView firstVertexClicked = null;
@@ -62,9 +66,20 @@ public class HelloController {
     @FXML
     private void initialize() {
         root.addEventFilter(KeyEvent.KEY_PRESSED, this::handleKeyPressed);
+        graphPane.getChildren().add(0, graphContent);
         setUpGraphCanvas();
         setUpInteractionBlocker();
         setUpNotificationView();
+        setUpGraphPanelClip();
+    }
+
+    private void setUpGraphPanelClip() {
+        Rectangle clip = new Rectangle();
+
+        clip.widthProperty().bind(graphPane.widthProperty());
+        clip.heightProperty().bind(graphPane.heightProperty());
+
+        graphPane.setClip(clip);
     }
 
     private void setUpNotificationView() {
@@ -161,7 +176,7 @@ public class HelloController {
                     vertexView.handleVertexDragged(graphPane);
 
 
-                    graphPane.getChildren().add(vertexView);
+                    graphContent.getChildren().add(vertexView);
                 }
             }
             else{
@@ -186,7 +201,7 @@ public class HelloController {
         previewLine.setStartY(firstVertexClicked.getCenterY());
         previewLine.setEndX(firstVertexClicked.getCenterX());
         previewLine.setEndY(firstVertexClicked.getCenterY());
-        graphPane.getChildren().add(previewLine);
+        graphContent.getChildren().add(previewLine);
         previewLine.toBack();
         VertexView.setOnBlockDragging(true);
     }
@@ -202,7 +217,7 @@ public class HelloController {
             edgeWeightViewMap.put(edge, weightView);
 
             setWeightViewCallback(weightView);
-            graphPane.getChildren().addAll(edgeView, weightView);
+            graphContent.getChildren().addAll(edgeView, weightView);
             edgeView.toBack();
             interactionBlocker.toFront();
             interactionBlocker.block(true);
@@ -256,7 +271,7 @@ public class HelloController {
 
     public void removePreviewLine(){
         if(previewLine!=null){
-            graphPane.getChildren().remove(previewLine);
+            graphContent.getChildren().remove(previewLine);
             previewLine = null;
         }
         firstVertexClicked = null;
@@ -286,8 +301,8 @@ public class HelloController {
 
     private void deleteSelectedEdge() {
         graph.removeEdge(selectedEdgeView.getEdge());
-        graphPane.getChildren().remove(selectedEdgeView);
-        graphPane.getChildren().remove(selectedEdgeView.getWeightView());
+        graphContent.getChildren().remove(selectedEdgeView);
+        graphContent.getChildren().remove(selectedEdgeView.getWeightView());
         edgeWeightViewMap.remove(selectedEdgeView.getEdge());
         edgeEdgeViewMap.remove(selectedEdgeView.getEdge());
         selectedEdgeView = null;
@@ -296,15 +311,15 @@ public class HelloController {
     private void deleteSelectedVertex() {
         for(Edge e: graph.getEdgeList()) {
             if (e.containsVertex(firstVertexClicked.getVertex())) {
-                graphPane.getChildren().remove(edgeEdgeViewMap.get(e));
+                graphContent.getChildren().remove(edgeEdgeViewMap.get(e));
                 edgeEdgeViewMap.remove(e);
-                graphPane.getChildren().remove(edgeWeightViewMap.get(e));
+                graphContent.getChildren().remove(edgeWeightViewMap.get(e));
                 edgeWeightViewMap.remove(e);
             }
         }
         graph.removeVertex(firstVertexClicked.getVertex());
         vertexVertexViewMap.remove(firstVertexClicked.getVertex());
-        graphPane.getChildren().remove(firstVertexClicked);
+        graphContent.getChildren().remove(firstVertexClicked);
         firstVertexClicked.onSelect(false);
         firstVertexClicked = null;
         if(previewLine!=null)
