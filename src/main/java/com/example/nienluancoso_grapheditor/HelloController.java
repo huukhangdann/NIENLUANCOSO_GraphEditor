@@ -43,7 +43,12 @@ public class HelloController {
     @FXML
     private VBox rightPanel;
 
+    // Zoom Canvas
     private final Group graphContent = new Group();
+    private double currentZoom = 1;
+    private final double MIN_ZOOM = 0.5;
+    private final double MAX_ZOOM = 2;
+    private final double ZOOM_STEP = 0.1;
 
     private final Graph graph = new Graph();
     private Label label = new Label();
@@ -67,6 +72,7 @@ public class HelloController {
     private void initialize() {
         root.addEventFilter(KeyEvent.KEY_PRESSED, this::handleKeyPressed);
         graphPane.getChildren().add(0, graphContent);
+
         setUpGraphCanvas();
         setUpInteractionBlocker();
         setUpNotificationView();
@@ -181,6 +187,9 @@ public class HelloController {
             }
             else{
                 VertexView.getSelectedVertex().onSelect(false);
+
+                // test zoom
+                applyZoom(3);
             }
         });
     }
@@ -215,6 +224,9 @@ public class HelloController {
             edgeEdgeViewMap.put(edge, edgeView);
             WeightView weightView = new WeightView(edge, edgeView);
             edgeWeightViewMap.put(edge, weightView);
+
+            // test zoom
+            applyZoom(0.1);
 
             setWeightViewCallback(weightView);
             graphContent.getChildren().addAll(edgeView, weightView);
@@ -325,5 +337,15 @@ public class HelloController {
         if(previewLine!=null)
             removePreviewLine();
     }
+
+    // Zoom Methods
+    public void applyZoom(double zoomValue){
+        double value = Math.clamp(zoomValue, 0.5, 2.0);
+        currentZoom = value;
+        graphContent.setScaleX(value);
+        graphContent.setScaleY(value);
+        System.out.println(value);
+    }
+
 }
 
