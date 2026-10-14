@@ -116,4 +116,25 @@ public class Graph {
     public static Set<String> getUsedLabels(){
         return usedLabels;
     }
+
+    // Algorithms methods
+    public int degree(Vertex u){
+        int degree = 0;
+        for(Edge e : edgeList){
+            if(e.getVertex1()==u || e.getVertex2()==u)
+                degree++;
+        }
+        return degree;
+    }
+
+    public boolean isAdjacent(Vertex u, Vertex v){
+        for(Edge e : edgeList){
+            if((e.getVertex1() == u && e.getVertex2() == v) ||
+            (e.getVertex1() == v && e.getVertex2() == u)){
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
