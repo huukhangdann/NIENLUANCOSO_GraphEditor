@@ -93,10 +93,10 @@ public class HelloController {
     }
 
     private void setUpInteractionBlocker() {
-        System.out.println("interactionblocker!");
         interactionBlocker.prefHeightProperty().bind(graphPane.heightProperty());
         interactionBlocker.prefWidthProperty().bind(graphPane.widthProperty());
         graphPane.getChildren().add(interactionBlocker);
+        interactionBlocker.block(false);
     }
 
     public void setUpGraphCanvas() {
