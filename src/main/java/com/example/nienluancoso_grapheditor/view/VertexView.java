@@ -132,7 +132,7 @@ public class VertexView extends StackPane {
             this.setCenterY(point.getY() + clickedPointOffset.getY());
 
             // update view -> modal
-            ((Vertex) this.getVertex()).update(this);
+            ((Vertex) this.getVertex()).updateCoordinate(getCenterX(), getCenterY());
         });
     }
 

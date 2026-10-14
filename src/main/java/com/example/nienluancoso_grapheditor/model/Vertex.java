@@ -57,8 +57,8 @@ public class Vertex {
                 '}';
     }
 
-    public void update(VertexView vertexView){
-        this.x = vertexView.getCenterX();
-        this.y = vertexView.getCenterY();
+    public void updateCoordinate(double x, double y){
+        this.x = x;
+        this.y = y;
     }
 }
