@@ -18,6 +18,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Affine;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -55,6 +56,7 @@ public class HelloController {
     private final static double MIN_ZOOM = 0.5;
     private final static double MAX_ZOOM = 2;
     private final double ZOOM_STEP = 0.1;
+    private final Affine zoomTransform = new Affine();
 
     private final Graph graph = new Graph();
     private Label label = new Label();
@@ -78,6 +80,7 @@ public class HelloController {
     private void initialize() {
         root.addEventFilter(KeyEvent.KEY_PRESSED, this::handleKeyPressed);
         graphPane.getChildren().addFirst(graphContent);
+        graphContent.getTransforms().add(zoomTransform);
 
         setUpGraphCanvas();
         setUpInteractionBlocker();
@@ -354,9 +357,25 @@ public class HelloController {
     // Zoom Methods
     public void applyZoom(double zoomValue) {
         double value = Math.clamp(zoomValue, MIN_ZOOM, MAX_ZOOM);
+
+        // (anchorX, anchorY): Tâm của graphPane
+        double anchorX = graphPane.getWidth() / 2.0;
+        double anchorY = graphPane.getHeight() / 2.0;
+
+        double ratio = value / currentZoom;
+
+        double newTranslateX =
+                anchorX - ratio * (anchorX - zoomTransform.getTx());
+
+        double newTranslateY =
+                anchorY - ratio * (anchorY - zoomTransform.getTy());
+
+        zoomTransform.setMxx(value);
+        zoomTransform.setMyy(value);
+        zoomTransform.setTx(newTranslateX);
+        zoomTransform.setTy(newTranslateY);
+
         currentZoom = value;
-        graphContent.setScaleX(value);
-        graphContent.setScaleY(value);
     }
 
     public void handleZoomIn() {

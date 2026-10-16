@@ -127,7 +127,6 @@ public class VertexView extends StackPane {
             if (this == selectedVertex || onBlockDragging) {
                 return;
             }
-
             Point2D point = graphContent.sceneToLocal(
                     event.getSceneX(),
                     event.getSceneY()
@@ -137,30 +136,12 @@ public class VertexView extends StackPane {
             double x = point.getX() + clickedPointOffset.getX();
             double y = point.getY() + clickedPointOffset.getY();
 
-//            // Giới hạn để toàn bộ hình tròn nằm trong graphPane
-//            double radius = getRadius();
-//
-//            double minX = radius;
-//            double maxX = graphContent.getWidth() - radius;
-//
-//            double minY = radius;
-//            double maxY = graphContent.getHeight() - radius;
-//
-//            // Xử lý trường hợp canvas nhỏ hơn đường kính đỉnh
-//            double centerX = maxX < minX
-//                    ? graphContent.getWidth() / 2.0
-//                    : Math.max(minX, Math.min(x, maxX));
-//
-//            double centerY = maxY < minY
-//                    ? graphContent.getHeight() / 2.0
-////                    : Math.max(minY, Math.min(y, maxY));
-//
             // Cập nhật View
             setCenterX(x);
             setCenterY(y);
-//
-//            // Đồng bộ tọa độ về Model
-//            getVertex().updateCoordinate(centerX, centerY);
+
+            // Đồng bộ tọa độ về Model
+            getVertex().updateCoordinate(x, y);
 
         });
     }
