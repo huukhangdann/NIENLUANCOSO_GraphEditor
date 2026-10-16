@@ -46,8 +46,8 @@ public class HelloController {
     // Zoom Canvas
     private final Group graphContent = new Group();
     private double currentZoom = 1;
-    private final double MIN_ZOOM = 0.5;
-    private final double MAX_ZOOM = 2;
+    private final static double MIN_ZOOM = 0.5;
+    private final static double MAX_ZOOM = 2;
     private final double ZOOM_STEP = 0.1;
 
     private final Graph graph = new Graph();
@@ -118,14 +118,13 @@ public class HelloController {
     }
 
     private void onTestTextCanvas(boolean value) {
-        if(value){
+        if (value) {
             label.setText("Create your first vertex here!");
             label.setId("testLayoutText");
             label.layoutXProperty().bind(graphPane.widthProperty().subtract(label.widthProperty()).divide(2));
             label.layoutYProperty().bind(graphPane.heightProperty().subtract(label.heightProperty()).divide(2));
             graphPane.getChildren().add(label);
-        }
-        else{
+        } else {
             label.setVisible(false);
             label.setManaged(false);
         }
@@ -133,19 +132,19 @@ public class HelloController {
 
     public void handleGraphPaneClicked() {
         graphPane.setOnMouseClicked(event -> {
-            if(graph.getSize()==0)
+            if (graph.getSize() == 0)
                 onTestTextCanvas(false);
-            if(previewLine!=null){
+            if (previewLine != null) {
                 removePreviewLine();
             }
-            if(interactionBlocker.isBlocking()){
+            if (interactionBlocker.isBlocking()) {
                 event.consume();
                 return;
             }
-            if(selectedEdgeView!=null)
+            if (selectedEdgeView != null)
                 selectedEdgeView.onSelect(false);
-            if(!VertexView.hasSelectedVertex()){
-                if(event.getClickCount()==2) {
+            if (!VertexView.hasSelectedVertex()) {
+                if (event.getClickCount() == 2) {
                     double x = event.getX();
                     double y = event.getY();
                     Vertex vertex = new Vertex(x, y);
@@ -159,9 +158,9 @@ public class HelloController {
                         // first Vertex clicked
                         if (firstVertexClicked == null) {
                             firstVertexClicked = vertexClicked;
-                            if(selectedEdgeView!=null){
+                            if (selectedEdgeView != null) {
                                 selectedEdgeView.onSelect(false);
-                                selectedEdgeView=null;
+                                selectedEdgeView = null;
                             }
                             // Create preview line
                             createPreviewLine();
@@ -184,19 +183,16 @@ public class HelloController {
 
                     graphContent.getChildren().add(vertexView);
                 }
-            }
-            else{
+            } else {
                 VertexView.getSelectedVertex().onSelect(false);
-
-                // test zoom
-                applyZoom(3);
+                zoomIn();
             }
         });
     }
 
     private void handleMouseMoved() {
         graphPane.setOnMouseMoved(event -> {
-            if(previewLine!=null){
+            if (previewLine != null) {
                 previewLine.setEndX(event.getX());
                 previewLine.setEndY(event.getY());
             }
@@ -215,18 +211,16 @@ public class HelloController {
         VertexView.setOnBlockDragging(true);
     }
 
-    public void createEdge(Vertex u, Vertex v){
+    public void createEdge(Vertex u, Vertex v) {
+        zoomOut();
         Edge edge = new Edge(u, v);
-        if(graph.addEdge(edge)) {
+        if (graph.addEdge(edge)) {
             // Init and connect model-view
             EdgeView edgeView = new EdgeView(vertexVertexViewMap.get(u), vertexVertexViewMap.get(v), edge);
             setEdgeCallBack(edgeView);
             edgeEdgeViewMap.put(edge, edgeView);
             WeightView weightView = new WeightView(edge, edgeView);
             edgeWeightViewMap.put(edge, weightView);
-
-            // test zoom
-            applyZoom(0.1);
 
             setWeightViewCallback(weightView);
             graphContent.getChildren().addAll(edgeView, weightView);
@@ -238,12 +232,12 @@ public class HelloController {
     }
 
     private void setWeightViewCallback(WeightView weightView) {
-        weightView.setOnWeightEntered(()->{ //callback entered weight
+        weightView.setOnWeightEntered(() -> { //callback entered weight
             interactionBlocker.toBack();
             interactionBlocker.block(false);
             interactionBlocker.setVisible(false);
         });
-        weightView.setOnEditingWeight(()->{
+        weightView.setOnEditingWeight(() -> {
             interactionBlocker.setVisible(true);
             interactionBlocker.toFront();
             interactionBlocker.block(true);
@@ -270,19 +264,19 @@ public class HelloController {
     }
 
 
-    private void setEdgeCallBack(EdgeView edgeView){
-        edgeView.setSelectEdgeViewCallback((selectedEV)->{
+    private void setEdgeCallBack(EdgeView edgeView) {
+        edgeView.setSelectEdgeViewCallback((selectedEV) -> {
             // select edge when selecting vertex
             this.selectedEdgeView = selectedEV;
-            if(firstVertexClicked!=null){
+            if (firstVertexClicked != null) {
                 firstVertexClicked.onSelect(false);
                 removePreviewLine();
             }
         });
     }
 
-    public void removePreviewLine(){
-        if(previewLine!=null){
+    public void removePreviewLine() {
+        if (previewLine != null) {
             graphContent.getChildren().remove(previewLine);
             previewLine = null;
         }
@@ -291,21 +285,20 @@ public class HelloController {
 
     }
 
-    public void handleKeyPressed(KeyEvent event){
-        if(event.getCode() == KeyCode.DELETE){
+    public void handleKeyPressed(KeyEvent event) {
+        if (event.getCode() == KeyCode.DELETE) {
             deleteSelected();
         }
     }
 
-    public void showNotification(String message){
+    public void showNotification(String message) {
         notificationView.show(message);
     }
 
-    public void deleteSelected(){
-        if(firstVertexClicked!=null) {
+    public void deleteSelected() {
+        if (firstVertexClicked != null) {
             deleteSelectedVertex();
-        }
-        else if(selectedEdgeView!=null){
+        } else if (selectedEdgeView != null) {
             deleteSelectedEdge();
         }
 
@@ -321,7 +314,7 @@ public class HelloController {
     }
 
     private void deleteSelectedVertex() {
-        for(Edge e: graph.getEdgeList()) {
+        for (Edge e : graph.getEdgeList()) {
             if (e.containsVertex(firstVertexClicked.getVertex())) {
                 graphContent.getChildren().remove(edgeEdgeViewMap.get(e));
                 edgeEdgeViewMap.remove(e);
@@ -334,17 +327,24 @@ public class HelloController {
         graphContent.getChildren().remove(firstVertexClicked);
         firstVertexClicked.onSelect(false);
         firstVertexClicked = null;
-        if(previewLine!=null)
+        if (previewLine != null)
             removePreviewLine();
     }
 
     // Zoom Methods
-    public void applyZoom(double zoomValue){
-        double value = Math.clamp(zoomValue, 0.5, 2.0);
+    public void applyZoom(double zoomValue) {
+        double value = Math.clamp(zoomValue, MIN_ZOOM, MAX_ZOOM);
         currentZoom = value;
         graphContent.setScaleX(value);
         graphContent.setScaleY(value);
-        System.out.println(value);
+    }
+
+    public void zoomIn() {
+        applyZoom(currentZoom + ZOOM_STEP);
+    }
+
+    public void zoomOut() {
+        applyZoom(currentZoom - ZOOM_STEP);
     }
 
 }
