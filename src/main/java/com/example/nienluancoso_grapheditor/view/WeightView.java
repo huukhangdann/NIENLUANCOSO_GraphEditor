@@ -7,7 +7,9 @@ import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.ObservableList;
+import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
@@ -31,7 +33,7 @@ public class WeightView extends Pane {
 
     private final static int GAP = 20;
 
-    public WeightView(Edge edge, EdgeView edgeView){
+    public WeightView(Edge edge, EdgeView edgeView, Group graphContent){
         setPickOnBounds(false);
         // connect edgeView-weightView
         edgeView.setWeightView(this);
@@ -46,8 +48,8 @@ public class WeightView extends Pane {
 
         handleWeightEdit(edge);
 
-        handleWeightViewPressed();
-        handleWeightViewDragged();
+        handleWeightViewPressed(graphContent);
+        handleWeightViewDragged(graphContent);
 
         Platform.runLater(weightTextField::requestFocus);
 
@@ -182,24 +184,30 @@ public class WeightView extends Pane {
         } );
     }
 
-    private void handleWeightViewPressed(){
+    private void handleWeightViewPressed(Group graphContent){
         this.setOnMousePressed(event -> {
-            lastMouseX = event.getSceneX();
-            lastMouseY = event.getSceneY();
+            Point2D eventPoint = graphContent.sceneToLocal(
+                    new Point2D(event.getSceneX(), event.getSceneY())
+            );
+            lastMouseX = eventPoint.getX();
+            lastMouseY = eventPoint.getY();
             event.consume();
         });
     }
 
-    private void handleWeightViewDragged(){
+    private void handleWeightViewDragged(Group graphContent){
         this.setOnMouseDragged(event -> {
-            double dx = event.getSceneX() - lastMouseX;
-            double dy = event.getSceneY() - lastMouseY;
+            Point2D eventPoint = graphContent.sceneToLocal(
+                    new Point2D(event.getSceneX(), event.getSceneY())
+            );
+            double dx = eventPoint.getX() - lastMouseX;
+            double dy = eventPoint.getY() - lastMouseY;
 
             offsetX.set(offsetX.get() + dx);
             offsetY.set(offsetY.get() + dy);
 
-            lastMouseX = event.getSceneX();
-            lastMouseY = event.getSceneY();
+            lastMouseX = eventPoint.getX();
+            lastMouseY = eventPoint.getY();
 
             event.consume();
         });

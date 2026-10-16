@@ -351,7 +351,7 @@ public class HelloController {
             EdgeView edgeView = new EdgeView(vertexVertexViewMap.get(u), vertexVertexViewMap.get(v), edge);
             setEdgeCallBack(edgeView);
             edgeEdgeViewMap.put(edge, edgeView);
-            WeightView weightView = new WeightView(edge, edgeView);
+            WeightView weightView = new WeightView(edge, edgeView, graphContent);
             edgeWeightViewMap.put(edge, weightView);
 
             setWeightViewCallback(weightView);
