@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
@@ -42,6 +43,8 @@ public class HelloController {
     private VBox leftPanel;
     @FXML
     private VBox rightPanel;
+    @FXML
+    private Slider zoomSlider;
 
     // Zoom Canvas
     private final Group graphContent = new Group();
@@ -71,12 +74,20 @@ public class HelloController {
     @FXML
     private void initialize() {
         root.addEventFilter(KeyEvent.KEY_PRESSED, this::handleKeyPressed);
-        graphPane.getChildren().add(0, graphContent);
+        graphPane.getChildren().addFirst(graphContent);
 
         setUpGraphCanvas();
         setUpInteractionBlocker();
         setUpNotificationView();
         setUpGraphPanelClip();
+        setUpZoomSlider();
+    }
+
+    private void setUpZoomSlider() {
+        zoomSlider.valueProperty().addListener((
+                observable, oldValue, newValue) -> {
+                applyZoom(newValue.doubleValue());
+        });
     }
 
     private void setUpGraphPanelClip() {
@@ -337,24 +348,16 @@ public class HelloController {
         graphContent.setScaleY(value);
     }
 
-    public void zoomIn() {
-        applyZoom(currentZoom + ZOOM_STEP);
-    }
-
-    public void zoomOut() {
-        applyZoom(currentZoom - ZOOM_STEP);
-    }
-
     public void handleZoomIn(){
-        zoomIn();
+        zoomSlider.setValue(zoomSlider.getValue() + ZOOM_STEP);
     }
 
     public void handleZoomOut(){
-        zoomOut();
+        zoomSlider.setValue(zoomSlider.getValue() - ZOOM_STEP);
     }
 
     public void handleResetZoom(){
-        applyZoom(1);
+        zoomSlider.setValue(1);
     }
 
 }
