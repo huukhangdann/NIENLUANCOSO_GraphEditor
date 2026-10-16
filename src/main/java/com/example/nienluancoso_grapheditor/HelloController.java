@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -57,6 +58,7 @@ public class HelloController {
     private final static double MAX_ZOOM = 2;
     private final double ZOOM_STEP = 0.1;
     private final Affine zoomTransform = new Affine();
+    private Point2D pendingZoomAnchor = null;
 
     private final Graph graph = new Graph();
     private Label label = new Label();
@@ -87,13 +89,66 @@ public class HelloController {
         setUpNotificationView();
         setUpGraphPanelClip();
         setUpZoomSlider();
+        setUpScrollZoom();
     }
+
+
+    private void setUpScrollZoom() {
+        graphPane.addEventFilter(
+                ScrollEvent.SCROLL,
+                event -> {
+                    if (event.getDeltaY() == 0) {
+                        return;
+                    }
+
+                    double direction =
+                            event.getDeltaY() > 0 ? 1 : -1;
+
+                    double newZoom = Math.clamp(
+                            zoomSlider.getValue()
+                                    + direction * ZOOM_STEP,
+                            MIN_ZOOM,
+                            MAX_ZOOM
+                    );
+
+                    if (newZoom == zoomSlider.getValue()) {
+                        event.consume();
+                        return;
+                    }
+
+                    // Tọa độ con trỏ trong graphPane.
+                    Point2D anchor = graphPane.sceneToLocal(
+                            event.getSceneX(),
+                            event.getSceneY()
+                    );
+
+                    // Truyền điểm neo cho listener của slider.
+                    pendingZoomAnchor = anchor;
+                    zoomSlider.setValue(newZoom);
+
+                    event.consume();
+                }
+        );
+    }
+
 
     private void setUpZoomSlider() {
         zoomSlider.valueProperty().addListener((
                 observable, oldValue, newValue) -> {
             double zoom = newValue.doubleValue();
-            applyZoom(zoom);
+
+            Point2D anchor = pendingZoomAnchor;
+            pendingZoomAnchor = null;
+
+            if (anchor == null) {
+                anchor = new Point2D(
+                        graphPane.getWidth() / 2.0,
+                        graphPane.getHeight() / 2.0
+                );
+            }
+            applyZoom(zoom, anchor);
+
+
             zoomSliderLabel.setText(
                     String.format("%.0f%%", zoom * 100)
             );
@@ -356,11 +411,20 @@ public class HelloController {
 
     // Zoom Methods
     public void applyZoom(double zoomValue) {
-        double value = Math.clamp(zoomValue, MIN_ZOOM, MAX_ZOOM);
+        Point2D center = new Point2D(
+                graphPane.getWidth() / 2.0,
+                graphPane.getHeight() / 2.0
+        );
+        applyZoom(zoomValue, center);
+    }
 
-        // (anchorX, anchorY): Tâm của graphPane
-        double anchorX = graphPane.getWidth() / 2.0;
-        double anchorY = graphPane.getHeight() / 2.0;
+    private void applyZoom(double zoomValue, Point2D anchor) {
+        double value = Math.clamp(
+                zoomValue, MIN_ZOOM, MAX_ZOOM
+        );
+
+        double anchorX = anchor.getX();
+        double anchorY = anchor.getY();
 
         double ratio = value / currentZoom;
 
