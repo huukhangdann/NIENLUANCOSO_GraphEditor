@@ -45,6 +45,8 @@ public class HelloController {
     private VBox rightPanel;
     @FXML
     private Slider zoomSlider;
+    @FXML
+    private Label zoomSliderLabel;
 
     // Zoom Canvas
     private final Group graphContent = new Group();
@@ -86,7 +88,11 @@ public class HelloController {
     private void setUpZoomSlider() {
         zoomSlider.valueProperty().addListener((
                 observable, oldValue, newValue) -> {
-                applyZoom(newValue.doubleValue());
+            double zoom = newValue.doubleValue();
+            applyZoom(zoom);
+            zoomSliderLabel.setText(
+                    String.format("%.0f%%", zoom * 100)
+            );
         });
     }
 
@@ -348,15 +354,15 @@ public class HelloController {
         graphContent.setScaleY(value);
     }
 
-    public void handleZoomIn(){
+    public void handleZoomIn() {
         zoomSlider.setValue(zoomSlider.getValue() + ZOOM_STEP);
     }
 
-    public void handleZoomOut(){
+    public void handleZoomOut() {
         zoomSlider.setValue(zoomSlider.getValue() - ZOOM_STEP);
     }
 
-    public void handleResetZoom(){
+    public void handleResetZoom() {
         zoomSlider.setValue(1);
     }
 
