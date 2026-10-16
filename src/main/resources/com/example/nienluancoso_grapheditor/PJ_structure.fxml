@@ -74,6 +74,10 @@
                         <Separator orientation="VERTICAL" />
                         <Button mnemonicParsing="false" onAction="#deleteSelected" text="Delete" />
                         <Button mnemonicParsing="false" text="Clear" />
+                  <Separator orientation="VERTICAL" />
+                  <Button mnemonicParsing="false" onAction="#handleZoomIn" text="+" />
+                  <Button mnemonicParsing="false" onAction="#handleZoomOut" text="-" />
+                  <Button mnemonicParsing="false" onAction="#handleResetZoom" text="Reset" />
                     </items>
                     <VBox.margin>
                         <Insets />

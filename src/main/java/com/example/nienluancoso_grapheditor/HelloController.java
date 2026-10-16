@@ -185,7 +185,6 @@ public class HelloController {
                 }
             } else {
                 VertexView.getSelectedVertex().onSelect(false);
-                zoomIn();
             }
         });
     }
@@ -212,7 +211,6 @@ public class HelloController {
     }
 
     public void createEdge(Vertex u, Vertex v) {
-        zoomOut();
         Edge edge = new Edge(u, v);
         if (graph.addEdge(edge)) {
             // Init and connect model-view
@@ -345,6 +343,18 @@ public class HelloController {
 
     public void zoomOut() {
         applyZoom(currentZoom - ZOOM_STEP);
+    }
+
+    public void handleZoomIn(){
+        zoomIn();
+    }
+
+    public void handleZoomOut(){
+        zoomOut();
+    }
+
+    public void handleResetZoom(){
+        applyZoom(1);
     }
 
 }
