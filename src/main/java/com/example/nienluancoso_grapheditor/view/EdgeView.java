@@ -15,6 +15,7 @@ public class EdgeView extends Line {
 
     public EdgeView(VertexView vertexView1, VertexView vertexView2, Edge edge) {
         this.edge = edge;
+        this.setStrokeWidth(3);
         this.getStyleClass().add("graph-line");
 
         setUpEdgeViewBinding(vertexView1, vertexView2);

@@ -6,13 +6,12 @@ import com.example.nienluancoso_grapheditor.model.Vertex;
 import com.example.nienluancoso_grapheditor.view.*;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
+import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.ScrollEvent;
+import javafx.scene.input.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -60,6 +59,10 @@ public class HelloController {
     private final Affine zoomTransform = new Affine();
     private Point2D pendingZoomAnchor = null;
 
+    // Pan canvas
+    private boolean isPanning = false;
+    private Point2D lastPanPoint = null;
+
     private final Graph graph = new Graph();
     private Label label = new Label();
     private VertexView firstVertexClicked = null;
@@ -90,6 +93,61 @@ public class HelloController {
         setUpGraphPanelClip();
         setUpZoomSlider();
         setUpScrollZoom();
+        setUpPan();
+    }
+
+    private void setUpPan() {
+        // Mouse Pressed
+        graphPane.addEventFilter(
+                MouseEvent.MOUSE_PRESSED,
+                event -> {
+                    if (event.getButton() != MouseButton.PRIMARY) {
+                        return;
+                    }
+                    if (event.getTarget() != graphPane) {
+                        return;
+                    }
+                    if (interactionBlocker.isBlocking()) {
+                        return;
+                    }
+                    isPanning = true;
+                    lastPanPoint = graphPane.sceneToLocal(
+                            event.getSceneX(),
+                            event.getSceneY()
+                    );
+                });
+        // Mouse Dragged
+        graphPane.addEventFilter(
+                MouseEvent.MOUSE_DRAGGED,
+                event -> {
+                    if (!isPanning || lastPanPoint == null) {
+                        return;
+                    }
+                    graphPane.setCursor(Cursor.CLOSED_HAND);
+                    Point2D currentPoint = graphPane.sceneToLocal(
+                            event.getSceneX(),
+                            event.getSceneY()
+                    );
+                    double dx = currentPoint.getX() - lastPanPoint.getX();
+                    double dy = currentPoint.getY() - lastPanPoint.getY();
+                    zoomTransform.setTx(zoomTransform.getTx() + dx);
+                    zoomTransform.setTy(zoomTransform.getTy() + dy);
+                    lastPanPoint = currentPoint;
+                    event.consume();
+                }
+        );
+        // Mouse Released
+        graphPane.addEventFilter(
+                MouseEvent.MOUSE_RELEASED,
+                event -> {
+                    if (event.getButton() != MouseButton.PRIMARY) {
+                        return;
+                    }
+                    graphPane.setCursor(Cursor.DEFAULT);
+                    isPanning = false;
+                    lastPanPoint = null;
+                }
+        );
     }
 
 
@@ -100,32 +158,26 @@ public class HelloController {
                     if (event.getDeltaY() == 0) {
                         return;
                     }
-
                     double direction =
                             event.getDeltaY() > 0 ? 1 : -1;
-
                     double newZoom = Math.clamp(
                             zoomSlider.getValue()
                                     + direction * ZOOM_STEP,
                             MIN_ZOOM,
                             MAX_ZOOM
                     );
-
                     if (newZoom == zoomSlider.getValue()) {
                         event.consume();
                         return;
                     }
-
                     // Tọa độ con trỏ trong graphPane.
                     Point2D anchor = graphPane.sceneToLocal(
                             event.getSceneX(),
                             event.getSceneY()
                     );
-
                     // Truyền điểm neo cho listener của slider.
                     pendingZoomAnchor = anchor;
                     zoomSlider.setValue(newZoom);
-
                     event.consume();
                 }
         );
@@ -452,6 +504,8 @@ public class HelloController {
 
     public void handleResetZoom() {
         zoomSlider.setValue(1);
+        zoomTransform.setTx(0);
+        zoomTransform.setTy(0);
     }
 
 }
