@@ -6,6 +6,7 @@ import javafx.application.Platform;
 import javafx.beans.binding.DoubleBinding;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
@@ -116,8 +117,7 @@ public class VertexView extends StackPane {
         return RADIUS;
     }
 
-    public void handleVertexDragged(Pane graphPane) {
-
+    public void handleVertexDragged(Group graphContent) {
         this.setOnMousePressed(event -> {
             clickedPointOffset = new Point2D(
                     this.getRadius() - event.getX(),
@@ -128,7 +128,7 @@ public class VertexView extends StackPane {
                 return;
             }
 
-            Point2D point = graphPane.sceneToLocal(
+            Point2D point = graphContent.sceneToLocal(
                     event.getSceneX(),
                     event.getSceneY()
             );
@@ -137,30 +137,30 @@ public class VertexView extends StackPane {
             double x = point.getX() + clickedPointOffset.getX();
             double y = point.getY() + clickedPointOffset.getY();
 
-            // Giới hạn để toàn bộ hình tròn nằm trong graphPane
-            double radius = getRadius();
-
-            double minX = radius;
-            double maxX = graphPane.getWidth() - radius;
-
-            double minY = radius;
-            double maxY = graphPane.getHeight() - radius;
-
-            // Xử lý trường hợp canvas nhỏ hơn đường kính đỉnh
-            double centerX = maxX < minX
-                    ? graphPane.getWidth() / 2.0
-                    : Math.max(minX, Math.min(x, maxX));
-
-            double centerY = maxY < minY
-                    ? graphPane.getHeight() / 2.0
-                    : Math.max(minY, Math.min(y, maxY));
-
+//            // Giới hạn để toàn bộ hình tròn nằm trong graphPane
+//            double radius = getRadius();
+//
+//            double minX = radius;
+//            double maxX = graphContent.getWidth() - radius;
+//
+//            double minY = radius;
+//            double maxY = graphContent.getHeight() - radius;
+//
+//            // Xử lý trường hợp canvas nhỏ hơn đường kính đỉnh
+//            double centerX = maxX < minX
+//                    ? graphContent.getWidth() / 2.0
+//                    : Math.max(minX, Math.min(x, maxX));
+//
+//            double centerY = maxY < minY
+//                    ? graphContent.getHeight() / 2.0
+////                    : Math.max(minY, Math.min(y, maxY));
+//
             // Cập nhật View
-            setCenterX(centerX);
-            setCenterY(centerY);
-
-            // Đồng bộ tọa độ về Model
-            getVertex().updateCoordinate(centerX, centerY);
+            setCenterX(x);
+            setCenterY(y);
+//
+//            // Đồng bộ tọa độ về Model
+//            getVertex().updateCoordinate(centerX, centerY);
 
         });
     }

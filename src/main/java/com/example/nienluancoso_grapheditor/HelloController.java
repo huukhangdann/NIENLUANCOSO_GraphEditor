@@ -5,6 +5,7 @@ import com.example.nienluancoso_grapheditor.model.Graph;
 import com.example.nienluancoso_grapheditor.model.Vertex;
 import com.example.nienluancoso_grapheditor.view.*;
 import javafx.fxml.FXML;
+import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -162,8 +163,11 @@ public class HelloController {
                 selectedEdgeView.onSelect(false);
             if (!VertexView.hasSelectedVertex()) {
                 if (event.getClickCount() == 2) {
-                    double x = event.getX();
-                    double y = event.getY();
+                    // Change coordinate to graphContent
+                    Point2D eventPoint = graphContent.sceneToLocal(
+                            new Point2D(event.getSceneX(), event.getSceneY()));
+                    double x = eventPoint.getX();
+                    double y = eventPoint.getY();
                     Vertex vertex = new Vertex(x, y);
                     graph.addVertex(vertex);
                     VertexView vertexView = new VertexView(vertex);
@@ -195,7 +199,7 @@ public class HelloController {
                     vertexView.handleVertexClicked();
 
                     // Vertex dragged
-                    vertexView.handleVertexDragged(graphPane);
+                    vertexView.handleVertexDragged(graphContent);
 
 
                     graphContent.getChildren().add(vertexView);
@@ -209,8 +213,9 @@ public class HelloController {
     private void handleMouseMoved() {
         graphPane.setOnMouseMoved(event -> {
             if (previewLine != null) {
-                previewLine.setEndX(event.getX());
-                previewLine.setEndY(event.getY());
+                Point2D mouse = graphContent.sceneToLocal(new Point2D(event.getSceneX(), event.getSceneY()));
+                previewLine.setEndX(mouse.getX());
+                previewLine.setEndY(mouse.getY());
             }
         });
     }
