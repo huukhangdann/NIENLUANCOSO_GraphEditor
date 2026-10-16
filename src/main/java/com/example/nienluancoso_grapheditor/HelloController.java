@@ -269,10 +269,12 @@ public class HelloController {
                 event.consume();
                 return;
             }
-            if (selectedEdgeView != null)
+            if (selectedEdgeView != null) {
                 selectedEdgeView.onSelect(false);
+                selectedEdgeView = null;
+            }
             if (!VertexView.hasSelectedVertex()) {
-                if (event.getClickCount() == 2) {
+                if ((event.getClickCount() == 2) && (event.isStillSincePress())) {
                     // Change coordinate to graphContent
                     Point2D eventPoint = graphContent.sceneToLocal(
                             new Point2D(event.getSceneX(), event.getSceneY()));
