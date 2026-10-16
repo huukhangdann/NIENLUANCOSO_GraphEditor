@@ -162,8 +162,6 @@ public class VertexView extends StackPane {
             // Đồng bộ tọa độ về Model
             getVertex().updateCoordinate(centerX, centerY);
 
-            // update view -> modal
-            ((Vertex) this.getVertex()).updateCoordinate(getCenterX(), getCenterY());
         });
     }
 
