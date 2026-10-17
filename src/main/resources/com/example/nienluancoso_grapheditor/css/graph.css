@@ -79,3 +79,9 @@
 /*.interaction-blocker {*/
 /*    -fx-background-color: pink;*/
 /*}*/
+.zoom-slider-label {
+    -fx-background-color: white;
+    -fx-border-color: gray;
+    -fx-padding: 5px;
+    -fx-border-radius: 5px;
+}

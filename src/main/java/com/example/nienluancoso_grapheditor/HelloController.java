@@ -32,8 +32,6 @@ public class HelloController {
     @FXML
     private HBox leftContainer;
     @FXML
-    private HBox rightContainer;
-    @FXML
     private VBox topContainer;
     @FXML
     private HBox botContainer;
@@ -43,8 +41,6 @@ public class HelloController {
     private Button leftToggleButton;
     @FXML
     private VBox leftPanel;
-    @FXML
-    private VBox rightPanel;
     @FXML
     private Slider zoomSlider;
     @FXML
@@ -158,6 +154,7 @@ public class HelloController {
                     if (event.getDeltaY() == 0) {
                         return;
                     }
+                    if(interactionBlocker.isBlocking()) return;
                     double direction =
                             event.getDeltaY() > 0 ? 1 : -1;
                     double newZoom = Math.clamp(
@@ -188,6 +185,8 @@ public class HelloController {
         zoomSlider.valueProperty().addListener((
                 observable, oldValue, newValue) -> {
             double zoom = newValue.doubleValue();
+
+            if(interactionBlocker.isBlocking()) return;
 
             Point2D anchor = pendingZoomAnchor;
             pendingZoomAnchor = null;
@@ -234,6 +233,8 @@ public class HelloController {
     }
 
     public void setUpGraphCanvas() {
+        notificationView.setMouseTransparent(true);
+        zoomSliderLabel.getStyleClass().add("zoom-slider-label");
         // Text Test Canvas
         onTestTextCanvas(true);
 
