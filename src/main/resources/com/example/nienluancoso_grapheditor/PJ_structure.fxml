@@ -23,44 +23,36 @@
 
 <?import com.example.nienluancoso_grapheditor.view.NotificationView?>
 
-<BorderPane fx:id="root" prefHeight="650.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.nienluancoso_grapheditor.HelloController">
+<BorderPane fx:id="root" prefHeight="700.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.nienluancoso_grapheditor.HelloController">
     <top>
         <VBox id="topContainer" fx:id="topContainer" BorderPane.alignment="CENTER">
             <children>
-                <MenuBar minHeight="-Infinity" minWidth="-Infinity">
+                <MenuBar fx:id="topMenuBar">
                     <menus>
-                        <Menu mnemonicParsing="false" text="File">
+                        <Menu fx:id="MenuBarFile" mnemonicParsing="false" text="File">
                             <items>
-                                <MenuItem mnemonicParsing="false" text="New" />
-                                <MenuItem mnemonicParsing="false" text="Open" />
-                                <MenuItem mnemonicParsing="false" text="Save" />
-                                <MenuItem mnemonicParsing="false" text="Save As" />
-                                <MenuItem mnemonicParsing="false" text="Exit" />
+                                <MenuItem fx:id="MenuItemNew" mnemonicParsing="false" text="New" />
+                                <MenuItem fx:id="MenuItemOpen" mnemonicParsing="false" text="Open" />
+                                <MenuItem fx:id="MenuItemSave" mnemonicParsing="false" text="Save" />
+                                <MenuItem fx:id="MenuItemSaveAs" mnemonicParsing="false" text="Save As" />
+                                <MenuItem fx:id="MenuItemExit" mnemonicParsing="false" text="Exit" />
                             </items>
                         </Menu>
-                        <Menu mnemonicParsing="false" text="Edit">
+                        <Menu fx:id="MenuBarEdit" mnemonicParsing="false" text="Edit">
                             <items>
-                                <MenuItem mnemonicParsing="false" text="Undo" />
-                                <MenuItem mnemonicParsing="false" text="Redo" />
-                                <MenuItem mnemonicParsing="false" text="Delete" />
-                                <MenuItem mnemonicParsing="false" text="Clear Graph" />
+                                <MenuItem fx:id="MenuItemUndo" mnemonicParsing="false" text="Undo" />
+                                <MenuItem fx:id="MenuItemRedo" mnemonicParsing="false" text="Redo" />
+                                <MenuItem fx:id="MenuItemDelete" mnemonicParsing="false" text="Delete" />
+                                <MenuItem fx:id="MenuItemClearGraph" mnemonicParsing="false" text="Clear Graph" />
                             </items>
                         </Menu>
-                        <Menu mnemonicParsing="false" text="View">
+                        <Menu fx:id="MenuBarView" mnemonicParsing="false" text="View">
                             <items>
-                                <MenuItem mnemonicParsing="false" text="Show Grid" />
-                                <MenuItem mnemonicParsing="false" text="Reset View" />
+                                <MenuItem fx:id="MenuItemShowGrid" mnemonicParsing="false" text="Show Grid" />
+                                <MenuItem fx:id="MenuItemResetView" mnemonicParsing="false" text="Reset View" />
                             </items>
                         </Menu>
-                        <Menu mnemonicParsing="false" text="Algorithm">
-                            <items>
-                                <MenuItem mnemonicParsing="false" text="Connected Components" />
-                                <MenuItem mnemonicParsing="false" text="BFS" />
-                                <MenuItem mnemonicParsing="false" text="DFS" />
-                                <MenuItem mnemonicParsing="false" text="Shortest Path" />
-                            </items>
-                        </Menu>
-                        <Menu mnemonicParsing="false" text="Help">
+                        <Menu fx:id="MenuBarHelp" mnemonicParsing="false" text="Help">
                             <items>
                                 <MenuItem mnemonicParsing="false" text="User Guide" />
                                 <MenuItem mnemonicParsing="false" text="About" />
@@ -68,149 +60,154 @@
                         </Menu>
                     </menus>
                 </MenuBar>
-                <Separator prefWidth="200.0" />
-                <ToolBar minHeight="-Infinity" minWidth="-Infinity">
+                <ToolBar fx:id="TopToolBar">
                     <items>
-                        <Button mnemonicParsing="false" text="New" />
-                        <Button mnemonicParsing="false" text="Open" />
-                        <Button mnemonicParsing="false" text="Save" />
+                        <Button fx:id="ButtonNew" mnemonicParsing="false" text="New" />
+                        <Button fx:id="ButtonOpen" mnemonicParsing="false" text="Open" />
+                        <Button fx:id="ButtonSave" mnemonicParsing="false" text="Save" />
                         <Separator orientation="VERTICAL" />
-                        <Button mnemonicParsing="false" text="Undo" />
-                        <Button mnemonicParsing="false" text="Redo" />
+                        <Button fx:id="ButtonUndo" mnemonicParsing="false" text="Undo" />
+                        <Button fx:id="ButtonRedo" mnemonicParsing="false" text="Redo" />
                         <Separator orientation="VERTICAL" />
-                        <Button mnemonicParsing="false" onAction="#deleteSelected" text="Delete" />
-                        <Button mnemonicParsing="false" text="Clear" />
-                  <Separator orientation="VERTICAL" />
+                        <Button fx:id="ButtonDelete" mnemonicParsing="false" onAction="#deleteSelected" text="Delete" />
+                        <Button fx:id="ButtonClear" mnemonicParsing="false" text="Clear" />
                     </items>
-                    <VBox.margin>
-                        <Insets />
-                    </VBox.margin>
                 </ToolBar>
             </children>
         </VBox>
     </top>
     <center>
-        <Pane id="graphPane" fx:id="graphPane" prefHeight="313.0" prefWidth="729.0" BorderPane.alignment="CENTER">
-            <NotificationView fx:id="notificationView" mouseTransparent="true" />
+        <Pane id="graphPane" fx:id="graphPane" BorderPane.alignment="CENTER">
+            <children>
+                <NotificationView fx:id="notificationView" mouseTransparent="true" />
+            </children>
         </Pane>
     </center>
     <bottom>
-        <HBox id="botContainer" fx:id="botContainer" prefHeight="48.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
+        <HBox id="botContainer" fx:id="botContainer" alignment="CENTER_LEFT" spacing="10.0" BorderPane.alignment="CENTER">
             <children>
-                <Label text="Ready">
-                    <HBox.margin>
-                        <Insets bottom="5.0" left="15.0" right="5.0" top="5.0" />
-                    </HBox.margin>
-                </Label>
-                <Region HBox.hgrow="ALWAYS">
-               <padding>
-                  <Insets top="5.0" />
-               </padding></Region>
-                <Label text="Vertices: 0">
-                    <HBox.margin>
-                        <Insets right="15.0" top="5.0" />
-                    </HBox.margin>
-                </Label>
-                <Separator orientation="VERTICAL" prefWidth="6.0" />
-                <Label text="Edges: 0">
-                    <HBox.margin>
-                        <Insets left="15.0" right="15.0" top="5.0" />
-                    </HBox.margin>
-                </Label>
-            <Separator orientation="VERTICAL">
-               <HBox.margin>
-                  <Insets right="30.0" />
-               </HBox.margin>
-            </Separator>
-            <Button mnemonicParsing="false" onAction="#handleZoomOut" prefHeight="26.0" prefWidth="26.0" text="-">
-               <HBox.margin>
-                  <Insets right="5.0" />
-               </HBox.margin>
-            </Button>
-            <Slider fx:id="zoomSlider" blockIncrement="0.1" majorTickUnit="1.5" max="2.0" min="0.5" minorTickCount="14" showTickLabels="true" snapToTicks="true" value="1.0">
-               <padding>
-                  <Insets top="7.0" />
-               </padding>
-            </Slider>
-            <Button mnemonicParsing="false" onAction="#handleZoomIn" prefHeight="26.0" prefWidth="26.0" text="+">
-               <HBox.margin>
-                  <Insets left="5.0" />
-               </HBox.margin>
-            </Button>
-            <Label fx:id="zoomSliderLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="20.0" prefWidth="50.0" text="100%" textAlignment="CENTER">
-               <HBox.margin>
-                  <Insets left="10.0" right="10.0" top="4.0" />
-               </HBox.margin>
-            </Label>
-            <Button mnemonicParsing="false" onAction="#handleResetZoom" text="Reset">
-               <HBox.margin>
-                  <Insets right="140.0" />
-               </HBox.margin>
-            </Button>
+                <Label text="Ready" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Label text="Vertices: 0" />
+                <Separator orientation="VERTICAL" />
+                <Label text="Edges: 0" />
+                <Separator orientation="VERTICAL" />
+                <HBox alignment="CENTER" spacing="6.0">
+                    <children>
+                        <Button mnemonicParsing="false" onAction="#handleZoomOut" styleClass="icon-btn" text="-" />
+                        <Slider fx:id="zoomSlider" blockIncrement="0.1" max="2.0" min="0.5" prefWidth="120.0" value="1.0" />
+                        <Button mnemonicParsing="false" onAction="#handleZoomIn" styleClass="icon-btn" text="+" />
+                        <Label fx:id="zoomSliderLabel" alignment="CENTER" prefWidth="45.0" text="100%" />
+                        <Button mnemonicParsing="false" onAction="#handleResetZoom" text="Reset" />
+                    </children>
+                </HBox>
             </children>
-         <BorderPane.margin>
-            <Insets />
-         </BorderPane.margin>
-         <padding>
-            <Insets top="10.0" />
-         </padding>
+            <padding>
+                <Insets bottom="8.0" left="15.0" right="15.0" top="8.0" />
+            </padding>
         </HBox>
     </bottom>
     <left>
-        <HBox id="leftContainer" fx:id="leftContainer" BorderPane.alignment="CENTER">
+        <VBox id="leftPanel" fx:id="leftPanel" prefWidth="280.0" spacing="12.0" BorderPane.alignment="CENTER">
             <children>
-                <VBox fx:id="leftPanel">
+                <Label fx:id="featurePaneLabel" styleClass="headingLabel" text="FEATURE" />
+
+                <HBox fx:id="GroupButtonNavigation" spacing="4.0">
                     <children>
-                        <Label fx:id="featurePaneLabel" styleClass="headingLabel" text="FEATURE">
-                            <padding>
-                                <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
-                            </padding>
-                        </Label>
-                  <HBox>
-                     <children>
-                        <ToggleButton mnemonicParsing="false" text="Algorithm">
-                           <toggleGroup>
-                              <ToggleGroup fx:id="navigationGroup" />
-                           </toggleGroup></ToggleButton>
-                        <ToggleButton mnemonicParsing="false" text="Graph" toggleGroup="$navigationGroup" />
-                        <ToggleButton mnemonicParsing="false" text="Exercise" toggleGroup="$navigationGroup" />
-                     </children>
-                  </HBox>
-                  <StackPane>
-                     <children>
-                        <VBox fx:id="algorithmPanel" prefHeight="200.0" prefWidth="100.0">
-                           <children>
-                              <VBox fx:id="algorithmSelectionSection" prefHeight="200.0" prefWidth="100.0">
-                                 <children>
-                                    <Label fx:id="sectionTitle" text="Select Algorithm" />
-                                     <ComboBox fx:id="categoryComboBox" promptText="Choose an algorithm">
-                                         <items>
-                                             <FXCollections fx:factory="observableArrayList">
-                                                 <String fx:value="Moore Dijkstra" />
-                                                 <String fx:value="BFS" />
-                                                 <String fx:value="DFS" />
-                                                 <String fx:value="Count Component" />
-                                             </FXCollections>
-                                         </items>
-                                     </ComboBox>
-                                 </children>
-                              </VBox>
-                           </children>
-                        </VBox>
-                        <VBox fx:id="graphPanel" mouseTransparent="true" prefHeight="200.0" prefWidth="100.0" />
-                        <VBox fx:id="exercisePanel" mouseTransparent="true" prefHeight="200.0" prefWidth="100.0" />
-                     </children></StackPane>
+                        <ToggleButton fx:id="AlgorithmButtonNav" maxWidth="1.17649232938E30" mnemonicParsing="false" text="Algorithm" HBox.hgrow="ALWAYS">
+                            <toggleGroup>
+                                <ToggleGroup fx:id="navigationGroup" />
+                            </toggleGroup>
+                        </ToggleButton>
+                        <ToggleButton fx:id="GraphButtonNav" maxWidth="1.17649232938E30" mnemonicParsing="false" text="Graph" toggleGroup="$navigationGroup" HBox.hgrow="ALWAYS" />
+                        <ToggleButton fx:id="ExerciseButtonNav" maxWidth="1.17649232938E30" mnemonicParsing="false" text="Exercise" toggleGroup="$navigationGroup" HBox.hgrow="ALWAYS" />
                     </children>
-                    <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                    </padding>
-                </VBox>
-                <Button fx:id="leftToggleButton" mnemonicParsing="false" onAction="#leftPanelToggleHandle" text="◀">
-                    <HBox.margin>
-                        <Insets right="5.0" top="5.0" />
-                    </HBox.margin>
-                </Button>
+                </HBox>
+
+                <Separator />
+
+                <StackPane fx:id="leftStackPane" VBox.vgrow="ALWAYS">
+                    <children>
+                        <VBox fx:id="algorithmPanel" spacing="14.0">
+                            <children>
+                                <VBox fx:id="algorithmSelectionSection" spacing="6.0">
+                                    <children>
+                                        <Label fx:id="sectionTitle" styleClass="subHeadingLabel" text="Select Algorithm" />
+                                        <ComboBox fx:id="categoryComboBox" maxWidth="1.17649232938E30" promptText="Choose an algorithm">
+                                            <items>
+                                                <FXCollections fx:factory="observableArrayList">
+                                                    <String fx:value="Moore Dijkstra" />
+                                                    <String fx:value="BFS" />
+                                                    <String fx:value="DFS" />
+                                                    <String fx:value="Count Component" />
+                                                </FXCollections>
+                                            </items>
+                                        </ComboBox>
+                                    </children>
+                                </VBox>
+
+                                <VBox fx:id="algorithmInputSection" spacing="10.0">
+                                    <children>
+                                        <Label fx:id="inputTitle" styleClass="subHeadingLabel" text="Input" />
+                                        <VBox fx:id="sourceSection" spacing="4.0">
+                                            <children>
+                                                <Label fx:id="sourceLabel" styleClass="fieldLabel" text="Source Vertex" />
+                                                <ComboBox fx:id="sourceComboBox" maxWidth="1.17649232938E30" promptText="Choose source Vertex" />
+                                            </children>
+                                        </VBox>
+                                        <VBox fx:id="targetSection" spacing="4.0">
+                                            <children>
+                                                <Label fx:id="targetLabel" styleClass="fieldLabel" text="Target Vertex" />
+                                                <ComboBox fx:id="targetComboBox" maxWidth="1.17649232938E30" promptText="Choose target Vertex" />
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </VBox>
+
+                                <VBox fx:id="algorithmOptionsSection" spacing="6.0">
+                                    <children>
+                                        <Label fx:id="optionsTitle" styleClass="subHeadingLabel" text="Animation Speed" />
+                                        <Slider fx:id="speedSlider" blockIncrement="1.0" majorTickUnit="1.0" max="2.0" min="1.0" minorTickCount="2" showTickMarks="true" snapToTicks="true" value="1.0">
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin></Slider>
+                                        <HBox>
+                                            <children>
+                                                <Label styleClass="fieldLabel" text="Slow" />
+                                                <Region HBox.hgrow="ALWAYS" />
+                                                <Label styleClass="fieldLabel" text="Fast" />
+                                            </children>
+                                 <VBox.margin>
+                                    <Insets top="-10.0" />
+                                 </VBox.margin>
+                                        </HBox>
+                                    </children>
+                                </VBox>
+
+                                <Region VBox.vgrow="ALWAYS" />
+
+                                <VBox fx:id="algorithmControlsSection" spacing="10.0">
+                                    <children>
+                                        <HBox spacing="8.0">
+                                            <children>
+                                                <Button fx:id="runButton" maxWidth="1.17649232938E30" mnemonicParsing="false" text="Run" HBox.hgrow="ALWAYS" />
+                                                <Button fx:id="resetButton" maxWidth="1.17649232938E30" mnemonicParsing="false" text="Step" HBox.hgrow="ALWAYS" />
+                                                <Button maxWidth="1.17649232938E30" mnemonicParsing="false" text="Reset" HBox.hgrow="ALWAYS" />
+                                            </children>
+                                        </HBox>
+                                        <Label fx:id="algorithmStatusLabel" styleClass="statusLabel" text="Algorithm Status: Ready" />
+                                    </children>
+                                </VBox>
+                            </children>
+                        </VBox>
+                        <VBox fx:id="graphPanel" mouseTransparent="true" visible="false" />
+                        <VBox fx:id="exercisePanel" mouseTransparent="true" visible="false" />
+                    </children>
+                </StackPane>
             </children>
-        </HBox>
+            <padding>
+                <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
+            </padding>
+        </VBox>
     </left>
 </BorderPane>

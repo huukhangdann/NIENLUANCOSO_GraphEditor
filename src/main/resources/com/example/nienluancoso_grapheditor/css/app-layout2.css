@@ -1,0 +1,266 @@
+/* --- TỔNG THỂ --- */
+.root {
+    -fx-background-color: #f0f5fa;
+    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+    -fx-font-size: 13px;
+    -fx-text-fill: #1e293b;
+}
+
+/* --- MENU BAR --- */
+.menu-bar {
+    -fx-background-color: #ffffff;
+    -fx-padding: 4px 10px;
+    -fx-border-color: transparent transparent #e0e8f0 transparent;
+}
+
+.menu-bar .menu {
+    -fx-padding: 4px 8px;
+    -fx-background-radius: 6px;
+}
+
+.menu-bar .menu:hover, .menu-bar .menu:showing {
+    -fx-background-color: #e0edff;
+    -fx-text-fill: #2563eb;
+}
+
+/* --- TOOLBAR --- */
+.tool-bar {
+    -fx-background-color: #ffffff;
+    -fx-padding: 8px 16px;
+    -fx-spacing: 8px;
+    -fx-effect: dropshadow(three-pass-box, rgba(37, 99, 235, 0.06), 8, 0, 0, 3);
+    -fx-border-color: transparent transparent #e2e8f0 transparent;
+}
+
+/* --- BUTTON CHUNG --- */
+.button {
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #1e293b;
+    -fx-border-color: #dbeafe;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 6px 14px;
+    -fx-cursor: hand;
+    -fx-font-weight: 600;
+    -fx-effect: dropshadow(three-pass-box, rgba(148, 163, 184, 0.15), 4, 0, 0, 2);
+}
+
+.button:hover {
+    -fx-background-color: #eff6ff;
+    -fx-border-color: #2563eb;
+    -fx-text-fill: #2563eb;
+    -fx-effect: dropshadow(three-pass-box, rgba(37, 99, 235, 0.25), 6, 0, 0, 3);
+}
+
+.button:pressed {
+    -fx-background-color: #dbeafe;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.05), 2, 0, 0, 1);
+}
+
+.icon-btn {
+    -fx-padding: 4px 10px;
+    -fx-min-width: 30px;
+}
+
+#runButton {
+    -fx-background-color: #2563eb;
+    -fx-text-fill: white;
+    -fx-border-color: #2563eb;
+    -fx-effect: dropshadow(three-pass-box, rgba(37, 99, 235, 0.35), 6, 0, 0, 2);
+}
+
+#runButton:hover {
+    -fx-background-color: #1d4ed8;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(three-pass-box, rgba(29, 78, 216, 0.45), 8, 0, 0, 3);
+}
+
+/* --- LEFT PANEL & LABELS --- */
+#leftPanel {
+    -fx-background-color: #f8fafc;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 12px;
+    -fx-background-radius: 12px;
+    -fx-effect: dropshadow(three-pass-box, rgba(15, 23, 42, 0.08), 12, 0, 4, 2);
+}
+
+#leftContainer {
+    -fx-padding: 10px;
+    -fx-background-color: transparent;
+}
+
+.headingLabel {
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+    -fx-text-fill: #1d4ed8;
+}
+
+.subHeadingLabel {
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+    -fx-text-fill: #3b82f6;
+}
+
+.fieldLabel {
+    -fx-font-size: 12px;
+    -fx-text-fill: #64748b;
+}
+
+.statusLabel {
+    -fx-font-weight: 600;
+    -fx-text-fill: #0284c7;
+}
+
+/* --- TOGGLE BUTTONS --- */
+.toggle-button {
+    -fx-background-color: #e0edff;
+    -fx-text-fill: #475569;
+    -fx-border-color: transparent;
+    -fx-background-radius: 8px;
+    -fx-padding: 7px 12px;
+    -fx-cursor: hand;
+    -fx-alignment: CENTER;
+}
+
+.toggle-button:hover {
+    -fx-background-color: #dbeafe;
+    -fx-text-fill: #1e293b;
+}
+
+.toggle-button:selected {
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #2563eb;
+    -fx-font-weight: bold;
+    -fx-border-color: #2563eb;
+    -fx-border-radius: 8px;
+    -fx-effect: dropshadow(three-pass-box, rgba(37, 99, 235, 0.15), 4, 0, 0, 2);
+}
+
+/* --- SLIDER --- */
+.slider .track {
+    -fx-background-color: #cbd5e1;
+    -fx-background-radius: 4px;
+}
+
+.slider .thumb {
+    -fx-background-color: #2563eb;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(three-pass-box, rgba(37, 99, 235, 0.3), 4, 0, 0, 2);
+}
+
+.slider .thumb:hover {
+    -fx-background-color: #1d4ed8;
+}
+
+/* --- GRAPH PANE & LAYOUT --- */
+#graphPane {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cbd5e1;
+    -fx-border-radius: 12px;
+    -fx-background-radius: 12px;
+    -fx-effect: dropshadow(three-pass-box, rgba(37, 99, 235, 0.08), 12, 0, 0, 2);
+}
+
+.center {
+    -fx-padding: 10px;
+}
+
+#testLayoutText {
+    -fx-font-family: "SVN-Bango", "Segoe UI", sans-serif;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #d6e2fa;
+    -fx-border-color: #c8def4;
+    -fx-border-style: dashed;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-padding: 10px 20px;
+}
+
+/* --- BOTTOM BAR --- */
+#botContainer {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #e2e8f0 transparent transparent transparent;
+    -fx-effect: dropshadow(three-pass-box, rgba(15, 23, 42, 0.05), 8, 0, 0, -2);
+}
+
+/* --- COMBOBOX & DROPDOWN POPUP --- */
+.combo-box {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cbd5e1;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 3px 6px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.03), 3, 0, 0, 1);
+}
+
+.combo-box:hover {
+    -fx-border-color: #2563eb;
+    -fx-effect: dropshadow(three-pass-box, rgba(37, 99, 235, 0.15), 4, 0, 0, 2);
+}
+
+.combo-box:focused {
+    -fx-border-color: #2563eb;
+    -fx-border-width: 1.5px;
+}
+
+.combo-box .arrow-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0 6px;
+}
+
+.combo-box .arrow {
+    -fx-background-color: #64748b;
+}
+
+.combo-box:hover .arrow {
+    -fx-background-color: #2563eb;
+}
+
+.combo-box-popup .list-view {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-padding: 4px;
+    -fx-effect: dropshadow(three-pass-box, rgba(15, 23, 42, 0.15), 12, 0, 0, 4);
+}
+
+.combo-box-popup .list-view .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #1e293b;
+    -fx-padding: 8px 12px;
+    -fx-background-radius: 6px;
+    -fx-font-weight: 500;
+}
+
+.combo-box-popup .list-view .list-cell:hover {
+    -fx-background-color: #eff6ff;
+    -fx-text-fill: #2563eb;
+    -fx-cursor: hand;
+}
+
+.combo-box-popup .list-view .list-cell:filled:selected {
+    -fx-background-color: #2563eb;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+}
+
+.combo-box-popup .list-view .list-cell:filled:selected:hover {
+    -fx-background-color: #1d4ed8;
+    -fx-text-fill: #ffffff;
+}
+
+.combo-box-popup .list-view .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-pref-width: 8px;
+}
+
+.combo-box-popup .list-view .scroll-bar:vertical .thumb {
+    -fx-background-color: #cbd5e1;
+    -fx-background-radius: 4px;
+}
+
+.combo-box-popup .list-view .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #94a3b8;
+}

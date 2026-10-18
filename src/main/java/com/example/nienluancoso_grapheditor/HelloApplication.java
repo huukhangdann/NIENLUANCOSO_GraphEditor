@@ -13,7 +13,7 @@ public class HelloApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PJ_structure.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
 
-        String layoutCss = this.getClass().getResource("/com/example/nienluancoso_grapheditor/css/app-layout.css").toExternalForm();
+        String layoutCss = this.getClass().getResource("/com/example/nienluancoso_grapheditor/css/app-layout2.css").toExternalForm();
         String graphCSS = this.getClass().getResource("/com/example/nienluancoso_grapheditor/css/graph.css").toExternalForm();
         scene.getStylesheets().addAll(layoutCss, graphCSS);
 

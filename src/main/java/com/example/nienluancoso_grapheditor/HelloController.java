@@ -429,6 +429,7 @@ public class HelloController {
     }
 
     public void deleteSelected() {
+        if(interactionBlocker.isBlocking()) return;
         if (firstVertexClicked != null) {
             deleteSelectedVertex();
         } else if (selectedEdgeView != null) {
