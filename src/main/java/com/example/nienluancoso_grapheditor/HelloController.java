@@ -59,6 +59,14 @@ public class HelloController {
     private ComboBox<Vertex> sourceComboBox;
     @FXML
     private ComboBox<Vertex> targetComboBox;
+    @FXML
+    private Button runButton;
+    @FXML
+    private Button stepButton;
+    @FXML
+    private Button resetButton;
+    @FXML
+    private Label algorithmStatusLabel;
 
     // Zoom Canvas
     private final Group graphContent = new Group();
@@ -93,6 +101,7 @@ public class HelloController {
         // SetUp for UI/UX
         setupLeftNavigation();
         setupAlgorithmSelection();
+        updateAlgorithmControls();
 
         setUpGraphCanvas();
         setUpInteractionBlocker();
@@ -101,6 +110,37 @@ public class HelloController {
         setUpZoomSlider();
         setUpScrollZoom();
         setUpPan();
+    }
+
+    private void updateAlgorithmControls() {
+        String algorithm = algorithmComboBox.getValue();
+        boolean hasVertices = !graph.getVertexList().isEmpty();
+        boolean hasAlgorithm = algorithm != null;
+        boolean needsSource = hasAlgorithm
+                && !algorithm.equals("Count Component");
+        boolean needsTarget = "Moore Dijkstra".equals(algorithm);
+        boolean validSource = !needsSource
+                || sourceComboBox.getValue() != null;
+        boolean validTarget = !needsTarget
+                || targetComboBox.getValue() != null;
+        boolean canRun = hasVertices
+                && hasAlgorithm
+                && validSource
+                && validTarget;
+        runButton.setDisable(!canRun);
+        stepButton.setDisable(!canRun);
+
+        // Chưa có kết quả thuật toán để reset ở giai đoạn này.
+        resetButton.setDisable(true);
+        if (!hasAlgorithm) {
+            algorithmStatusLabel.setText("Algorithm Status: Choose an algorithm");
+        } else if (!hasVertices) {
+            algorithmStatusLabel.setText("Algorithm Status: No vertices available");
+        } else if (!validSource || !validTarget) {
+            algorithmStatusLabel.setText("Algorithm Status: Select required vertices");
+        } else {
+            algorithmStatusLabel.setText("Algorithm Status: Ready");
+        }
     }
 
     private void setupAlgorithmSelection() {
@@ -121,10 +161,22 @@ public class HelloController {
         targetComboBox.setConverter(vertexConverter);
         algorithmComboBox.valueProperty().addListener(
                 (observable, oldValue, newValue) -> {
-                    updateAlgorithmInputs();
                     sourceComboBox.setValue(null);
                     targetComboBox.setValue(null);
+
+                    updateAlgorithmInputs();
+                    updateAlgorithmControls();
                 }
+        );
+
+        sourceComboBox.valueProperty().addListener(
+                (observable, oldValue, newValue) ->
+                        updateAlgorithmControls()
+        );
+
+        targetComboBox.valueProperty().addListener(
+                (observable, oldValue, newValue) ->
+                        updateAlgorithmControls()
         );
 
         updateAlgorithmInputs();
