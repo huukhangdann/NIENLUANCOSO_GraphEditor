@@ -23,7 +23,7 @@
 
 <?import com.example.nienluancoso_grapheditor.view.NotificationView?>
 
-<BorderPane fx:id="root" prefHeight="700.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.nienluancoso_grapheditor.HelloController">
+<BorderPane fx:id="root" prefHeight="700.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.nienluancoso_grapheditor.HelloController">
     <top>
         <VBox id="topContainer" fx:id="topContainer" BorderPane.alignment="CENTER">
             <children>
@@ -114,13 +114,13 @@
 
                 <HBox fx:id="GroupButtonNavigation" spacing="4.0">
                     <children>
-                        <ToggleButton fx:id="AlgorithmButtonNav" maxWidth="1.17649232938E30" mnemonicParsing="false" text="Algorithm" HBox.hgrow="ALWAYS">
+                        <ToggleButton fx:id="algorithmButtonNav" maxWidth="1.17649232938E30" mnemonicParsing="false" text="Algorithm" HBox.hgrow="ALWAYS">
                             <toggleGroup>
                                 <ToggleGroup fx:id="navigationGroup" />
                             </toggleGroup>
                         </ToggleButton>
-                        <ToggleButton fx:id="GraphButtonNav" maxWidth="1.17649232938E30" mnemonicParsing="false" text="Graph" toggleGroup="$navigationGroup" HBox.hgrow="ALWAYS" />
-                        <ToggleButton fx:id="ExerciseButtonNav" maxWidth="1.17649232938E30" mnemonicParsing="false" text="Exercise" toggleGroup="$navigationGroup" HBox.hgrow="ALWAYS" />
+                        <ToggleButton fx:id="graphButtonNav" maxWidth="1.17649232938E30" mnemonicParsing="false" text="Graph" toggleGroup="$navigationGroup" HBox.hgrow="ALWAYS" />
+                        <ToggleButton fx:id="exerciseButtonNav" maxWidth="1.17649232938E30" mnemonicParsing="false" text="Exercise" toggleGroup="$navigationGroup" HBox.hgrow="ALWAYS" />
                     </children>
                 </HBox>
 
@@ -133,7 +133,7 @@
                                 <VBox fx:id="algorithmSelectionSection" spacing="6.0">
                                     <children>
                                         <Label fx:id="sectionTitle" styleClass="subHeadingLabel" text="Select Algorithm" />
-                                        <ComboBox fx:id="categoryComboBox" maxWidth="1.17649232938E30" promptText="Choose an algorithm">
+                                        <ComboBox fx:id="algorithmCombobox" maxWidth="1.17649232938E30" promptText="Choose an algorithm">
                                             <items>
                                                 <FXCollections fx:factory="observableArrayList">
                                                     <String fx:value="Moore Dijkstra" />
@@ -191,8 +191,8 @@
                                         <HBox spacing="8.0">
                                             <children>
                                                 <Button fx:id="runButton" maxWidth="1.17649232938E30" mnemonicParsing="false" text="Run" HBox.hgrow="ALWAYS" />
-                                                <Button fx:id="resetButton" maxWidth="1.17649232938E30" mnemonicParsing="false" text="Step" HBox.hgrow="ALWAYS" />
-                                                <Button maxWidth="1.17649232938E30" mnemonicParsing="false" text="Reset" HBox.hgrow="ALWAYS" />
+                                                <Button fx:id="stepButton" maxWidth="1.17649232938E30" mnemonicParsing="false" text="Step" HBox.hgrow="ALWAYS" />
+                                                <Button fx:id="resetButton" maxWidth="1.17649232938E30" mnemonicParsing="false" text="Reset" HBox.hgrow="ALWAYS" />
                                             </children>
                                         </HBox>
                                         <Label fx:id="algorithmStatusLabel" styleClass="statusLabel" text="Algorithm Status: Ready" />

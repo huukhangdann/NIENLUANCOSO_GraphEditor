@@ -8,9 +8,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
+import javafx.scene.control.*;
 import javafx.scene.input.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -45,6 +43,20 @@ public class HelloController {
     private Slider zoomSlider;
     @FXML
     private Label zoomSliderLabel;
+    @FXML
+    private ToggleGroup navigationGroup;
+    @FXML
+    private ToggleButton algorithmButtonNav;
+    @FXML
+    private ToggleButton graphButtonNav;
+    @FXML
+    private ToggleButton exerciseButtonNav;
+    @FXML
+    private VBox algorithmPanel;
+    @FXML
+    private VBox graphPanel;
+    @FXML
+    private VBox exercisePanel;
 
     // Zoom Canvas
     private final Group graphContent = new Group();
@@ -83,6 +95,7 @@ public class HelloController {
         graphPane.getChildren().addFirst(graphContent);
         graphContent.getTransforms().add(zoomTransform);
 
+        setupLeftNavigation();
         setUpGraphCanvas();
         setUpInteractionBlocker();
         setUpNotificationView();
@@ -90,6 +103,42 @@ public class HelloController {
         setUpZoomSlider();
         setUpScrollZoom();
         setUpPan();
+    }
+
+    private void setupLeftNavigation() {
+        navigationGroup.selectedToggleProperty().addListener(
+                (observable, oldToggle, newToggle) -> {
+                    if (newToggle == null) {
+                        navigationGroup.selectToggle(
+                                oldToggle != null ? oldToggle : algorithmButtonNav
+                        );
+                        return;
+                    }
+                    switchLeftPanel(newToggle);
+                }
+        );
+        
+        navigationGroup.selectToggle(algorithmButtonNav);
+    }
+
+    private void switchLeftPanel(Toggle selectedToggle) {
+        setPanelVisible(
+                algorithmPanel,
+                selectedToggle == algorithmButtonNav
+        );
+        setPanelVisible(
+                graphPanel,
+                selectedToggle == graphButtonNav
+        );
+        setPanelVisible(
+                exercisePanel,
+                selectedToggle == exerciseButtonNav
+        );
+    }
+
+    private void setPanelVisible(VBox panel, boolean visible) {
+        panel.setVisible(visible);
+        panel.setManaged(visible);
     }
 
     private void setUpPan() {
