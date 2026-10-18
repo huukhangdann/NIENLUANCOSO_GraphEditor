@@ -133,7 +133,7 @@
                                 <VBox fx:id="algorithmSelectionSection" spacing="6.0">
                                     <children>
                                         <Label fx:id="sectionTitle" styleClass="subHeadingLabel" text="Select Algorithm" />
-                                        <ComboBox fx:id="algorithmCombobox" maxWidth="1.17649232938E30" promptText="Choose an algorithm">
+                                        <ComboBox fx:id="algorithmComboBox" maxWidth="1.17649232938E30" promptText="Choose an algorithm">
                                             <items>
                                                 <FXCollections fx:factory="observableArrayList">
                                                     <String fx:value="Moore Dijkstra" />

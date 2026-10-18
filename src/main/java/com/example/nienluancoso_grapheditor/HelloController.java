@@ -4,6 +4,7 @@ import com.example.nienluancoso_grapheditor.model.Edge;
 import com.example.nienluancoso_grapheditor.model.Graph;
 import com.example.nienluancoso_grapheditor.model.Vertex;
 import com.example.nienluancoso_grapheditor.view.*;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
@@ -17,6 +18,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Affine;
+import javafx.util.StringConverter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,17 +30,11 @@ public class HelloController {
     @FXML
     public BorderPane root;
     @FXML
-    private HBox leftContainer;
-    @FXML
     private VBox topContainer;
     @FXML
     private HBox botContainer;
     @FXML
     private Pane graphPane;
-    @FXML
-    private Button leftToggleButton;
-    @FXML
-    private VBox leftPanel;
     @FXML
     private Slider zoomSlider;
     @FXML
@@ -57,6 +53,12 @@ public class HelloController {
     private VBox graphPanel;
     @FXML
     private VBox exercisePanel;
+    @FXML
+    private ComboBox<String> algorithmComboBox;
+    @FXML
+    private ComboBox<Vertex> sourceComboBox;
+    @FXML
+    private ComboBox<Vertex> targetComboBox;
 
     // Zoom Canvas
     private final Group graphContent = new Group();
@@ -81,13 +83,6 @@ public class HelloController {
     private final Map<Edge, WeightView> edgeWeightViewMap = new HashMap<>();
     private final InteractionBlocker interactionBlocker = new InteractionBlocker();
 
-    @FXML
-    public void leftPanelToggleHandle() {
-        boolean visible = leftPanel.isVisible();
-        leftPanel.setVisible(!visible);
-        leftPanel.setManaged(!visible);
-        leftToggleButton.setText(visible ? "▶" : "◀");
-    }
 
     @FXML
     private void initialize() {
@@ -95,7 +90,10 @@ public class HelloController {
         graphPane.getChildren().addFirst(graphContent);
         graphContent.getTransforms().add(zoomTransform);
 
+        // SetUp for UI/UX
         setupLeftNavigation();
+        setupAlgorithmSelection();
+
         setUpGraphCanvas();
         setUpInteractionBlocker();
         setUpNotificationView();
@@ -103,6 +101,62 @@ public class HelloController {
         setUpZoomSlider();
         setUpScrollZoom();
         setUpPan();
+    }
+
+    private void setupAlgorithmSelection() {
+        sourceComboBox.setItems(FXCollections.observableArrayList());
+        targetComboBox.setItems(FXCollections.observableArrayList());
+        StringConverter<Vertex> vertexConverter = new StringConverter<>() {
+            @Override
+            public String toString(Vertex vertex) {
+                return vertex == null ? "" : vertex.getLabel();
+            }
+
+            @Override
+            public Vertex fromString(String label) {
+                return null;
+            }
+        };
+        sourceComboBox.setConverter(vertexConverter);
+        targetComboBox.setConverter(vertexConverter);
+        algorithmComboBox.valueProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    updateAlgorithmInputs();
+                    sourceComboBox.setValue(null);
+                    targetComboBox.setValue(null);
+                }
+        );
+
+        updateAlgorithmInputs();
+        refreshVertexChoices();
+    }
+
+    private void refreshVertexChoices() {
+        Vertex selectedSource = sourceComboBox.getValue();
+        Vertex selectedTarget = targetComboBox.getValue();
+        sourceComboBox.getItems().setAll(graph.getVertexList());
+        targetComboBox.getItems().setAll(graph.getVertexList());
+        if (graph.getVertexList().contains(selectedSource)) {
+            sourceComboBox.setValue(selectedSource);
+        } else {
+            sourceComboBox.setValue(null);
+        }
+        if (graph.getVertexList().contains(selectedTarget)) {
+            targetComboBox.setValue(selectedTarget);
+        } else {
+            targetComboBox.setValue(null);
+        }
+    }
+
+    private void updateAlgorithmInputs() {
+        refreshVertexChoices();
+        String algorithm = algorithmComboBox.getValue();
+        boolean hasAlgorithm = algorithm != null;
+        boolean needsSource = hasAlgorithm
+                && !algorithm.equals("Count Component");
+        boolean needsTarget = "Moore Dijkstra".equals(algorithm);
+        sourceComboBox.setDisable(!needsSource);
+        targetComboBox.setDisable(!needsTarget);
     }
 
     private void setupLeftNavigation() {
@@ -335,6 +389,7 @@ public class HelloController {
                     VertexView vertexView = new VertexView(vertex);
                     vertexVertexViewMap.put(vertex, vertexView);
                     setVertexViewCallback(vertexView);
+                    refreshVertexChoices();
 
                     // set callback when vertexView clicked
                     vertexView.setOnClicked(vertexClicked -> {
@@ -440,6 +495,8 @@ public class HelloController {
             interactionBlocker.toBack();
             interactionBlocker.block(false);
             interactionBlocker.setVisible(false);
+
+            refreshVertexChoices();
         });
         vertexView.setOnNotification(this::showNotification);
         interactionBlocker.setOnClickedBlocker(this::showNotification);
@@ -506,6 +563,7 @@ public class HelloController {
             }
         }
         graph.removeVertex(firstVertexClicked.getVertex());
+        refreshVertexChoices();
         vertexVertexViewMap.remove(firstVertexClicked.getVertex());
         graphContent.getChildren().remove(firstVertexClicked);
         firstVertexClicked.onSelect(false);
