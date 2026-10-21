@@ -144,6 +144,8 @@ public class HelloController {
     }
 
     private void setupAlgorithmSelection() {
+        sourceComboBox.setPromptText("Choose source Vertex");
+        targetComboBox.setPromptText("Choose target Vertex");
         sourceComboBox.setItems(FXCollections.observableArrayList());
         targetComboBox.setItems(FXCollections.observableArrayList());
         StringConverter<Vertex> vertexConverter = new StringConverter<>() {
@@ -441,7 +443,10 @@ public class HelloController {
                     VertexView vertexView = new VertexView(vertex);
                     vertexVertexViewMap.put(vertex, vertexView);
                     setVertexViewCallback(vertexView);
+                    // Làm mới lựa chọn trong comboBox UI
                     refreshVertexChoices();
+                    // Kiểm tra lại điều kiện run
+                    updateAlgorithmControls();
 
                     // set callback when vertexView clicked
                     vertexView.setOnClicked(vertexClicked -> {
@@ -615,7 +620,10 @@ public class HelloController {
             }
         }
         graph.removeVertex(firstVertexClicked.getVertex());
+        // Làm mới lựa chọn trong comboBox UI
         refreshVertexChoices();
+        // Tính lại điều kiện Run
+        updateAlgorithmControls();
         vertexVertexViewMap.remove(firstVertexClicked.getVertex());
         graphContent.getChildren().remove(firstVertexClicked);
         firstVertexClicked.onSelect(false);
