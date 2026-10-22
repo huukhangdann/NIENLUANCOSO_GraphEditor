@@ -151,7 +151,7 @@ public class HelloController {
         StringConverter<Vertex> vertexConverter = new StringConverter<>() {
             @Override
             public String toString(Vertex vertex) {
-                return vertex == null ? "" : vertex.getLabel();
+                return vertex == null ? null : vertex.getLabel();
             }
 
             @Override
@@ -343,7 +343,9 @@ public class HelloController {
                 observable, oldValue, newValue) -> {
             double zoom = newValue.doubleValue();
 
-            if(interactionBlocker.isBlocking()) return;
+            if(interactionBlocker.isBlocking()) {
+                return;
+            }
 
             Point2D anchor = pendingZoomAnchor;
             pendingZoomAnchor = null;
@@ -387,6 +389,8 @@ public class HelloController {
         interactionBlocker.prefWidthProperty().bind(graphPane.widthProperty());
         graphPane.getChildren().add(interactionBlocker);
         interactionBlocker.block(false);
+        zoomSlider.disableProperty()
+                .bind(interactionBlocker.blockingProperty());
     }
 
     public void setUpGraphCanvas() {
@@ -447,27 +451,6 @@ public class HelloController {
                     refreshVertexChoices();
                     // Kiểm tra lại điều kiện run
                     updateAlgorithmControls();
-
-                    // set callback when vertexView clicked
-                    vertexView.setOnClicked(vertexClicked -> {
-                        // first Vertex clicked
-                        if (firstVertexClicked == null) {
-                            firstVertexClicked = vertexClicked;
-                            if (selectedEdgeView != null) {
-                                selectedEdgeView.onSelect(false);
-                                selectedEdgeView = null;
-                            }
-                            // Create preview line
-                            createPreviewLine();
-                        }
-                        // second Vertex clicked
-                        else {
-                            createEdge(firstVertexClicked.getVertex(), vertexClicked.getVertex());
-                            removePreviewLine();
-                            vertexClicked.onSelect(false);
-                            firstVertexClicked = null;
-                        }
-                    });
 
                     // VertexView clicked
                     vertexView.handleVertexClicked();
@@ -542,11 +525,33 @@ public class HelloController {
     }
 
     private void setVertexViewCallback(VertexView vertexView) {
+        // set callback when vertexView clicked
+        vertexView.setOnClicked(vertexClicked -> {
+            // first Vertex clicked
+            if (firstVertexClicked == null) {
+                firstVertexClicked = vertexClicked;
+                if (selectedEdgeView != null) {
+                    selectedEdgeView.onSelect(false);
+                    selectedEdgeView = null;
+                }
+                // Create preview line
+                createPreviewLine();
+            }
+            // second Vertex clicked
+            else {
+                createEdge(firstVertexClicked.getVertex(), vertexClicked.getVertex());
+                removePreviewLine();
+                vertexClicked.onSelect(false);
+                firstVertexClicked = null;
+            }
+        });
         vertexView.setOnEditingLabel(() -> {
             interactionBlocker.setVisible(true);
             interactionBlocker.toFront();
             interactionBlocker.block(true);
             vertexView.toFront();
+            // test algorithm
+            System.out.println(graph.DFS(graph.getVertexList().getFirst()));
         });
         vertexView.setOnLabelEntered(() -> {
             interactionBlocker.toBack();
@@ -624,6 +629,10 @@ public class HelloController {
         refreshVertexChoices();
         // Tính lại điều kiện Run
         updateAlgorithmControls();
+
+        System.out.println("Source value: " + sourceComboBox.getValue());
+        System.out.println("Source prompt: " + sourceComboBox.getPromptText());
+        System.out.println("Source items: " + sourceComboBox.getItems());
         vertexVertexViewMap.remove(firstVertexClicked.getVertex());
         graphContent.getChildren().remove(firstVertexClicked);
         firstVertexClicked.onSelect(false);
@@ -678,6 +687,5 @@ public class HelloController {
         zoomTransform.setTx(0);
         zoomTransform.setTy(0);
     }
-
 }
 

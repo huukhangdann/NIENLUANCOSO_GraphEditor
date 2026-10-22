@@ -1,9 +1,6 @@
 package com.example.nienluancoso_grapheditor.model;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class Graph {
     private List<Vertex> vertexList;
@@ -118,6 +115,7 @@ public class Graph {
     }
 
     // Algorithms methods
+
     public int degree(Vertex u){
         int degree = 0;
         for(Edge e : edgeList){
@@ -135,6 +133,33 @@ public class Graph {
             }
         }
         return false;
+    }
+
+    public List<Vertex> DFS(Vertex start){
+        Set<Vertex> visitedVertex = new HashSet<>();
+        List<Vertex> resultList = new ArrayList<>();
+        Stack<Vertex> S = new Stack<>();
+        S.push(start);
+        resultList.add(start);
+        visitedVertex.add(start);
+        while(!S.isEmpty()){
+            Vertex u = S.pop();
+            if(visitedVertex.contains(u)) continue;
+            visitedVertex.add(u);
+            resultList.add(u);
+
+            vertexList.sort((o1, o2) -> o1.getLabel().compareTo(o2.getLabel()));
+            for(Vertex v : vertexList){
+                if(isAdjacent(u, v) && !visitedVertex.contains(v)){
+                    S.add(v);
+                }
+            }
+        }
+        return resultList;
+    }
+
+    public List<List<Vertex>> findConnectedComponent(){
+        return null;
     }
 
 }

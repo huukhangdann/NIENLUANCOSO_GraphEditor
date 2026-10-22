@@ -1,17 +1,21 @@
 package com.example.nienluancoso_grapheditor.view;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.layout.Pane;
 
 import java.util.function.Consumer;
 
 public class InteractionBlocker extends Pane {
-    boolean isBlocking = false;
+    private final BooleanProperty blocking =
+            new SimpleBooleanProperty(false);
+
     private Consumer<String> onClickedBlocker;
 
     public InteractionBlocker(){
         this.getStyleClass().add("interaction-blocker");
         this.setOnMouseClicked(event -> {
-            if(isBlocking){
+            if(blocking.getValue()){
                 onClickedBlocker.accept("Please enter the text field first!");
                 event.consume();
             }
@@ -19,16 +23,19 @@ public class InteractionBlocker extends Pane {
     }
 
     public boolean isBlocking() {
-        return isBlocking;
+        return blocking.get();
     }
 
     public void block(boolean value){
         this.setVisible(value);
-        isBlocking = value;
+         blocking.set(value);
     }
 
     public void setOnClickedBlocker(Consumer<String> callback){
         this.onClickedBlocker = callback;
+    }
+    public BooleanProperty blockingProperty() {
+        return blocking;
     }
 
 }
