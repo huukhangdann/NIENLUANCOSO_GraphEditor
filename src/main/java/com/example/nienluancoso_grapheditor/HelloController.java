@@ -630,15 +630,21 @@ public class HelloController {
         // Tính lại điều kiện Run
         updateAlgorithmControls();
 
-        System.out.println("Source value: " + sourceComboBox.getValue());
-        System.out.println("Source prompt: " + sourceComboBox.getPromptText());
-        System.out.println("Source items: " + sourceComboBox.getItems());
         vertexVertexViewMap.remove(firstVertexClicked.getVertex());
         graphContent.getChildren().remove(firstVertexClicked);
         firstVertexClicked.onSelect(false);
         firstVertexClicked = null;
         if (previewLine != null)
             removePreviewLine();
+    }
+
+    public void deleteAll(){
+        graphContent.getChildren().clear();
+        graph.makeNull();
+        // Làm mới lựa chọn trong comboBox UI
+        refreshVertexChoices();
+        // Tính lại điều kiện Run
+        updateAlgorithmControls();
     }
 
     // Zoom Methods

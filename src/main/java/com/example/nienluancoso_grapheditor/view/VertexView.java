@@ -206,8 +206,8 @@ public class VertexView extends StackPane {
     @Override
     public String toString() {
         return "VertexView{" +
-                "vertex=" + vertex +
-                '}';
+                vertex +
+                "}";
     }
 
     public static void setOnBlockDragging(boolean value) {

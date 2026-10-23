@@ -50,11 +50,7 @@ public class Vertex {
 
     @Override
     public String toString() {
-        return "Vertex{" +
-                "id=" + id +
-                ", x=" + x +
-                ", y=" + y +
-                '}';
+        return getLabel();
     }
 
     public void updateCoordinate(double x, double y){

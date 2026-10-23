@@ -37,6 +37,13 @@ public class Graph {
         System.out.println("Vertex added!");
     }
 
+    public void makeNull(){
+        this.vertexList = new ArrayList<>();
+        this.edgeList = new ArrayList<>();
+        int nextVertexID = 1;
+        usedLabels.clear();
+    }
+
     public int getSize() {
         return vertexList.size();
     }
@@ -140,15 +147,13 @@ public class Graph {
         List<Vertex> resultList = new ArrayList<>();
         Stack<Vertex> S = new Stack<>();
         S.push(start);
-        resultList.add(start);
-        visitedVertex.add(start);
+        vertexList.sort((o2, o1) -> o1.getLabel().compareTo(o2.getLabel()));
+        System.out.println(" after sort: " + vertexList);
         while(!S.isEmpty()){
             Vertex u = S.pop();
             if(visitedVertex.contains(u)) continue;
             visitedVertex.add(u);
             resultList.add(u);
-
-            vertexList.sort((o1, o2) -> o1.getLabel().compareTo(o2.getLabel()));
             for(Vertex v : vertexList){
                 if(isAdjacent(u, v) && !visitedVertex.contains(v)){
                     S.add(v);

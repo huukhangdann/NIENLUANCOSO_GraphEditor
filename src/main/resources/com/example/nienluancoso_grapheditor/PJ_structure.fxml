@@ -70,7 +70,7 @@
                         <Button fx:id="ButtonRedo" mnemonicParsing="false" text="Redo" />
                         <Separator orientation="VERTICAL" />
                         <Button fx:id="ButtonDelete" mnemonicParsing="false" onAction="#deleteSelected" text="Delete" />
-                        <Button fx:id="ButtonClear" mnemonicParsing="false" text="Clear" />
+                        <Button fx:id="ButtonClear" mnemonicParsing="false" text="Clear" onAction="#deleteAll"/>
                     </items>
                 </ToolBar>
             </children>
