@@ -190,7 +190,7 @@
                                     <children>
                                         <HBox spacing="8.0">
                                             <children>
-                                                <Button fx:id="runButton" maxWidth="1.17649232938E30" mnemonicParsing="false" text="Run" HBox.hgrow="ALWAYS" />
+                                                <Button fx:id="runButton" maxWidth="1.17649232938E30" mnemonicParsing="false" text="Run" HBox.hgrow="ALWAYS" onAction="#handleRunButton"/>
                                                 <Button fx:id="stepButton" maxWidth="1.17649232938E30" mnemonicParsing="false" text="Step" HBox.hgrow="ALWAYS" />
                                                 <Button fx:id="resetButton" maxWidth="1.17649232938E30" mnemonicParsing="false" text="Reset" HBox.hgrow="ALWAYS" />
                                             </children>

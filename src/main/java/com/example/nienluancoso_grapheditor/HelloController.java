@@ -550,9 +550,7 @@ public class HelloController {
             interactionBlocker.toFront();
             interactionBlocker.block(true);
             vertexView.toFront();
-            // test algorithm
-            System.out.println("COMPONENT COUNT: " + graph.findConnectedComponent().size());
-            System.out.println("COMPONENT " + graph.findConnectedComponent());
+
         });
         vertexView.setOnLabelEntered(() -> {
             interactionBlocker.toBack();
@@ -693,6 +691,14 @@ public class HelloController {
         zoomSlider.setValue(1);
         zoomTransform.setTx(0);
         zoomTransform.setTy(0);
+    }
+
+    public void handleRunButton(){
+        if ("Count Component".equals(algorithmComboBox.getValue())) {
+            // test algorithm
+            System.out.println("COMPONENT COUNT: " + graph.findConnectedComponent().size());
+            System.out.println("COMPONENT " + graph.findConnectedComponent());
+        }
     }
 }
 
