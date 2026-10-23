@@ -409,7 +409,7 @@ public class HelloController {
 
     private void onTestTextCanvas(boolean value) {
         if (value) {
-            label.setText("Create your first vertex here!");
+            label.setText("Create your first vertex here!".toUpperCase());
             label.setId("testLayoutText");
             label.layoutXProperty().bind(graphPane.widthProperty().subtract(label.widthProperty()).divide(2));
             label.layoutYProperty().bind(graphPane.heightProperty().subtract(label.heightProperty()).divide(2));
@@ -551,7 +551,8 @@ public class HelloController {
             interactionBlocker.block(true);
             vertexView.toFront();
             // test algorithm
-            System.out.println(graph.DFS(graph.getVertexList().getFirst()));
+            System.out.println("COMPONENT COUNT: " + graph.findConnectedComponent().size());
+            System.out.println("COMPONENT " + graph.findConnectedComponent());
         });
         vertexView.setOnLabelEntered(() -> {
             interactionBlocker.toBack();

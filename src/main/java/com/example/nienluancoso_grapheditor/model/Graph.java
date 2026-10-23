@@ -147,14 +147,15 @@ public class Graph {
         List<Vertex> resultList = new ArrayList<>();
         Stack<Vertex> S = new Stack<>();
         S.push(start);
-        vertexList.sort((o2, o1) -> o1.getLabel().compareTo(o2.getLabel()));
-        System.out.println(" after sort: " + vertexList);
+        List<Vertex> sortedVertices = new ArrayList<>(vertexList);
+        sortedVertices.sort((v1, v2) ->
+                v2.getLabel().compareTo(v1.getLabel()));
         while(!S.isEmpty()){
             Vertex u = S.pop();
             if(visitedVertex.contains(u)) continue;
             visitedVertex.add(u);
             resultList.add(u);
-            for(Vertex v : vertexList){
+            for(Vertex v : sortedVertices){
                 if(isAdjacent(u, v) && !visitedVertex.contains(v)){
                     S.add(v);
                 }
@@ -164,7 +165,15 @@ public class Graph {
     }
 
     public List<List<Vertex>> findConnectedComponent(){
-        return null;
+        Set<Vertex> visitedVertex = new HashSet<>();
+        List<List<Vertex>> resultList = new ArrayList<>();
+        for(Vertex u : vertexList){
+            if(visitedVertex.contains(u)) continue;
+            List<Vertex> thisComponent = DFS(u);
+            visitedVertex.addAll(thisComponent);
+            resultList.add(thisComponent);
+        }
+        return resultList;
     }
 
 }
