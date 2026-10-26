@@ -15,12 +15,14 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Affine;
 import javafx.util.StringConverter;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -693,11 +695,18 @@ public class HelloController {
         zoomTransform.setTy(0);
     }
 
-    public void handleRunButton(){
+    public void handleRunButton() {
         if ("Count Component".equals(algorithmComboBox.getValue())) {
-            // test algorithm
-            System.out.println("COMPONENT COUNT: " + graph.findConnectedComponent().size());
-            System.out.println("COMPONENT " + graph.findConnectedComponent());
+            List<List<Vertex>> components = graph.findConnectedComponent();
+
+            System.out.println("COMPONENT COUNT: " + components.size());
+            System.out.println("COMPONENT: " + components);
+
+            for(List<Vertex> L : components){
+                for(Vertex u : L){
+                    vertexVertexViewMap.get(u).changeColorCircle(Color.hsb((components.indexOf(L) * 137.5)%360, 0.15, 0.98 ));
+                }
+            }
         }
     }
 }

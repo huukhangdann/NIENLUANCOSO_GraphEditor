@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 
 import java.util.function.Consumer;
@@ -225,5 +226,10 @@ public class VertexView extends StackPane {
     public void setOnNotification(Consumer<String> callback) {
         this.OnNotification = callback;
     }
+
+    public void changeColorCircle(Paint color){
+        this.circle.setFill(color);
+    }
+
 }
 
