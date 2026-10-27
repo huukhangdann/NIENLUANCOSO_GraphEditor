@@ -445,6 +445,9 @@ public class HelloController {
                     double x = eventPoint.getX();
                     double y = eventPoint.getY();
                     Vertex vertex = new Vertex(x, y);
+                    // Xóa giao diện thuật toán cũ
+                    clearAlgorithmColors();
+
                     graph.addVertex(vertex);
                     VertexView vertexView = new VertexView(vertex);
                     vertexVertexViewMap.put(vertex, vertexView);
@@ -493,6 +496,10 @@ public class HelloController {
 
     public void createEdge(Vertex u, Vertex v) {
         Edge edge = new Edge(u, v);
+
+        // Xóa giao diện thuật toán cũ
+        clearAlgorithmColors();
+
         if (graph.addEdge(edge)) {
             // Init and connect model-view
             EdgeView edgeView = new EdgeView(vertexVertexViewMap.get(u), vertexVertexViewMap.get(v), edge);
@@ -614,6 +621,8 @@ public class HelloController {
         edgeWeightViewMap.remove(selectedEdgeView.getEdge());
         edgeEdgeViewMap.remove(selectedEdgeView.getEdge());
         selectedEdgeView = null;
+        // Xóa giao diện thuật toán cũ
+        clearAlgorithmColors();
     }
 
     private void deleteSelectedVertex() {
@@ -623,6 +632,8 @@ public class HelloController {
                 edgeEdgeViewMap.remove(e);
                 graphContent.getChildren().remove(edgeWeightViewMap.get(e));
                 edgeWeightViewMap.remove(e);
+                // Xóa giao diện thuật toán cũ
+                clearAlgorithmColors();
             }
         }
         graph.removeVertex(firstVertexClicked.getVertex());
@@ -707,6 +718,12 @@ public class HelloController {
                     vertexVertexViewMap.get(u).changeColorCircle(Color.hsb((components.indexOf(L) * 137.5)%360, 0.15, 0.98 ));
                 }
             }
+        }
+    }
+
+    private void clearAlgorithmColors() {
+        for (VertexView view : vertexVertexViewMap.values()) {
+            view.changeColorCircle(Color.WHITE);
         }
     }
 }

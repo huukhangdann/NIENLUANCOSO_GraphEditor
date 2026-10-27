@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 
@@ -40,6 +41,7 @@ public class VertexView extends StackPane {
 
     public VertexView(Vertex vertex) {
         this.circle = new Circle(RADIUS);
+        circle.setFill(Color.WHITE);
         this.label = new Label(vertex.getLabel());
         this.labelTextField = new TextField();
         labelTextField.setVisible(false);
