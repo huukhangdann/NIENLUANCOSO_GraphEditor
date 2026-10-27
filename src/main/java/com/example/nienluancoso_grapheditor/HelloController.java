@@ -626,14 +626,13 @@ public class HelloController {
     }
 
     private void deleteSelectedVertex() {
+
         for (Edge e : graph.getEdgeList()) {
             if (e.containsVertex(firstVertexClicked.getVertex())) {
                 graphContent.getChildren().remove(edgeEdgeViewMap.get(e));
                 edgeEdgeViewMap.remove(e);
                 graphContent.getChildren().remove(edgeWeightViewMap.get(e));
                 edgeWeightViewMap.remove(e);
-                // Xóa giao diện thuật toán cũ
-                clearAlgorithmColors();
             }
         }
         graph.removeVertex(firstVertexClicked.getVertex());
@@ -641,6 +640,8 @@ public class HelloController {
         refreshVertexChoices();
         // Tính lại điều kiện Run
         updateAlgorithmControls();
+        // Xóa giao diện thuật toán cũ
+        clearAlgorithmColors();
 
         vertexVertexViewMap.remove(firstVertexClicked.getVertex());
         graphContent.getChildren().remove(firstVertexClicked);
@@ -651,6 +652,8 @@ public class HelloController {
     }
 
     public void deleteAll(){
+        // Xóa giao diện thuật toán cũ
+        clearAlgorithmColors();
         graphContent.getChildren().clear();
         graph.makeNull();
         // Làm mới lựa chọn trong comboBox UI
