@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.*?>
 
-<!--<?import com.example.nienluancoso_grapheditor.view.NotificationView?>-->
+<?import com.example.nienluancoso_grapheditor.view.NotificationView?>
 
 <?import javafx.scene.layout.FlowPane?>
 <BorderPane fx:id="root" prefHeight="700.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.nienluancoso_grapheditor.HelloController">
@@ -197,46 +197,131 @@
                 <!-- 1. Vùng vẽ đồ thị -->
                 <Pane fx:id="graphPane" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                     <children>
-<!--                        <NotificationView fx:id="notificationView" mouseTransparent="true"/>-->
+                        <NotificationView fx:id="notificationView" mouseTransparent="true"/>
                     </children>
                 </Pane>
 
                 <!-- 2. Vùng kết quả và thực thi thuật toán -->
-                <HBox fx:id="overviewPanel" alignment="TOP_LEFT" spacing="12.0">
-                    <Label fx:id="overallResultsLabel"></Label>
+                <VBox fx:id="resultPanel" spacing="10.0"
+                      minHeight="0.0" minWidth="0.0"
+                      BorderPane.alignment="CENTER">
+
+                    <padding>
+                        <Insets top="12.0" right="12.0"
+                                bottom="12.0" left="12.0"/>
+                    </padding>
+
                     <children>
-                        <!-- Cột trái: số lượng component -->
-                        <VBox fx:id="componentCountPanel" spacing="8.0" alignment="TOP_LEFT">
+                        <!-- Overall Results -->
+                        <Label fx:id="overallResultsLabel"
+                               text="Overall Results"
+                               styleClass="subHeadingLabel"/>
+
+                        <HBox fx:id="overviewPanel"
+                              alignment="TOP_LEFT"
+                              spacing="16.0">
 
                             <children>
-                                <Label text="Number of components:" styleClass="resultCaption"/>
+                                <!-- Số lượng component: rộng theo nội dung -->
+                                <VBox fx:id="componentCountPanel"
+                                      spacing="8.0"
+                                      alignment="TOP_LEFT">
 
-                                <Label fx:id="componentCountValueLabel" text="—" styleClass="componentCountValue"/>
+                                    <children>
+                                        <Label text="Number of components:"
+                                               styleClass="resultCaption"/>
+
+                                        <Label fx:id="componentCountValueLabel"
+                                               text="—"
+                                               styleClass="componentCountValue"/>
+                                    </children>
+                                </VBox>
+
+                                <Separator orientation="VERTICAL"/>
+
+                                <!-- Details: nhận phần chiều rộng còn lại -->
+                                <VBox fx:id="componentDetailsPanel"
+                                      spacing="8.0"
+                                      HBox.hgrow="ALWAYS">
+
+                                    <children>
+                                        <Label text="Details"
+                                               styleClass="resultCaption"/>
+
+                                        <ScrollPane fx:id="componentDetailsScrollPane"
+                                                    fitToWidth="true"
+                                                    fitToHeight="false"
+                                                    hbarPolicy="AS_NEEDED"
+                                                    vbarPolicy="AS_NEEDED"
+                                                    prefViewportHeight="120.0"
+                                                    minHeight="80.0"
+                                                    VBox.vgrow="ALWAYS">
+
+                                            <content>
+                                                <FlowPane fx:id="componentDetailsPane"
+                                                          hgap="10.0"
+                                                          vgap="10.0"
+                                                          prefWrapLength="500.0">
+                                                    <padding>
+                                                        <Insets top="4.0"
+                                                                right="4.0"
+                                                                bottom="4.0"
+                                                                left="4.0"/>
+                                                    </padding>
+                                                </FlowPane>
+                                            </content>
+                                        </ScrollPane>
+                                    </children>
+                                </VBox>
                             </children>
-                        </VBox>
+                        </HBox>
 
-                        <Separator orientation="VERTICAL"/>
-
-                        <!-- Cột phải: danh sách component -->
-                        <VBox fx:id="componentDetailsPanel" spacing="8.0" HBox.hgrow="ALWAYS">
+                        <!-- Execution Trace -->
+                        <HBox fx:id="detailHeader"
+                              alignment="CENTER_LEFT"
+                              spacing="8.0">
 
                             <children>
-                                <Label text="Details" styleClass="resultCaption"/>
+                                <Label text="Execution Trace"
+                                       styleClass="subHeadingLabel"/>
 
-                                <ScrollPane fx:id="componentDetailsScrollPane" fitToWidth="true" fitToHeight="true" hbarPolicy="AS_NEEDED" vbarPolicy="AS_NEEDED" prefViewportHeight="120.0" VBox.vgrow="ALWAYS">
+                                <Region HBox.hgrow="ALWAYS"/>
 
-                                    <content>
-                                        <FlowPane fx:id="componentDetailsPane" hgap="10.0" vgap="10.0" prefWrapLength="500.0">
-                                            <padding>
-                                                <Insets top="4.0" right="4.0" bottom="4.0" left="4.0"/>
-                                            </padding>
-                                        </FlowPane>
-                                    </content>
-                                </ScrollPane>
+                                <Button fx:id="toggleDetailButton"
+                                        mnemonicParsing="false"
+                                        onAction="#handleToggleDetails"
+                                        text="-"/>
                             </children>
-                        </VBox>
+                        </HBox>
+
+                        <!--
+                            Đặt nội dung Execution Trace hiện tại của ông
+                            vào SplitPane này: stepsTable, pseudocode...
+                        -->
+                        <SplitPane fx:id="detailSplitPane"
+                                   orientation="HORIZONTAL"
+                                   dividerPositions="0.5"
+                                   VBox.vgrow="ALWAYS"
+                                   minHeight="0.0">
+
+                            <items>
+                                <!-- Thay hai VBox mẫu bằng nội dung Execution Trace
+                                     thực tế mà ông đang sử dụng. -->
+                                <VBox spacing="6.0">
+                                    <children>
+                                        <Label text="Steps"/>
+                                    </children>
+                                </VBox>
+
+                                <VBox spacing="6.0">
+                                    <children>
+                                        <Label text="Pseudocode"/>
+                                    </children>
+                                </VBox>
+                            </items>
+                        </SplitPane>
                     </children>
-                </HBox>
+                </VBox>
             </items>
         </SplitPane>
     </center>

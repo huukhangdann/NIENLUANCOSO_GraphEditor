@@ -396,3 +396,60 @@
     -fx-font-weight: bold;
     -fx-text-fill: #16A34A;
 }
+
+/* Result area */
+#resultPanel {
+    -fx-background-color: #FFFFFF;
+    -fx-padding: 12px;
+    -fx-spacing: 10px;
+}
+
+/* Overall Results container */
+#overviewPanel {
+    -fx-background-color: #FAFAFA;
+    -fx-background-radius: 8px;
+    -fx-border-color: #E4E4E7;
+    -fx-border-radius: 8px;
+    -fx-padding: 12px;
+}
+
+/* Result labels */
+.resultCaption {
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #71717A;
+}
+
+.componentCountValue {
+    -fx-font-size: 46px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #16A34A;
+}
+
+/* Details area */
+#componentDetailsPanel {
+    -fx-min-width: 0;
+}
+
+#componentDetailsScrollPane {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+    -fx-border-color: #E4E4E7;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 2px;
+}
+
+#componentDetailsScrollPane > .viewport {
+    -fx-background-color: #FAFAFA;
+    -fx-background-radius: 8px;
+}
+
+#componentDetailsPane {
+    -fx-background-color: transparent;
+}
+
+/* Execution Trace */
+#detailHeader {
+    -fx-padding: 8px 0 0 0;
+}

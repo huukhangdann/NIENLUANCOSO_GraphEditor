@@ -11,10 +11,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.control.*;
 import javafx.scene.input.*;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
@@ -22,6 +19,10 @@ import javafx.scene.transform.Affine;
 import javafx.util.StringConverter;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.VBox;
 
 import java.util.HashMap;
 import java.util.List;
@@ -91,11 +92,19 @@ public class HelloController {
     private Label componentCountValueLabel;
     @FXML
     private Label overallResultsLabel;
+    @FXML
+    private FlowPane componentDetailsPane;
+    @FXML
+    private ScrollPane componentDetailsScrollPane;
 
 
     @FXML
     private void initialize() {
-        handleToggleDetails();
+        detailsVisible = true;
+        detailHeader.setVisible(true);
+        detailHeader.setManaged(true);
+        detailSplitPane.setVisible(true);
+        detailSplitPane.setManaged(true);
         updateToggleIcon(true);
         setupButtonIcons();
         root.addEventFilter(KeyEvent.KEY_PRESSED, this::handleKeyPressed);
@@ -769,7 +778,10 @@ public class HelloController {
         String algorithm = algorithmComboBox.getValue();
         if ("Count Component".equals(algorithm)) {
             List<List<Vertex>> components = graph.findConnectedComponent();
-            componentCountValueLabel.setText(String.valueOf(components.size()));
+            componentCountValueLabel.setText(
+                    String.valueOf(components.size())
+            );
+            displayComponentDetails(components);
 
             // Hiển thị các đỉnh thuộc từng thành phần
             StringBuilder details = new StringBuilder();
@@ -824,7 +836,56 @@ public class HelloController {
         toggleDetailButton.setGraphic(icon);
     }
 
+    private void displayComponentDetails(List<List<Vertex>> components) {
+        componentDetailsPane.getChildren().clear();
+        for (int i = 0; i < components.size(); i++) {
+            List<Vertex> component = components.get(i);
+            double hue = (i * 137.5) % 360;
+            Color componentColor = Color.hsb(hue, 0.15, 0.98);
+            VBox card = new VBox(10);
+            card.setPadding(new Insets(12));
+            card.setMinWidth(120);
+            card.setMaxWidth(220);
+            card.setStyle(
+                    "-fx-background-color: white;" +
+                            "-fx-border-color: #E4E4E7;" +
+                            "-fx-border-radius: 8px;" +
+                            "-fx-background-radius: 8px;"
+            );
+            Label title = new Label("Component " + (i + 1));
+            title.setStyle(
+                    "-fx-font-size: 13px;" +
+                            "-fx-font-weight: bold;" +
+                            "-fx-text-fill: #3F3F46;"
+            );
+            FlowPane verticesPane = new FlowPane();
+            verticesPane.setHgap(6);
+            verticesPane.setVgap(6);
+            String colorHex = String.format(
+                    "#%02X%02X%02X",
+                    (int) Math.round(componentColor.getRed() * 255),
+                    (int) Math.round(componentColor.getGreen() * 255),
+                    (int) Math.round(componentColor.getBlue() * 255)
+            );
 
+            for (Vertex vertex : component) {
+                Label vertexLabel = new Label(vertex.getLabel());
+                vertexLabel.setMinSize(30, 30);
+                vertexLabel.setPrefSize(30, 30);
+                vertexLabel.setAlignment(Pos.CENTER);
+                vertexLabel.setStyle(
+                        "-fx-background-color: " + colorHex + ";" +
+                                "-fx-background-radius: 50%;" +
+                                "-fx-text-fill: #27272A;" +
+                                "-fx-font-size: 12px;" +
+                                "-fx-font-weight: bold;"
+                );
+                verticesPane.getChildren().add(vertexLabel);
+            }
+            card.getChildren().addAll(title, verticesPane);
+            componentDetailsPane.getChildren().add(card);
+        }
+    }
 
 }
 
