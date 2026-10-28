@@ -210,6 +210,7 @@
 
                     <children>
                         <!-- Tổng quan kết quả -->
+                        <Label styleClass="subHeadingLabel" text="Overall Results" />
                         <HBox fx:id="overviewPanel" alignment="CENTER_LEFT" spacing="10.0">
                             <children>
                                 <VBox prefHeight="39.0" prefWidth="0.0" spacing="4.0" HBox.hgrow="ALWAYS">
