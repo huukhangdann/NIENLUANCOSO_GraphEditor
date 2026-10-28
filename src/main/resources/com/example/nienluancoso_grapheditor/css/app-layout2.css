@@ -1,12 +1,20 @@
-/* --- TỔNG THỂ (Obsidian Modern - High Contrast Minimalist) --- */
+/* ==========================================================================
+   1. TỔNG THỂ & LAYOUT CHUNG
+   ========================================================================== */
 .root {
-    -fx-background-color: #F4F4F5; /* Nền xám nhạt làm nền chuẩn để làm nổi các thẻ trắng */
+    -fx-background-color: #F4F4F5;
     -fx-font-family: "-apple-system", BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     -fx-font-size: 13px;
     -fx-text-fill: #18181b;
 }
 
-/* --- MENU BAR --- */
+.center {
+    -fx-padding: 12px;
+}
+
+/* ==========================================================================
+   2. MENU BAR & TOOLBAR
+   ========================================================================== */
 .menu-bar {
     -fx-background-color: #FFFFFF;
     -fx-padding: 6px 12px;
@@ -24,7 +32,6 @@
     -fx-text-fill: #000000;
 }
 
-/* --- TOOLBAR --- */
 .tool-bar {
     -fx-background-color: #FFFFFF;
     -fx-padding: 10px 16px;
@@ -33,7 +40,9 @@
     -fx-border-width: 1px;
 }
 
-/* --- BUTTON CHUNG (Bóng đậm rõ nét) --- */
+/* ==========================================================================
+   3. BUTTONS & CONTROLS (COMBOBOX, SLIDER, TOGGLE)
+   ========================================================================== */
 .button {
     -fx-background-color: #FFFFFF;
     -fx-text-fill: #27272a;
@@ -61,7 +70,6 @@
     -fx-min-width: 30px;
 }
 
-/* Nút Run chính (Đen tuyền - Bóng đậm) */
 #runButton {
     -fx-background-color: #09090b;
     -fx-text-fill: #FFFFFF;
@@ -74,11 +82,51 @@
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.38), 10, 0, 0, 4);
 }
 
-/* --- LEFT PANEL --- */
+.toggle-button {
+    -fx-background-color: #E4E4E7;
+    -fx-text-fill: #52525b;
+    -fx-border-color: transparent;
+    -fx-background-radius: 6px;
+    -fx-padding: 7px 12px;
+    -fx-cursor: hand;
+    -fx-alignment: CENTER;
+}
+
+.toggle-button:hover {
+    -fx-background-color: #D4D4D8;
+    -fx-text-fill: #09090b;
+}
+
+.toggle-button:selected {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #09090b;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.18), 6, 0, 0, 2);
+}
+
+.slider .track {
+    -fx-background-color: #D4D4D8;
+    -fx-background-radius: 10px;
+}
+
+.slider .thumb {
+    -fx-background-color: #09090b;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.25), 5, 0, 0, 2);
+}
+
+.slider .thumb:hover {
+    -fx-background-color: #27272a;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.35), 7, 0, 0, 3);
+}
+
+/* ==========================================================================
+   4. LEFT PANEL & LABELS
+   ========================================================================== */
 #leftPanel {
     -fx-background-color: #FFFFFF;
     -fx-border-color: transparent;
-   -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.10), 8, 0, 0, 2);
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.10), 8, 0, 0, 2);
 }
 
 #leftContainer {
@@ -108,47 +156,9 @@
     -fx-text-fill: #18181b;
 }
 
-/* --- TOGGLE BUTTONS --- */
-.toggle-button {
-    -fx-background-color: #E4E4E7;
-    -fx-text-fill: #52525b;
-    -fx-border-color: transparent;
-    -fx-background-radius: 6px;
-    -fx-padding: 7px 12px;
-    -fx-cursor: hand;
-    -fx-alignment: CENTER;
-}
-
-.toggle-button:hover {
-    -fx-background-color: #D4D4D8;
-    -fx-text-fill: #09090b;
-}
-
-.toggle-button:selected {
-    -fx-background-color: #FFFFFF;
-    -fx-text-fill: #09090b;
-    -fx-font-weight: bold;
-    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.18), 6, 0, 0, 2);
-}
-
-/* --- SLIDER --- */
-.slider .track {
-    -fx-background-color: #D4D4D8;
-    -fx-background-radius: 10px;
-}
-
-.slider .thumb {
-    -fx-background-color: #09090b;
-    -fx-background-radius: 10px;
-    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.25), 5, 0, 0, 2);
-}
-
-.slider .thumb:hover {
-    -fx-background-color: #27272a;
-    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.35), 7, 0, 0, 3);
-}
-
-/* --- GRAPH PANE --- */
+/* ==========================================================================
+   5. GRAPH PANE & WORKSPACE CENTER
+   ========================================================================== */
 #graphPane {
     -fx-background-color: #FFFFFF;
     -fx-background-image: url("../img/dot-grid.png");
@@ -156,10 +166,6 @@
     -fx-border-color: transparent;
     -fx-background-radius: 8px;
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.08), 8, 0, 0, 2);
-}
-
-.center {
-    -fx-padding: 12px;
 }
 
 #testLayoutText {
@@ -174,13 +180,112 @@
     -fx-padding: 10px 20px;
 }
 
-/* --- BOTTOM BAR --- */
-#botContainer {
+/* ==========================================================================
+   6. RESULT PANEL & SPLIT PANES (PHÂN TÁCH RÕ RÀNG)
+   ========================================================================== */
+#resultPanel {
     -fx-background-color: #FFFFFF;
-    -fx-border-color: #E4E4E7 transparent transparent transparent;
+    -fx-padding: 12px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.10), 10, 0, 0, -3);
 }
 
-/* --- COMBOBOX --- */
+.split-pane {
+    -fx-background-color: transparent;
+}
+
+.split-pane:horizontal > .split-pane-divider,
+.split-pane:vertical > .split-pane-divider {
+    -fx-background-color: #e1e1e1;
+    -fx-padding: 1px;
+    -fx-border-radius: 3px;
+}
+
+#overviewPanel {
+    -fx-background-color: #FAFAFA;
+    -fx-background-radius: 6px;
+    -fx-border-color: #E4E4E7;
+    -fx-border-radius: 6px;
+    -fx-padding: 8px 12px;
+}
+
+/* ==========================================================================
+   7. TABLE VIEW & PSEUDOCODE
+   ========================================================================== */
+.table-view {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E4E4E7;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-padding: 0;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.04), 4, 0, 0, 1);
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #F4F4F5;
+    -fx-background-radius: 6px 6px 0 0;
+    -fx-border-color: transparent transparent #E4E4E7 transparent;
+}
+
+.table-view .column-header, .table-view .filler {
+    -fx-background-color: transparent;
+    -fx-padding: 8px 6px;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #3f3f46;
+    -fx-font-weight: bold;
+}
+
+.table-row-cell {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: transparent transparent #F4F4F5 transparent;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #FAFAFA;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: #F1F1F3;
+}
+
+.table-row-cell:filled:selected {
+    -fx-background-color: #09090b;
+    -fx-text-fill: #FFFFFF;
+}
+
+.table-row-cell:filled:selected .text {
+    -fx-fill: #FFFFFF;
+}
+
+.table-cell {
+    -fx-text-fill: #27272a;
+    -fx-padding: 8px 10px;
+}
+
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+#pseudocodeScrollPane {
+    -fx-background-color: #FAFAFA;
+    -fx-border-color: #E4E4E7;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.04), 4, 0, 0, 1);
+}
+
+#pseudocodeLines {
+    -fx-background-color: transparent;
+}
+
+/* ==========================================================================
+   8. COMBOBOX POPUP & BOTTOM BAR
+   ========================================================================== */
 .combo-box {
     -fx-background-color: #FFFFFF;
     -fx-border-color: transparent;
@@ -259,88 +364,19 @@
     -fx-background-color: #71717a;
 }
 
-#resultPanel {
+#botContainer {
     -fx-background-color: #FFFFFF;
-    -fx-background-radius: 8px;
-    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.08), 8, 0, 0, -2);
+    -fx-border-color: #E4E4E7 transparent transparent transparent;
 }
 
-.split-pane {
-    -fx-background-color: transparent;
+#overviewPanel .label {
+    -fx-font-size: 14px; /* Tăng từ mặc định 13px lên 14px */
+    -fx-font-weight: 600; /* Làm chữ đậm hơn một chút */
+    -fx-text-fill: #27272a; /* Màu chữ sắc nét hơn */
 }
 
-.split-pane:horizontal > .split-pane-divider,
-.split-pane:vertical > .split-pane-divider {
-    -fx-background-color: #E4E4E7;
-    -fx-padding: 0 1px;
-}
-
-.table-view {
-    -fx-background-color: #FFFFFF;
-    -fx-border-color: #E4E4E7;
-    -fx-border-radius: 6px;
-    -fx-background-radius: 6px;
-    -fx-padding: 0;
-}
-
-.table-view .column-header-background {
-    -fx-background-color: #F4F4F5;
-    -fx-background-radius: 6px 6px 0 0;
-    -fx-border-color: transparent transparent #E4E4E7 transparent;
-}
-
-.table-view .column-header, .table-view .filler {
-    -fx-background-color: transparent;
-    -fx-padding: 8px 6px;
-}
-
-.table-view .column-header .label {
-    -fx-text-fill: #3f3f46;
+#overviewPanel .vbox > .label {
+    -fx-font-size: 14px;
     -fx-font-weight: bold;
-}
-
-.table-row-cell {
-    -fx-background-color: #FFFFFF;
-    -fx-border-color: transparent transparent #F4F4F5 transparent;
-}
-
-.table-row-cell:odd {
-    -fx-background-color: #FAFAFA;
-}
-
-.table-row-cell:hover {
-    -fx-background-color: #F4F4F5;
-}
-
-.table-row-cell:filled:selected {
-    -fx-background-color: #09090b;
-    -fx-text-fill: #FFFFFF;
-}
-
-.table-row-cell:filled:selected .text {
-    -fx-fill: #FFFFFF;
-}
-
-.table-cell {
-    -fx-text-fill: #27272a;
-    -fx-padding: 8px 10px;
-}
-
-.scroll-pane {
-    -fx-background-color: transparent;
-}
-
-.scroll-pane .viewport {
-    -fx-background-color: transparent;
-}
-
-#pseudocodeScrollPane {
-    -fx-background-color: #FAFAFA;
-    -fx-border-color: #E4E4E7;
-    -fx-border-radius: 6px;
-    -fx-background-radius: 6px;
-}
-
-#pseudocodeLines {
-    -fx-background-color: transparent;
+    -fx-text-fill: #09090b;
 }

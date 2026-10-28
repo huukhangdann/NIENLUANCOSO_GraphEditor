@@ -231,8 +231,6 @@
                             </children>
                         </HBox>
 
-                        <Separator />
-
                         <!-- Tiêu đề chung: đóng/mở cả hai vùng chi tiết -->
                         <HBox fx:id="detailHeader" alignment="CENTER_LEFT" spacing="8.0">
                             <children>
