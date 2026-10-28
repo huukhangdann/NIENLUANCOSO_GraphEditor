@@ -20,6 +20,8 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Affine;
 import javafx.util.StringConverter;
+import org.kordamp.ikonli.feather.Feather;
+import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.util.HashMap;
 import java.util.List;
@@ -69,6 +71,11 @@ public class HelloController {
     private Button resetButton;
     @FXML
     private Label algorithmStatusLabel;
+    @FXML
+    private SplitPane detailSplitPane;
+    @FXML
+    private Button toggleDetailButton;
+    private boolean detailsVisible = true;
 
     // Zoom Canvas
     private final Group graphContent = new Group();
@@ -96,6 +103,7 @@ public class HelloController {
 
     @FXML
     private void initialize() {
+        updateToggleIcon(true);
         root.addEventFilter(KeyEvent.KEY_PRESSED, this::handleKeyPressed);
         graphPane.getChildren().addFirst(graphContent);
         graphContent.getTransforms().add(zoomTransform);
@@ -728,6 +736,27 @@ public class HelloController {
         for (VertexView view : vertexVertexViewMap.values()) {
             view.changeColorCircle(Color.WHITE);
         }
+    }
+
+    @FXML
+    private void handleToggleDetails() {
+        detailsVisible = !detailsVisible;
+        detailSplitPane.setVisible(detailsVisible);
+        detailSplitPane.setManaged(detailsVisible);
+        updateToggleIcon(detailsVisible);
+    }
+
+    private void updateToggleIcon(boolean visible) {
+        FontIcon icon;
+        if (visible) {
+            icon = new FontIcon(Feather.CHEVRON_DOWN);
+        } else {
+            icon = new FontIcon(Feather.CHEVRON_RIGHT);
+        }
+        icon.setIconSize(14);
+        icon.setIconColor(javafx.scene.paint.Color.valueOf("#52525b"));
+        toggleDetailButton.setText("");
+        toggleDetailButton.setGraphic(icon);
     }
 }
 

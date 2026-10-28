@@ -38,6 +38,21 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- Thư viện chính của Ikonli cho JavaFX -->
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-javafx</artifactId>
+            <version>12.3.0</version>
+        </dependency>
+
+        <!-- Bộ icon Feather (phong cách thanh mảnh, cực hợp giao diện tối giản) -->
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-feather-pack</artifactId>
+            <version>12.3.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>

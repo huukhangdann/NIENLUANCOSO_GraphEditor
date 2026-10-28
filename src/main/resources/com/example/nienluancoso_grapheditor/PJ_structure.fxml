@@ -238,7 +238,7 @@
 
                                 <Region HBox.hgrow="ALWAYS" />
 
-                                <Button fx:id="toggleDetailButton" mnemonicParsing="false" text="-" />
+                                <Button fx:id="toggleDetailButton" mnemonicParsing="false" text="-" onAction="#handleToggleDetails"/>
                             </children>
                         </HBox>
 
