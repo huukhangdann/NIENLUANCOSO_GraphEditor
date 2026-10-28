@@ -12,8 +12,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.*?>
 
-<?import com.example.nienluancoso_grapheditor.view.NotificationView?>
+<!--<?import com.example.nienluancoso_grapheditor.view.NotificationView?>-->
 
+<?import javafx.scene.layout.FlowPane?>
 <BorderPane fx:id="root" prefHeight="700.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.nienluancoso_grapheditor.HelloController">
     <top>
         <VBox id="topContainer" fx:id="topContainer" BorderPane.alignment="CENTER">
@@ -192,104 +193,50 @@
 
     <center>
         <SplitPane fx:id="workspaceSplitPane" dividerPositions="0.75" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" BorderPane.alignment="CENTER">
-
             <items>
                 <!-- 1. Vùng vẽ đồ thị -->
                 <Pane fx:id="graphPane" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                     <children>
-                        <NotificationView fx:id="notificationView" mouseTransparent="true"/>
+<!--                        <NotificationView fx:id="notificationView" mouseTransparent="true"/>-->
                     </children>
                 </Pane>
 
                 <!-- 2. Vùng kết quả và thực thi thuật toán -->
-                <VBox fx:id="resultPanel" minHeight="0.0" prefWidth="818.0" spacing="8.0">
-
-                    <padding>
-                        <Insets bottom="10.0" left="12.0" right="12.0" top="10.0" />
-                    </padding>
-
+                <HBox fx:id="overviewPanel" alignment="TOP_LEFT" spacing="12.0">
+                    <Label fx:id="overallResultsLabel"></Label>
                     <children>
-                        <!-- Tổng quan kết quả -->
-                        <HBox alignment="CENTER_LEFT" spacing="4.0">
+                        <!-- Cột trái: số lượng component -->
+                        <VBox fx:id="componentCountPanel" spacing="8.0" alignment="TOP_LEFT">
+
                             <children>
-                                <Label styleClass="subHeadingLabel" text="Overall Results" fx:id="overallResultsLabel"/>
+                                <Label text="Number of components:" styleClass="resultCaption"/>
 
-                                <Region HBox.hgrow="ALWAYS" />
-
-                                <Button fx:id="toggleDetailButton"
-                                        mnemonicParsing="false"
-                                        onAction="#handleToggleDetails" />
+                                <Label fx:id="componentCountValueLabel" text="—" styleClass="componentCountValue"/>
                             </children>
-                        </HBox>
-                        <HBox fx:id="overviewPanel" alignment="CENTER_LEFT" spacing="10.0">
+                        </VBox>
+
+                        <Separator orientation="VERTICAL"/>
+
+                        <!-- Cột phải: danh sách component -->
+                        <VBox fx:id="componentDetailsPanel" spacing="8.0" HBox.hgrow="ALWAYS">
+
                             <children>
-                                <VBox prefHeight="39.0" prefWidth="0.0" spacing="4.0" HBox.hgrow="ALWAYS">
-                                    <children>
-                                        <Label text="Number of components:" />
-                                        <Label fx:id="componentCountValueLabel"
-                                               text="—"
-                                               styleClass="resultValueLabel" />
-                                    </children>
-                                </VBox>
+                                <Label text="Details" styleClass="resultCaption"/>
 
-                                <Separator orientation="VERTICAL" />
+                                <ScrollPane fx:id="componentDetailsScrollPane" fitToWidth="true" fitToHeight="true" hbarPolicy="AS_NEEDED" vbarPolicy="AS_NEEDED" prefViewportHeight="120.0" VBox.vgrow="ALWAYS">
 
-                                <VBox prefHeight="39.0" prefWidth="450.0" spacing="4.0" HBox.hgrow="ALWAYS">
-                                    <children>
-                                        <Label fx:id="overallDetailsValueLabel" text="Details" />
-                                    </children>
-                                </VBox>
-
-                                <Separator orientation="VERTICAL" />
+                                    <content>
+                                        <FlowPane fx:id="componentDetailsPane" hgap="10.0" vgap="10.0" prefWrapLength="500.0">
+                                            <padding>
+                                                <Insets top="4.0" right="4.0" bottom="4.0" left="4.0"/>
+                                            </padding>
+                                        </FlowPane>
+                                    </content>
+                                </ScrollPane>
                             </children>
-                        </HBox>
-
-                        <!-- Tiêu đề chung: đóng/mở cả hai vùng chi tiết -->
-                        <HBox fx:id="detailHeader" alignment="CENTER_LEFT" spacing="8.0">
-                            <children>
-                                <Label styleClass="subHeadingLabel" text="Execution Trace" />
-                                <Region HBox.hgrow="ALWAYS" />
-                            </children>
-                        </HBox>
-
-                        <!-- Hai vùng hiển thị song song -->
-                        <SplitPane fx:id="detailSplitPane" dividerPositions="0.5" orientation="HORIZONTAL" VBox.vgrow="ALWAYS">
-                            <items>
-                                <!-- Bảng các bước thực thi -->
-                                <VBox fx:id="stepsPanel" spacing="6.0">
-                                    <children>
-                                        <TableView fx:id="stepsTable" VBox.vgrow="ALWAYS">
-                                            <columnResizePolicy>
-                                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                                            </columnResizePolicy>
-
-                                            <columns>
-                                                <TableColumn fx:id="stepNumberColumn" prefWidth="55.0" text="Bước" />
-                                                <TableColumn fx:id="stepActionColumn" prefWidth="130.0" text="Thao tác" />
-                                                <TableColumn fx:id="stepDetailsColumn" prefWidth="180.0" text="Chi tiết" />
-                                            </columns>
-                                        </TableView>
-                                    </children>
-                                </VBox>
-
-                                <!-- Mã giả -->
-                                <VBox fx:id="pseudocodePanel" spacing="6.0">
-                                    <children>
-                                        <ScrollPane fx:id="pseudocodeScrollPane" fitToWidth="true" hbarPolicy="AS_NEEDED" vbarPolicy="AS_NEEDED" VBox.vgrow="ALWAYS">
-                                            <content>
-                                                <VBox fx:id="pseudocodeLines" spacing="2.0">
-                                                    <padding>
-                                                        <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
-                                                    </padding>
-                                                </VBox>
-                                            </content>
-                                        </ScrollPane>
-                                    </children>
-                                </VBox>
-                            </items>
-                        </SplitPane>
+                        </VBox>
                     </children>
-                </VBox>
+                </HBox>
             </items>
         </SplitPane>
     </center>

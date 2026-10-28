@@ -88,11 +88,10 @@ public class HelloController {
     @FXML
     private Button zoomOutButton;
     @FXML
-    private Label overallResultsLabel;
-    @FXML
     private Label componentCountValueLabel;
     @FXML
-    private Label overallDetailsValueLabel;
+    private Label overallResultsLabel;
+
 
     @FXML
     private void initialize() {
@@ -777,19 +776,6 @@ public class HelloController {
 
             for (int i = 0; i < components.size(); i++) {
                 List<Vertex> component = components.get(i);
-                if (i > 0) {
-                    details.append(" | ");
-                }
-                details.append("C")
-                        .append(i + 1)
-                        .append(": ");
-                for (int j = 0; j < component.size(); j++) {
-                    if (j > 0) {
-                        details.append(", ");
-                    }
-                    details.append(component.get(j).getLabel());
-                }
-                // Tô màu các đỉnh cùng thành phần
                 double hue = (i * 137.5) % 360;
                 for (Vertex vertex : component) {
                     VertexView view = vertexVertexViewMap.get(vertex);
@@ -800,7 +786,6 @@ public class HelloController {
                     }
                 }
             }
-            overallDetailsValueLabel.setText(details.toString());
             algorithmStatusLabel.setText(
                     "Algorithm Status: Completed"
             );
