@@ -101,10 +101,7 @@ public class HelloController {
     @FXML
     private void initialize() {
         detailsVisible = true;
-        detailHeader.setVisible(true);
-        detailHeader.setManaged(true);
-        detailSplitPane.setVisible(true);
-        detailSplitPane.setManaged(true);
+        setExecutionTraceVisible(false);
         updateToggleIcon(true);
         setupButtonIcons();
         root.addEventFilter(KeyEvent.KEY_PRESSED, this::handleKeyPressed);
@@ -232,6 +229,9 @@ public class HelloController {
                 (observable, oldValue, newValue) -> {
                     sourceComboBox.setValue(null);
                     targetComboBox.setValue(null);
+
+                    boolean showTrace = !"Count Component".equals(newValue);
+                    setExecutionTraceVisible(showTrace);
 
                     updateAlgorithmInputs();
                     updateAlgorithmControls();
@@ -378,7 +378,7 @@ public class HelloController {
                     if (event.getDeltaY() == 0) {
                         return;
                     }
-                    if(interactionBlocker.isBlocking()) return;
+                    if (interactionBlocker.isBlocking()) return;
                     double direction =
                             event.getDeltaY() > 0 ? 1 : -1;
                     double newZoom = Math.clamp(
@@ -410,7 +410,7 @@ public class HelloController {
                 observable, oldValue, newValue) -> {
             double zoom = newValue.doubleValue();
 
-            if(interactionBlocker.isBlocking()) {
+            if (interactionBlocker.isBlocking()) {
                 return;
             }
 
@@ -670,7 +670,7 @@ public class HelloController {
     }
 
     public void deleteSelected() {
-        if(interactionBlocker.isBlocking()) return;
+        if (interactionBlocker.isBlocking()) return;
         if (firstVertexClicked != null) {
             deleteSelectedVertex();
         } else if (selectedEdgeView != null) {
@@ -716,7 +716,7 @@ public class HelloController {
             removePreviewLine();
     }
 
-    public void deleteAll(){
+    public void deleteAll() {
         // Xóa giao diện thuật toán cũ
         clearAlgorithmColors();
         graphContent.getChildren().clear();
@@ -817,9 +817,6 @@ public class HelloController {
         detailHeader.setManaged(detailsVisible);
         detailSplitPane.setVisible(detailsVisible);
         detailSplitPane.setManaged(detailsVisible);
-        workspaceSplitPane.setDividerPositions(
-                detailsVisible ? 0.65 : 0.8
-        );
         updateToggleIcon(detailsVisible);
     }
 
@@ -882,9 +879,45 @@ public class HelloController {
                 );
                 verticesPane.getChildren().add(vertexLabel);
             }
-            card.getChildren().addAll(title, verticesPane);
+            ScrollPane verticesScrollPane = new ScrollPane(verticesPane);
+            verticesScrollPane.setFitToWidth(true);
+            verticesScrollPane.setFitToHeight(false);
+            verticesScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+            verticesScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+
+            verticesScrollPane.setMinHeight(0);
+            verticesScrollPane.setPrefHeight(100);
+            verticesScrollPane.setMaxHeight(100);
+
+            verticesScrollPane.setStyle(
+                    "-fx-background-color: transparent;" +
+                            "-fx-background: transparent;" +
+                            "-fx-border-color: transparent;" +
+                            "-fx-padding: 0;"
+            );
+
+
+            card.setMinHeight(0);
+            card.setPrefHeight(150);
+            card.setMaxHeight(150);
+            card.setMinWidth(120);
+            card.setPrefWidth(220);
+            card.setMaxWidth(220);
+
+            card.getChildren().setAll(title, verticesScrollPane);
             componentDetailsPane.getChildren().add(card);
         }
+    }
+
+    private void setExecutionTraceVisible(boolean visible) {
+        detailHeader.setVisible(visible);
+        detailHeader.setManaged(visible);
+
+        detailSplitPane.setVisible(visible);
+        detailSplitPane.setManaged(visible);
+
+        detailsVisible = visible;
+        updateToggleIcon(visible);
     }
 
 }
