@@ -66,9 +66,9 @@
                         <Separator orientation="VERTICAL" />
                         <HBox alignment="CENTER" spacing="6.0">
                             <children>
-                                <Button mnemonicParsing="false" onAction="#handleZoomOut" styleClass="icon-btn" text="-" />
+                                <Button mnemonicParsing="false" onAction="#handleZoomOut" styleClass="icon-btn" fx:id="zoomOutButton"/>
                                 <Slider fx:id="zoomSlider" blockIncrement="0.1" max="2.0" min="0.5" prefWidth="120.0" value="1.0" />
-                                <Button mnemonicParsing="false" onAction="#handleZoomIn" styleClass="icon-btn" text="+" />
+                                <Button mnemonicParsing="false" onAction="#handleZoomIn" styleClass="icon-btn" fx:id="zoomInButton"/>
                                 <Label fx:id="zoomSliderLabel" alignment="CENTER" prefWidth="45.0" text="100%" />
                                 <Button mnemonicParsing="false" onAction="#handleResetZoom" text="Reset" />
                             </children>
@@ -202,7 +202,7 @@
                 </Pane>
 
                 <!-- 2. Vùng kết quả và thực thi thuật toán -->
-                <VBox fx:id="resultPanel" minHeight="180.0" prefWidth="818.0" spacing="8.0">
+                <VBox fx:id="resultPanel" minHeight="0.0" prefWidth="818.0" spacing="8.0">
 
                     <padding>
                         <Insets bottom="10.0" left="12.0" right="12.0" top="10.0" />
@@ -210,20 +210,33 @@
 
                     <children>
                         <!-- Tổng quan kết quả -->
-                        <Label styleClass="subHeadingLabel" text="Overall Results" />
+                        <HBox alignment="CENTER_LEFT" spacing="4.0">
+                            <children>
+                                <Label styleClass="subHeadingLabel" text="Overall Results" fx:id="overallResultsLabel"/>
+
+                                <Region HBox.hgrow="ALWAYS" />
+
+                                <Button fx:id="toggleDetailButton"
+                                        mnemonicParsing="false"
+                                        onAction="#handleToggleDetails" />
+                            </children>
+                        </HBox>
                         <HBox fx:id="overviewPanel" alignment="CENTER_LEFT" spacing="10.0">
                             <children>
                                 <VBox prefHeight="39.0" prefWidth="0.0" spacing="4.0" HBox.hgrow="ALWAYS">
                                     <children>
                                         <Label text="Number of components:" />
+                                        <Label fx:id="componentCountValueLabel"
+                                               text="—"
+                                               styleClass="resultValueLabel" />
                                     </children>
                                 </VBox>
 
                                 <Separator orientation="VERTICAL" />
 
-                                <VBox prefHeight="39.0" prefWidth="352.0" spacing="4.0" HBox.hgrow="ALWAYS">
+                                <VBox prefHeight="39.0" prefWidth="450.0" spacing="4.0" HBox.hgrow="ALWAYS">
                                     <children>
-                                        <Label text="Details" />
+                                        <Label fx:id="overallDetailsValueLabel" text="Details" />
                                     </children>
                                 </VBox>
 
@@ -235,10 +248,7 @@
                         <HBox fx:id="detailHeader" alignment="CENTER_LEFT" spacing="8.0">
                             <children>
                                 <Label styleClass="subHeadingLabel" text="Execution Trace" />
-
                                 <Region HBox.hgrow="ALWAYS" />
-
-                                <Button fx:id="toggleDetailButton" mnemonicParsing="false" text="-" onAction="#handleToggleDetails"/>
                             </children>
                         </HBox>
 

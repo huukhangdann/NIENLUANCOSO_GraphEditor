@@ -27,7 +27,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 public class HelloController {
     @FXML
     public NotificationView notificationView;
@@ -76,6 +75,47 @@ public class HelloController {
     @FXML
     private Button toggleDetailButton;
     private boolean detailsVisible = true;
+    @FXML
+    private VBox resultPanel;
+    @FXML
+    private HBox detailHeader;
+    @FXML
+    private SplitPane workspaceSplitPane;
+    @FXML
+    private Label featurePaneLabel;
+    @FXML
+    private Button zoomInButton;
+    @FXML
+    private Button zoomOutButton;
+    @FXML
+    private Label overallResultsLabel;
+    @FXML
+    private Label componentCountValueLabel;
+    @FXML
+    private Label overallDetailsValueLabel;
+
+    @FXML
+    private void initialize() {
+        handleToggleDetails();
+        updateToggleIcon(true);
+        setupButtonIcons();
+        root.addEventFilter(KeyEvent.KEY_PRESSED, this::handleKeyPressed);
+        graphPane.getChildren().addFirst(graphContent);
+        graphContent.getTransforms().add(zoomTransform);
+
+        // SetUp for UI/UX
+        setupLeftNavigation();
+        setupAlgorithmSelection();
+        updateAlgorithmControls();
+
+        setUpGraphCanvas();
+        setUpInteractionBlocker();
+        setUpNotificationView();
+        setUpGraphPanelClip();
+        setUpZoomSlider();
+        setUpScrollZoom();
+        setUpPan();
+    }
 
     // Zoom Canvas
     private final Group graphContent = new Group();
@@ -101,25 +141,34 @@ public class HelloController {
     private final InteractionBlocker interactionBlocker = new InteractionBlocker();
 
 
-    @FXML
-    private void initialize() {
-        updateToggleIcon(true);
-        root.addEventFilter(KeyEvent.KEY_PRESSED, this::handleKeyPressed);
-        graphPane.getChildren().addFirst(graphContent);
-        graphContent.getTransforms().add(zoomTransform);
+    private FontIcon createIcon(Feather iconType, int size) {
+        FontIcon icon = new FontIcon(iconType);
+        icon.setIconSize(size);
+        icon.setIconColor(Color.web("#52525B"));
+        return icon;
+    }
 
-        // SetUp for UI/UX
-        setupLeftNavigation();
-        setupAlgorithmSelection();
-        updateAlgorithmControls();
+    private void setupButtonIcons() {
+        // =========================
+        // 2. Thanh điều hướng bên trái
+        // =========================
+        featurePaneLabel.setGraphic(createIcon(Feather.LAYERS, 16));
 
-        setUpGraphCanvas();
-        setUpInteractionBlocker();
-        setUpNotificationView();
-        setUpGraphPanelClip();
-        setUpZoomSlider();
-        setUpScrollZoom();
-        setUpPan();
+        // =========================
+        // 4. Các nút điều khiển thuật toán
+        // =========================
+        runButton.setGraphic(createIcon(Feather.PLAY, 16));
+        stepButton.setGraphic(createIcon(Feather.SKIP_FORWARD, 16));
+        resetButton.setGraphic(createIcon(Feather.ROTATE_CCW, 16));
+
+        // Trạng thái thuật toán
+        algorithmStatusLabel.setGraphic(createIcon(Feather.ACTIVITY, 14));
+
+        zoomOutButton.setGraphic(createIcon(Feather.ZOOM_OUT, 16));
+        zoomInButton.setGraphic(createIcon(Feather.ZOOM_IN, 16));
+
+        overallResultsLabel.setGraphic(createIcon(Feather.BAR_CHART_2, 16));
+
     }
 
     private void updateAlgorithmControls() {
@@ -235,7 +284,7 @@ public class HelloController {
                     switchLeftPanel(newToggle);
                 }
         );
-        
+
         navigationGroup.selectToggle(algorithmButtonNav);
     }
 
@@ -718,17 +767,43 @@ public class HelloController {
     }
 
     public void handleRunButton() {
-        if ("Count Component".equals(algorithmComboBox.getValue())) {
+        String algorithm = algorithmComboBox.getValue();
+        if ("Count Component".equals(algorithm)) {
             List<List<Vertex>> components = graph.findConnectedComponent();
+            componentCountValueLabel.setText(String.valueOf(components.size()));
 
-            System.out.println("COMPONENT COUNT: " + components.size());
-            System.out.println("COMPONENT: " + components);
+            // Hiển thị các đỉnh thuộc từng thành phần
+            StringBuilder details = new StringBuilder();
 
-            for(List<Vertex> L : components){
-                for(Vertex u : L){
-                    vertexVertexViewMap.get(u).changeColorCircle(Color.hsb((components.indexOf(L) * 137.5)%360, 0.15, 0.98 ));
+            for (int i = 0; i < components.size(); i++) {
+                List<Vertex> component = components.get(i);
+                if (i > 0) {
+                    details.append(" | ");
+                }
+                details.append("C")
+                        .append(i + 1)
+                        .append(": ");
+                for (int j = 0; j < component.size(); j++) {
+                    if (j > 0) {
+                        details.append(", ");
+                    }
+                    details.append(component.get(j).getLabel());
+                }
+                // Tô màu các đỉnh cùng thành phần
+                double hue = (i * 137.5) % 360;
+                for (Vertex vertex : component) {
+                    VertexView view = vertexVertexViewMap.get(vertex);
+                    if (view != null) {
+                        view.changeColorCircle(
+                                Color.hsb(hue, 0.15, 0.98)
+                        );
+                    }
                 }
             }
+            overallDetailsValueLabel.setText(details.toString());
+            algorithmStatusLabel.setText(
+                    "Algorithm Status: Completed"
+            );
         }
     }
 
@@ -741,8 +816,13 @@ public class HelloController {
     @FXML
     private void handleToggleDetails() {
         detailsVisible = !detailsVisible;
+        detailHeader.setVisible(detailsVisible);
+        detailHeader.setManaged(detailsVisible);
         detailSplitPane.setVisible(detailsVisible);
         detailSplitPane.setManaged(detailsVisible);
+        workspaceSplitPane.setDividerPositions(
+                detailsVisible ? 0.65 : 0.8
+        );
         updateToggleIcon(detailsVisible);
     }
 
@@ -758,5 +838,9 @@ public class HelloController {
         toggleDetailButton.setText("");
         toggleDetailButton.setGraphic(icon);
     }
+
+
+
 }
+
 
