@@ -102,6 +102,7 @@ public class HelloController {
     @FXML
     private void initialize() {
         detailsVisible = true;
+        workspaceSplitPane.getItems().remove(resultPanel);
         setExecutionTraceVisible(false);
         updateToggleIcon(true);
         setupButtonIcons();
@@ -231,6 +232,8 @@ public class HelloController {
                     sourceComboBox.setValue(null);
                     targetComboBox.setValue(null);
 
+                    setResultPanelVisible(newValue != null);
+
                     boolean showTrace = !"Count Component".equals(newValue);
                     setExecutionTraceVisible(showTrace);
 
@@ -238,19 +241,29 @@ public class HelloController {
                     updateAlgorithmControls();
                 }
         );
-
         sourceComboBox.valueProperty().addListener(
                 (observable, oldValue, newValue) ->
                         updateAlgorithmControls()
         );
-
         targetComboBox.valueProperty().addListener(
                 (observable, oldValue, newValue) ->
                         updateAlgorithmControls()
         );
-
         updateAlgorithmInputs();
         refreshVertexChoices();
+    }
+
+    private void setResultPanelVisible(boolean visible) {
+        if (visible) {
+            if (!workspaceSplitPane.getItems().contains(resultPanel)) {
+                workspaceSplitPane.getItems().add(resultPanel);
+            }
+
+            workspaceSplitPane.setDividerPositions(0.67);
+            workspaceSplitPane.setDividerPositions(0.67);
+        } else {
+            workspaceSplitPane.getItems().remove(resultPanel);
+        }
     }
 
     private void refreshVertexChoices() {
@@ -789,12 +802,14 @@ public class HelloController {
 
             for (int i = 0; i < components.size(); i++) {
                 List<Vertex> component = components.get(i);
-                double hue = (i * 137.5) % 360;
+                double hue = (i * 137.508) % 360;
+                double saturation = 0.23 + (i % 3) * 0.06;
+                double brightness = 0.98;
                 for (Vertex vertex : component) {
                     VertexView view = vertexVertexViewMap.get(vertex);
                     if (view != null) {
                         view.changeColorCircle(
-                                Color.hsb(hue, 0.15, 0.98)
+                                Color.hsb(hue, saturation, brightness)
                         );
                     }
                 }
@@ -838,8 +853,10 @@ public class HelloController {
         componentDetailsPane.getChildren().clear();
         for (int i = 0; i < components.size(); i++) {
             List<Vertex> component = components.get(i);
-            double hue = (i * 137.5) % 360;
-            Color componentColor = Color.hsb(hue, 0.15, 0.98);
+            double hue = (i * 137.508) % 360;
+            double saturation = 0.23 + (i % 3) * 0.06;
+            double brightness = 0.98;
+            Color componentColor = Color.hsb(hue, saturation, brightness);
             VBox card = new VBox(10);
             card.setPadding(new Insets(12));
             card.setMinWidth(120);
