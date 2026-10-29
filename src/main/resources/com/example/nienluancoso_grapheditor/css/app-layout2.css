@@ -409,14 +409,8 @@
 }
 
 #componentCountValueLabel {
-    -fx-font-size: 46px;
     -fx-font-weight: bold;
-    -fx-text-fill: #16A34A;
-}
-
-/* Details area */
-#componentDetailsPanel {
-    -fx-min-width: 0;
+    -fx-text-fill: #a31616;
 }
 
 #componentDetailsScrollPane {
