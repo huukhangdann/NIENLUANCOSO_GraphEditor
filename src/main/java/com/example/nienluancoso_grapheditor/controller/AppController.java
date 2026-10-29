@@ -1,21 +1,14 @@
-package com.example.nienluancoso_grapheditor;
-
-import com.example.nienluancoso_grapheditor.controller.GraphViewportController;
-import com.example.nienluancoso_grapheditor.model.Edge;
-import com.example.nienluancoso_grapheditor.model.Graph;
+package com.example.nienluancoso_grapheditor.controller;
 import com.example.nienluancoso_grapheditor.model.Vertex;
 import com.example.nienluancoso_grapheditor.view.*;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.control.*;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.transform.Affine;
 import javafx.util.StringConverter;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
@@ -23,11 +16,9 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class HelloController {
+public class AppController {
     @FXML
     public NotificationView notificationView;
     @FXML
@@ -90,12 +81,18 @@ public class HelloController {
     @FXML
     private FlowPane componentDetailsPane;
 
-    GraphViewportController graphViewportController;
+    private final GraphViewportController graphViewportController = new GraphViewportController();
+    private GraphEditorController graphEditorController;
+
+    private final Group graphContent = new Group();
+    private final InteractionBlocker interactionBlocker = new InteractionBlocker();
 
     @FXML
     private void initialize() {
-
-        graphViewportController = new GraphViewportController();
+        graphEditorController = new GraphEditorController(graphPane, graphContent, interactionBlocker, () -> {
+            refreshVertexChoices();
+            updateAlgorithmControls();
+        }, this::showNotification);
 
         detailsVisible = true;
         workspaceSplitPane.getItems().remove(resultPanel);
@@ -111,7 +108,7 @@ public class HelloController {
         setupAlgorithmSelection();
         updateAlgorithmControls();
 
-        setUpGraphCanvas();
+        graphEditorController.setUpGraphCanvas(notificationView, zoomSliderLabel);
         setUpInteractionBlocker();
         setUpNotificationView();
         setUpGraphPanelClip();
@@ -119,6 +116,10 @@ public class HelloController {
         graphViewportController.setUpZoomSlider(graphPane, interactionBlocker, zoomSlider, zoomSliderLabel);
         graphViewportController.setUpScrollZoom(graphPane, interactionBlocker, zoomSlider);
         graphViewportController.setUpPan(graphPane, interactionBlocker);
+    }
+
+    private void handleKeyPressed(KeyEvent keyEvent) {
+        graphEditorController.handleKeyPressed(keyEvent);
     }
 
     // Zoom Handle method
@@ -131,17 +132,6 @@ public class HelloController {
     public void handleResetZoom(){
         graphViewportController.resetZoom(zoomSlider);
     }
-
-    private final Group graphContent = new Group();
-        private final Graph graph = new Graph();
-    private Label label = new Label();
-    private VertexView firstVertexClicked = null;
-    private EdgeView selectedEdgeView = null;
-    private Line previewLine = null;
-    private final Map<Vertex, VertexView> vertexVertexViewMap = new HashMap<>();
-    private final Map<Edge, EdgeView> edgeEdgeViewMap = new HashMap<>();
-    private final Map<Edge, WeightView> edgeWeightViewMap = new HashMap<>();
-    private final InteractionBlocker interactionBlocker = new InteractionBlocker();
 
 
     private FontIcon createIcon(Feather iconType, int size) {
@@ -176,7 +166,7 @@ public class HelloController {
 
     private void updateAlgorithmControls() {
         String algorithm = algorithmComboBox.getValue();
-        boolean hasVertices = !graph.getVertexList().isEmpty();
+        boolean hasVertices = !graphEditorController.getGraph().getVertexList().isEmpty();
         boolean hasAlgorithm = algorithm != null;
         boolean needsSource = hasAlgorithm
                 && !algorithm.equals("Count Component");
@@ -265,14 +255,14 @@ public class HelloController {
     private void refreshVertexChoices() {
         Vertex selectedSource = sourceComboBox.getValue();
         Vertex selectedTarget = targetComboBox.getValue();
-        sourceComboBox.getItems().setAll(graph.getVertexList());
-        targetComboBox.getItems().setAll(graph.getVertexList());
-        if (graph.getVertexList().contains(selectedSource)) {
+        sourceComboBox.getItems().setAll(graphEditorController.getGraph().getVertexList());
+        targetComboBox.getItems().setAll(graphEditorController.getGraph().getVertexList());
+        if (graphEditorController.getGraph().getVertexList().contains(selectedSource)) {
             sourceComboBox.setValue(selectedSource);
         } else {
             sourceComboBox.setValue(null);
         }
-        if (graph.getVertexList().contains(selectedTarget)) {
+        if (graphEditorController.getGraph().getVertexList().contains(selectedTarget)) {
             targetComboBox.setValue(selectedTarget);
         } else {
             targetComboBox.setValue(null);
@@ -354,282 +344,14 @@ public class HelloController {
                 .bind(interactionBlocker.blockingProperty());
     }
 
-    public void setUpGraphCanvas() {
-        notificationView.setMouseTransparent(true);
-        zoomSliderLabel.getStyleClass().add("zoom-slider-label");
-        // Text Test Canvas
-        onTestTextCanvas(true);
-
-        // Pane Click
-        handleGraphPaneClicked();
-
-        // Mouse moved for preview line
-        handleMouseMoved();
-
-    }
-
-    private void onTestTextCanvas(boolean value) {
-        if (value) {
-            label.setText("Create your first vertex here!".toUpperCase());
-            label.setId("testLayoutText");
-            label.layoutXProperty().bind(graphPane.widthProperty().subtract(label.widthProperty()).divide(2));
-            label.layoutYProperty().bind(graphPane.heightProperty().subtract(label.heightProperty()).divide(2));
-            graphPane.getChildren().add(label);
-        } else {
-            label.setVisible(false);
-            label.setManaged(false);
-        }
-    }
-
-    public void handleGraphPaneClicked() {
-        graphPane.setOnMouseClicked(event -> {
-            if (graph.getSize() == 0)
-                onTestTextCanvas(false);
-            if (previewLine != null) {
-                removePreviewLine();
-            }
-            if (interactionBlocker.isBlocking()) {
-                event.consume();
-                return;
-            }
-            if (selectedEdgeView != null) {
-                selectedEdgeView.onSelect(false);
-                selectedEdgeView = null;
-            }
-            if (!VertexView.hasSelectedVertex()) {
-                if ((event.getClickCount() == 2) && (event.isStillSincePress())) {
-                    // Change coordinate to graphContent
-                    Point2D eventPoint = graphContent.sceneToLocal(
-                            new Point2D(event.getSceneX(), event.getSceneY()));
-                    double x = eventPoint.getX();
-                    double y = eventPoint.getY();
-                    Vertex vertex = new Vertex(x, y);
-                    // Xóa giao diện thuật toán cũ
-                    clearAlgorithmColors();
-
-                    graph.addVertex(vertex);
-                    VertexView vertexView = new VertexView(vertex);
-                    vertexVertexViewMap.put(vertex, vertexView);
-                    setVertexViewCallback(vertexView);
-                    // Làm mới lựa chọn trong comboBox UI
-                    refreshVertexChoices();
-                    // Kiểm tra lại điều kiện run
-                    updateAlgorithmControls();
-
-                    // VertexView clicked
-                    vertexView.handleVertexClicked();
-
-                    // Vertex dragged
-                    vertexView.handleVertexDragged(graphContent);
-
-
-                    graphContent.getChildren().add(vertexView);
-                }
-            } else {
-                VertexView.getSelectedVertex().onSelect(false);
-            }
-        });
-    }
-
-    private void handleMouseMoved() {
-        graphPane.setOnMouseMoved(event -> {
-            if (previewLine != null) {
-                Point2D mouse = graphContent.sceneToLocal(new Point2D(event.getSceneX(), event.getSceneY()));
-                previewLine.setEndX(mouse.getX());
-                previewLine.setEndY(mouse.getY());
-            }
-        });
-    }
-
-    private void createPreviewLine() {
-        previewLine = new Line();
-        previewLine.getStyleClass().add("preview-line");
-        previewLine.setStartX(firstVertexClicked.getCenterX());
-        previewLine.setStartY(firstVertexClicked.getCenterY());
-        previewLine.setEndX(firstVertexClicked.getCenterX());
-        previewLine.setEndY(firstVertexClicked.getCenterY());
-        graphContent.getChildren().add(previewLine);
-        previewLine.toBack();
-        VertexView.setOnBlockDragging(true);
-    }
-
-    public void createEdge(Vertex u, Vertex v) {
-        Edge edge = new Edge(u, v);
-
-        // Xóa giao diện thuật toán cũ
-        clearAlgorithmColors();
-
-        if (graph.addEdge(edge)) {
-            // Init and connect model-view
-            EdgeView edgeView = new EdgeView(vertexVertexViewMap.get(u), vertexVertexViewMap.get(v), edge);
-            setEdgeCallBack(edgeView);
-            edgeEdgeViewMap.put(edge, edgeView);
-            WeightView weightView = new WeightView(edge, edgeView, graphContent);
-            edgeWeightViewMap.put(edge, weightView);
-
-            setWeightViewCallback(weightView);
-            graphContent.getChildren().addAll(edgeView, weightView);
-            edgeView.toBack();
-            interactionBlocker.toFront();
-            interactionBlocker.block(true);
-            weightView.toFront();
-        }
-    }
-
-    private void setWeightViewCallback(WeightView weightView) {
-        weightView.setOnWeightEntered(() -> { //callback entered weight
-            interactionBlocker.toBack();
-            interactionBlocker.block(false);
-            interactionBlocker.setVisible(false);
-        });
-        weightView.setOnEditingWeight(() -> {
-            interactionBlocker.setVisible(true);
-            interactionBlocker.toFront();
-            interactionBlocker.block(true);
-            weightView.toFront();
-        });
-        weightView.setOnNotification(this::showNotification);
-        interactionBlocker.setOnClickedBlocker(this::showNotification);
-    }
-
-    private void setVertexViewCallback(VertexView vertexView) {
-        // set callback when vertexView clicked
-        vertexView.setOnClicked(vertexClicked -> {
-            // first Vertex clicked
-            if (firstVertexClicked == null) {
-                firstVertexClicked = vertexClicked;
-                if (selectedEdgeView != null) {
-                    selectedEdgeView.onSelect(false);
-                    selectedEdgeView = null;
-                }
-                // Create preview line
-                createPreviewLine();
-            }
-            // second Vertex clicked
-            else {
-                createEdge(firstVertexClicked.getVertex(), vertexClicked.getVertex());
-                removePreviewLine();
-                vertexClicked.onSelect(false);
-                firstVertexClicked = null;
-            }
-        });
-        vertexView.setOnEditingLabel(() -> {
-            interactionBlocker.setVisible(true);
-            interactionBlocker.toFront();
-            interactionBlocker.block(true);
-            vertexView.toFront();
-
-        });
-        vertexView.setOnLabelEntered(() -> {
-            interactionBlocker.toBack();
-            interactionBlocker.block(false);
-            interactionBlocker.setVisible(false);
-
-            refreshVertexChoices();
-        });
-        vertexView.setOnNotification(this::showNotification);
-        interactionBlocker.setOnClickedBlocker(this::showNotification);
-    }
-
-
-    private void setEdgeCallBack(EdgeView edgeView) {
-        edgeView.setSelectEdgeViewCallback((selectedEV) -> {
-            // select edge when selecting vertex
-            this.selectedEdgeView = selectedEV;
-            if (firstVertexClicked != null) {
-                firstVertexClicked.onSelect(false);
-                removePreviewLine();
-            }
-        });
-    }
-
-    public void removePreviewLine() {
-        if (previewLine != null) {
-            graphContent.getChildren().remove(previewLine);
-            previewLine = null;
-        }
-        firstVertexClicked = null;
-        VertexView.setOnBlockDragging(false);
-
-    }
-
-    public void handleKeyPressed(KeyEvent event) {
-        if (event.getCode() == KeyCode.DELETE) {
-            deleteSelected();
-        }
-    }
-
     public void showNotification(String message) {
         notificationView.show(message);
-    }
-
-    public void deleteSelected() {
-        if (interactionBlocker.isBlocking()) return;
-        if (firstVertexClicked != null) {
-            deleteSelectedVertex();
-        } else if (selectedEdgeView != null) {
-            deleteSelectedEdge();
-        }
-
-    }
-
-    private void deleteSelectedEdge() {
-        graph.removeEdge(selectedEdgeView.getEdge());
-        graphContent.getChildren().remove(selectedEdgeView);
-        graphContent.getChildren().remove(selectedEdgeView.getWeightView());
-        edgeWeightViewMap.remove(selectedEdgeView.getEdge());
-        edgeEdgeViewMap.remove(selectedEdgeView.getEdge());
-        selectedEdgeView = null;
-        // Xóa giao diện thuật toán cũ
-        clearAlgorithmColors();
-    }
-
-    private void deleteSelectedVertex() {
-
-        for (Edge e : graph.getEdgeList()) {
-            if (e.containsVertex(firstVertexClicked.getVertex())) {
-                graphContent.getChildren().remove(edgeEdgeViewMap.get(e));
-                edgeEdgeViewMap.remove(e);
-                graphContent.getChildren().remove(edgeWeightViewMap.get(e));
-                edgeWeightViewMap.remove(e);
-            }
-        }
-        graph.removeVertex(firstVertexClicked.getVertex());
-        // Làm mới lựa chọn trong comboBox UI
-        refreshVertexChoices();
-        // Tính lại điều kiện Run
-        updateAlgorithmControls();
-        // Xóa giao diện thuật toán cũ
-        clearAlgorithmColors();
-
-        vertexVertexViewMap.remove(firstVertexClicked.getVertex());
-        graphContent.getChildren().remove(firstVertexClicked);
-        firstVertexClicked.onSelect(false);
-        firstVertexClicked = null;
-        if (previewLine != null)
-            removePreviewLine();
-    }
-
-    public void deleteAll() {
-        // Xóa giao diện thuật toán cũ
-        clearAlgorithmColors();
-        graphContent.getChildren().clear();
-        vertexVertexViewMap.clear();
-        edgeWeightViewMap.clear();
-        edgeEdgeViewMap.clear();
-        Graph.getUsedLabels().clear();
-
-        graph.makeNull();
-        // Làm mới lựa chọn trong comboBox UI
-        refreshVertexChoices();
-        // Tính lại điều kiện Run
-        updateAlgorithmControls();
     }
 
     public void handleRunButton() {
         String algorithm = algorithmComboBox.getValue();
         if ("Count Component".equals(algorithm)) {
-            List<List<Vertex>> components = graph.findConnectedComponent();
+            List<List<Vertex>> components = graphEditorController.getGraph().findConnectedComponent();
             componentCountValueLabel.setText(
                     String.valueOf(components.size())
             );
@@ -644,7 +366,7 @@ public class HelloController {
                 double saturation = 0.23 + (i % 3) * 0.06;
                 double brightness = 0.98;
                 for (Vertex vertex : component) {
-                    VertexView view = vertexVertexViewMap.get(vertex);
+                    VertexView view = graphEditorController.getVertexView(vertex);
                     if (view != null) {
                         view.changeColorCircle(
                                 Color.hsb(hue, saturation, brightness)
@@ -655,12 +377,6 @@ public class HelloController {
             algorithmStatusLabel.setText(
                     "Algorithm Status: Completed"
             );
-        }
-    }
-
-    private void clearAlgorithmColors() {
-        for (VertexView view : vertexVertexViewMap.values()) {
-            view.changeColorCircle(Color.WHITE);
         }
     }
 
@@ -762,6 +478,14 @@ public class HelloController {
 
         detailsVisible = visible;
         updateToggleIcon(visible);
+    }
+
+    public void deleteAll() {
+        graphEditorController.deleteAll();
+    }
+
+    public void deleteSelected() {
+        graphEditorController.deleteSelected();
     }
 
 }
