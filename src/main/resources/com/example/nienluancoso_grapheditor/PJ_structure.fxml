@@ -204,7 +204,7 @@
     </left>
 
     <center>
-        <SplitPane fx:id="workspaceSplitPane" dividerPositions="0.74" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" BorderPane.alignment="CENTER">
+        <SplitPane fx:id="workspaceSplitPane" dividerPositions="0.67" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" BorderPane.alignment="CENTER">
             <items>
                 <!-- 1. Vùng vẽ đồ thị -->
                 <Pane fx:id="graphPane" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
@@ -236,8 +236,8 @@
                                 <VBox fx:id="componentCountPanel" alignment="TOP_LEFT" spacing="8.0">
 
                                     <children>
-                                        <Label styleClass="resultCaption" text="Number of components:" />
-                              <HBox prefHeight="61.0" prefWidth="92.0">
+                                        <Label styleClass="resultCaption" text="Number of components:" wrapText="true" />
+                              <HBox prefHeight="78.0" prefWidth="175.0">
                                  <children>
                                     <Region HBox.hgrow="ALWAYS" />
       
@@ -258,7 +258,7 @@
                                 <VBox fx:id="componentDetailsPanel" spacing="8.0" HBox.hgrow="ALWAYS">
 
                                     <children>
-                                        <ScrollPane fx:id="componentDetailsScrollPane" fitToHeight="false" fitToWidth="true" hbarPolicy="AS_NEEDED" minHeight="80.0" prefViewportHeight="80.0" vbarPolicy="AS_NEEDED" VBox.vgrow="ALWAYS">
+                                        <ScrollPane fx:id="componentDetailsScrollPane" fitToHeight="false" fitToWidth="true" hbarPolicy="AS_NEEDED" minHeight="80.0" prefViewportHeight="120.0" vbarPolicy="AS_NEEDED" VBox.vgrow="ALWAYS">
 
                                             <content>
                                                 <FlowPane fx:id="componentDetailsPane" hgap="10.0" prefWrapLength="500.0" vgap="10.0">
