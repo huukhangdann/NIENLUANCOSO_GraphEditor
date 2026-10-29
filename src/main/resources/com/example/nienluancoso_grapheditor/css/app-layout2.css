@@ -375,12 +375,6 @@
     -fx-text-fill: #27272a; /* Màu chữ sắc nét hơn */
 }
 
-#overviewPanel .vbox > .label {
-    -fx-font-size: 14px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #09090b;
-}
-
 .resultCaption {
     -fx-font-size: 13px;
     -fx-text-fill: #71717A;
@@ -414,7 +408,7 @@
     -fx-text-fill: #71717A;
 }
 
-.componentCountValue {
+#componentCountValueLabel {
     -fx-font-size: 46px;
     -fx-font-weight: bold;
     -fx-text-fill: #16A34A;
