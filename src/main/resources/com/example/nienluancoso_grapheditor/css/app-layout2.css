@@ -369,11 +369,6 @@
     -fx-border-color: #E4E4E7 transparent transparent transparent;
 }
 
-#overviewPanel .label {
-    -fx-font-size: 14px; /* Tăng từ mặc định 13px lên 14px */
-    -fx-font-weight: 600; /* Làm chữ đậm hơn một chút */
-    -fx-text-fill: #27272a; /* Màu chữ sắc nét hơn */
-}
 
 .resultCaption {
     -fx-font-size: 13px;
@@ -406,11 +401,6 @@
     -fx-font-size: 13px;
     -fx-font-weight: 600;
     -fx-text-fill: #71717A;
-}
-
-#componentCountValueLabel {
-    -fx-font-weight: bold;
-    -fx-text-fill: #a31616;
 }
 
 #componentDetailsScrollPane {
