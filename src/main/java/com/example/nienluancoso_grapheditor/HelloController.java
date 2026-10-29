@@ -734,6 +734,11 @@ public class HelloController {
         // Xóa giao diện thuật toán cũ
         clearAlgorithmColors();
         graphContent.getChildren().clear();
+        vertexVertexViewMap.clear();
+        edgeWeightViewMap.clear();
+        edgeEdgeViewMap.clear();
+        Graph.getUsedLabels().clear();
+
         graph.makeNull();
         // Làm mới lựa chọn trong comboBox UI
         refreshVertexChoices();

@@ -40,7 +40,7 @@ public class Graph {
     public void makeNull(){
         this.vertexList = new ArrayList<>();
         this.edgeList = new ArrayList<>();
-        int nextVertexID = 1;
+        nextVertexID = 1;
         usedLabels.clear();
     }
 
