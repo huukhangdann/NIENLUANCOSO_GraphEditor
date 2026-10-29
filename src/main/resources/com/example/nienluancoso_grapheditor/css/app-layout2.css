@@ -202,7 +202,6 @@
 
 #overviewPanel {
     -fx-background-color: #FAFAFA;
-    -fx-background-radius: 6px;
     -fx-border-color: #E4E4E7;
     -fx-border-radius: 6px;
     -fx-padding: 8px 12px;
@@ -369,12 +368,6 @@
     -fx-border-color: #E4E4E7 transparent transparent transparent;
 }
 
-
-.resultCaption {
-    -fx-font-size: 13px;
-    -fx-text-fill: #71717A;
-}
-
 .resultDescription {
     -fx-font-size: 14px;
     -fx-text-fill: #52525B;
@@ -385,22 +378,6 @@
     -fx-background-color: #FFFFFF;
     -fx-padding: 12px;
     -fx-spacing: 10px;
-}
-
-/* Overall Results container */
-#overviewPanel {
-    -fx-background-color: #FAFAFA;
-    -fx-background-radius: 8px;
-    -fx-border-color: #E4E4E7;
-    -fx-border-radius: 8px;
-    -fx-padding: 12px;
-}
-
-/* Result labels */
-.resultCaption {
-    -fx-font-size: 13px;
-    -fx-font-weight: 600;
-    -fx-text-fill: #71717A;
 }
 
 #componentDetailsScrollPane {

@@ -209,7 +209,7 @@
                 <!-- 1. Vùng vẽ đồ thị -->
                 <Pane fx:id="graphPane" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                     <children>
-                        <NotificationView fx:id="notificationView" mouseTransparent="true"/>
+                        <NotificationView fx:id="notificationView" mouseTransparent="true" />
                     </children>
                 </Pane>
 
@@ -233,23 +233,42 @@
 
                             <children>
                                 <!-- Số lượng component: rộng theo nội dung -->
-                                <VBox fx:id="componentCountPanel" alignment="TOP_LEFT" spacing="8.0">
+                                <VBox fx:id="componentCountPanel" alignment="TOP_LEFT" prefHeight="99.0" prefWidth="209.0" spacing="8.0">
 
                                     <children>
-                                        <Label styleClass="resultCaption" text="Number of components:" wrapText="true" />
-                              <HBox prefHeight="78.0" prefWidth="175.0">
+                              <HBox>
                                  <children>
                                     <Region HBox.hgrow="ALWAYS" />
-      
-                                              <Label fx:id="componentCountValueLabel" text="0" textAlignment="RIGHT" textFill="#000000">
+                                              <Label styleClass="resultCaption" text="Connected Components" textAlignment="CENTER" textFill="#848484" wrapText="true">
                                        <font>
-                                          <Font name="SVN-Neutraface2" size="50.0" />
+                                          <Font name="System Bold" size="14.0" />
                                        </font>
                                     </Label>
                                     <Region HBox.hgrow="ALWAYS" />
                                  </children>
                               </HBox>
+                              <HBox>
+                                 <children>
+                                    <Region HBox.hgrow="ALWAYS" />
+      
+                                              <Label fx:id="componentCountValueLabel" alignment="TOP_LEFT" contentDisplay="TOP" text="0" textAlignment="CENTER" textFill="#000000">
+                                       <font>
+                                          <Font name="SVN-Neutraface2" size="50.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets top="-10.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <Region HBox.hgrow="ALWAYS" />
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </HBox>
                                     </children>
+                           <HBox.margin>
+                              <Insets top="20.0" />
+                           </HBox.margin>
                                 </VBox>
 
                                 <Separator orientation="VERTICAL" />
@@ -271,6 +290,9 @@
                                     </children>
                                 </VBox>
                             </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
                         </HBox>
 
                         <!-- Execution Trace -->
