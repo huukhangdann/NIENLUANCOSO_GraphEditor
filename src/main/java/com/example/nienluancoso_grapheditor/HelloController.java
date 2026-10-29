@@ -879,32 +879,20 @@ public class HelloController {
                 );
                 verticesPane.getChildren().add(vertexLabel);
             }
-            ScrollPane verticesScrollPane = new ScrollPane(verticesPane);
-            verticesScrollPane.setFitToWidth(true);
-            verticesScrollPane.setFitToHeight(false);
-            verticesScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-            verticesScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+            // Cho FlowPane tự xuống hàng theo chiều rộng card
+            verticesPane.setPrefWrapLength(190);
 
-            verticesScrollPane.setMinHeight(0);
-            verticesScrollPane.setPrefHeight(100);
-            verticesScrollPane.setMaxHeight(100);
-
-            verticesScrollPane.setStyle(
-                    "-fx-background-color: transparent;" +
-                            "-fx-background: transparent;" +
-                            "-fx-border-color: transparent;" +
-                            "-fx-padding: 0;"
-            );
-
-
-            card.setMinHeight(0);
-            card.setPrefHeight(150);
-            card.setMaxHeight(150);
-            card.setMinWidth(120);
+            // Card tự tính chiều cao theo số hàng đỉnh
+            card.setMinWidth(220);
             card.setPrefWidth(220);
             card.setMaxWidth(220);
 
-            card.getChildren().setAll(title, verticesScrollPane);
+            // Không cố định chiều cao card
+            card.setMinHeight(Region.USE_PREF_SIZE);
+            card.setMaxHeight(Region.USE_PREF_SIZE);
+
+            // Hiển thị trực tiếp danh sách đỉnh bên trong card
+            card.getChildren().setAll(title, verticesPane);
             componentDetailsPane.getChildren().add(card);
         }
     }

@@ -391,12 +391,6 @@
     -fx-text-fill: #52525B;
 }
 
-.componentCountValue {
-    -fx-font-size: 38px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #16A34A;
-}
-
 /* Result area */
 #resultPanel {
     -fx-background-color: #FFFFFF;

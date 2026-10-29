@@ -218,7 +218,9 @@
                                 <Label fx:id="overallResultsLabel"
                                        text="Overall Results"
                                        styleClass="subHeadingLabel"/>
+                                <Region HBox.hgrow="ALWAYS"/>
                                 <Button fx:id="toggleDetailButton"
+                                        alignment="CENTER_RIGHT"
                                         mnemonicParsing="false"
                                         onAction="#handleToggleDetails"
                                         text="-"/>
