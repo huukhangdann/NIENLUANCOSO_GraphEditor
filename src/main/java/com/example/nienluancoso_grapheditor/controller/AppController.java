@@ -84,14 +84,18 @@ public class AppController {
     private final GraphViewportController graphViewportController = new GraphViewportController();
     private GraphEditorController graphEditorController;
     private AlgorithmController algorithmController;
+    private AlgorithmPanelController algorithmPanelController;
     private final Group graphContent = new Group();
     private final InteractionBlocker interactionBlocker = new InteractionBlocker();
 
     @FXML
     private void initialize() {
+        algorithmPanelController = new AlgorithmPanelController(sourceComboBox, targetComboBox, algorithmComboBox,
+                status -> setResultPanelVisible(status),
+                status -> setExecutionTraceVisible(status));
         graphEditorController = new GraphEditorController(graphPane, graphContent, interactionBlocker, () -> {
-            refreshVertexChoices();
-            updateAlgorithmControls();
+            algorithmPanelController.refreshVertexChoices(graphEditorController.getGraph());
+            algorithmPanelController.updateAlgorithmControls(graphEditorController.getGraph(), runButton, resetButton, stepButton, algorithmStatusLabel);
         }, this::showNotification);
         algorithmController = new AlgorithmController(graphEditorController.getGraph());
 
@@ -106,8 +110,8 @@ public class AppController {
 
         // SetUp for UI/UX
         setupLeftNavigation();
-        setupAlgorithmSelection();
-        updateAlgorithmControls();
+        algorithmPanelController.setupAlgorithmSelection(graphEditorController.getGraph(), runButton, resetButton, stepButton, algorithmStatusLabel);
+        algorithmPanelController.updateAlgorithmControls(graphEditorController.getGraph(), runButton, resetButton, stepButton, algorithmStatusLabel);
 
         graphEditorController.setUpGraphCanvas(notificationView, zoomSliderLabel);
         setUpInteractionBlocker();
@@ -165,80 +169,7 @@ public class AppController {
 
     }
 
-    private void updateAlgorithmControls() {
-        String algorithm = algorithmComboBox.getValue();
-        boolean hasVertices = !graphEditorController.getGraph().getVertexList().isEmpty();
-        boolean hasAlgorithm = algorithm != null;
-        boolean needsSource = hasAlgorithm
-                && !algorithm.equals("Count Component");
-        boolean needsTarget = "Moore Dijkstra".equals(algorithm);
-        boolean validSource = !needsSource
-                || sourceComboBox.getValue() != null;
-        boolean validTarget = !needsTarget
-                || targetComboBox.getValue() != null;
-        boolean canRun = hasVertices
-                && hasAlgorithm
-                && validSource
-                && validTarget;
-        runButton.setDisable(!canRun);
-        stepButton.setDisable(!canRun);
 
-        // Chưa có kết quả thuật toán để reset ở giai đoạn này.
-        resetButton.setDisable(true);
-        if (!hasAlgorithm) {
-            algorithmStatusLabel.setText("Algorithm Status: Choose an algorithm");
-        } else if (!hasVertices) {
-            algorithmStatusLabel.setText("Algorithm Status: No vertices available");
-        } else if (!validSource || !validTarget) {
-            algorithmStatusLabel.setText("Algorithm Status: Select required vertices");
-        } else {
-            algorithmStatusLabel.setText("Algorithm Status: Ready");
-        }
-    }
-
-    private void setupAlgorithmSelection() {
-        sourceComboBox.setPromptText("Choose source Vertex");
-        targetComboBox.setPromptText("Choose target Vertex");
-        sourceComboBox.setItems(FXCollections.observableArrayList());
-        targetComboBox.setItems(FXCollections.observableArrayList());
-        StringConverter<Vertex> vertexConverter = new StringConverter<>() {
-            @Override
-            public String toString(Vertex vertex) {
-                return vertex == null ? null : vertex.getLabel();
-            }
-
-            @Override
-            public Vertex fromString(String label) {
-                return null;
-            }
-        };
-        sourceComboBox.setConverter(vertexConverter);
-        targetComboBox.setConverter(vertexConverter);
-        algorithmComboBox.valueProperty().addListener(
-                (observable, oldValue, newValue) -> {
-                    sourceComboBox.setValue(null);
-                    targetComboBox.setValue(null);
-
-                    setResultPanelVisible(newValue != null);
-
-                    boolean showTrace = !"Count Component".equals(newValue);
-                    setExecutionTraceVisible(showTrace);
-
-                    updateAlgorithmInputs();
-                    updateAlgorithmControls();
-                }
-        );
-        sourceComboBox.valueProperty().addListener(
-                (observable, oldValue, newValue) ->
-                        updateAlgorithmControls()
-        );
-        targetComboBox.valueProperty().addListener(
-                (observable, oldValue, newValue) ->
-                        updateAlgorithmControls()
-        );
-        updateAlgorithmInputs();
-        refreshVertexChoices();
-    }
 
     private void setResultPanelVisible(boolean visible) {
         if (visible) {
@@ -251,34 +182,6 @@ public class AppController {
         } else {
             workspaceSplitPane.getItems().remove(resultPanel);
         }
-    }
-
-    private void refreshVertexChoices() {
-        Vertex selectedSource = sourceComboBox.getValue();
-        Vertex selectedTarget = targetComboBox.getValue();
-        sourceComboBox.getItems().setAll(graphEditorController.getGraph().getVertexList());
-        targetComboBox.getItems().setAll(graphEditorController.getGraph().getVertexList());
-        if (graphEditorController.getGraph().getVertexList().contains(selectedSource)) {
-            sourceComboBox.setValue(selectedSource);
-        } else {
-            sourceComboBox.setValue(null);
-        }
-        if (graphEditorController.getGraph().getVertexList().contains(selectedTarget)) {
-            targetComboBox.setValue(selectedTarget);
-        } else {
-            targetComboBox.setValue(null);
-        }
-    }
-
-    private void updateAlgorithmInputs() {
-        refreshVertexChoices();
-        String algorithm = algorithmComboBox.getValue();
-        boolean hasAlgorithm = algorithm != null;
-        boolean needsSource = hasAlgorithm
-                && !algorithm.equals("Count Component");
-        boolean needsTarget = "Moore Dijkstra".equals(algorithm);
-        sourceComboBox.setDisable(!needsSource);
-        targetComboBox.setDisable(!needsTarget);
     }
 
     private void setupLeftNavigation() {
