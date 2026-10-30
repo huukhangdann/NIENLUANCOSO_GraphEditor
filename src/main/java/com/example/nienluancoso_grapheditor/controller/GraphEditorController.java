@@ -108,14 +108,7 @@ public class GraphEditorController {
 
                 vertexView.handleVertexClicked();
                 vertexView.handleVertexDragged(graphContent);
-
-                // VertexView clicked
-                vertexView.handleVertexClicked();
-
-                // Vertex dragged
-                vertexView.handleVertexDragged(graphContent);
                 graphContent.getChildren().add(vertexView);
-
                 onGraphChanged.run();
             }
         } else {

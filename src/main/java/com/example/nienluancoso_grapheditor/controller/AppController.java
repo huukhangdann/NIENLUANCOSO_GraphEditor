@@ -83,7 +83,7 @@ public class AppController {
 
     private final GraphViewportController graphViewportController = new GraphViewportController();
     private GraphEditorController graphEditorController;
-
+    private AlgorithmController algorithmController;
     private final Group graphContent = new Group();
     private final InteractionBlocker interactionBlocker = new InteractionBlocker();
 
@@ -93,6 +93,7 @@ public class AppController {
             refreshVertexChoices();
             updateAlgorithmControls();
         }, this::showNotification);
+        algorithmController = new AlgorithmController(graphEditorController.getGraph());
 
         detailsVisible = true;
         workspaceSplitPane.getItems().remove(resultPanel);
@@ -351,7 +352,7 @@ public class AppController {
     public void handleRunButton() {
         String algorithm = algorithmComboBox.getValue();
         if ("Count Component".equals(algorithm)) {
-            List<List<Vertex>> components = graphEditorController.getGraph().findConnectedComponent();
+            List<List<Vertex>> components = algorithmController.findConnectedComponents();
             componentCountValueLabel.setText(
                     String.valueOf(components.size())
             );
