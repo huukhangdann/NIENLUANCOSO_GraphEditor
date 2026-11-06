@@ -65,6 +65,22 @@ public class AppController {
     private Button zoomInButton;
     @FXML
     private Button zoomOutButton;
+    @FXML
+    private VBox resultPanel;
+    @FXML
+    private Label componentCountValueLabel;
+    @FXML
+    private Label overallResultsLabel;
+    @FXML
+    private FlowPane componentDetailsPane;
+    @FXML
+    private HBox detailHeader;
+    @FXML
+    private SplitPane detailSplitPane;
+    @FXML
+    private Button toggleDetailButton;
+    @FXML
+    private SplitPane workspaceSplitPane;
     private final GraphViewportController graphViewportController = new GraphViewportController();
     private GraphEditorController graphEditorController;
     private AlgorithmController algorithmController;
@@ -75,7 +91,17 @@ public class AppController {
 
     @FXML
     private void initialize() {
-        algorithmResultController = new AlgorithmResultController();
+        algorithmResultController = new AlgorithmResultController(
+                resultPanel,
+                componentCountValueLabel,
+                overallResultsLabel,
+                componentDetailsPane,
+                detailHeader,
+                detailSplitPane,
+                toggleDetailButton,
+                workspaceSplitPane
+        );
+        algorithmResultController.initializedView();
         algorithmPanelController = new AlgorithmPanelController(sourceComboBox, targetComboBox, algorithmComboBox,
                 status -> algorithmResultController.setResultPanelVisible(status),
                 status -> algorithmResultController.setExecutionTraceVisible(status));
@@ -235,7 +261,7 @@ public class AppController {
 
     @FXML
     private void handleToggleDetailsAppCtrler() {
-
+        algorithmResultController.handleToggleDetails();
     }
 
     public void deleteAll() {

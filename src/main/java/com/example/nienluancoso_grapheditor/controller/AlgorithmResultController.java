@@ -19,25 +19,39 @@ import java.util.List;
 
 
 public class AlgorithmResultController {
-    @FXML
     private VBox resultPanel;
-    @FXML
     private Label componentCountValueLabel;
-    @FXML
     private Label overallResultsLabel;
-    @FXML
     private FlowPane componentDetailsPane;
-    @FXML
     private HBox detailHeader;
-    @FXML
     private SplitPane detailSplitPane;
-    @FXML
     private Button toggleDetailButton;
-    @FXML
     private SplitPane workspaceSplitPane;
     private boolean detailsVisible;
 
-    public AlgorithmResultController(){
+    public AlgorithmResultController(
+            VBox resultPanel,
+            Label componentCountValueLabel,
+            Label overallResultsLabel,
+            FlowPane componentDetailsPane,
+            HBox detailHeader,
+            SplitPane detailSplitPane,
+            Button toggleDetailButton,
+            SplitPane workspaceSplitPane
+    ) {
+        this.resultPanel = resultPanel;
+        this.componentCountValueLabel = componentCountValueLabel;
+        this.overallResultsLabel = overallResultsLabel;
+        this.componentDetailsPane = componentDetailsPane;
+        this.detailHeader = detailHeader;
+        this.detailSplitPane = detailSplitPane;
+        this.toggleDetailButton = toggleDetailButton;
+        this.workspaceSplitPane = workspaceSplitPane;
+
+        detailsVisible = true;
+    }
+
+    public void initializedView(){
         detailsVisible = true;
         setExecutionTraceVisible(false);
         workspaceSplitPane.getItems().remove(resultPanel);
