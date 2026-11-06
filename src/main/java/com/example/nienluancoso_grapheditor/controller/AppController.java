@@ -101,7 +101,7 @@ public class AppController {
                 toggleDetailButton,
                 workspaceSplitPane
         );
-        algorithmResultController.initializedView();
+        algorithmResultController.initializeView();
         algorithmPanelController = new AlgorithmPanelController(sourceComboBox, targetComboBox, algorithmComboBox,
                 status -> algorithmResultController.setResultPanelVisible(status),
                 status -> algorithmResultController.setExecutionTraceVisible(status));

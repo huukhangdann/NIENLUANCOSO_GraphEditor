@@ -1,7 +1,6 @@
 package com.example.nienluancoso_grapheditor.controller;
 
 import com.example.nienluancoso_grapheditor.model.Vertex;
-import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -51,11 +50,10 @@ public class AlgorithmResultController {
         detailsVisible = true;
     }
 
-    public void initializedView(){
+    public void initializeView(){
         detailsVisible = true;
         setExecutionTraceVisible(false);
         workspaceSplitPane.getItems().remove(resultPanel);
-        updateToggleIcon(true);
     }
 
     public Label getOverallResultsLabel() {
