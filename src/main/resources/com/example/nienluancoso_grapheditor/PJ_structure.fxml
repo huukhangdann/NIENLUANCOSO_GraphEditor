@@ -226,7 +226,7 @@
                             <children>
                                 <Label fx:id="overallResultsLabel" styleClass="subHeadingLabel" text="Overall Results" />
                                 <Region HBox.hgrow="ALWAYS" />
-                                <Button fx:id="toggleDetailButton" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#handleToggleDetails" text="-" />
+                                <Button fx:id="toggleDetailButton" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#handleToggleDetailsAppCtrler" text="-" />
                             </children>
                         </HBox>
                         <HBox fx:id="overviewPanel" alignment="TOP_LEFT" spacing="16.0">

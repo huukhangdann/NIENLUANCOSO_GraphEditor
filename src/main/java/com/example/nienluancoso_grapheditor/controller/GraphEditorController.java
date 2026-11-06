@@ -15,6 +15,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -316,6 +317,23 @@ public class GraphEditorController {
     private void clearAlgorithmColors() {
         for (VertexView view : getVertexViews()) {
             view.changeColorCircle(Color.WHITE);
+        }
+    }
+
+    public void highlightComponents(List<List<Vertex>> components){
+        for (int i = 0; i < components.size(); i++) {
+            List<Vertex> component = components.get(i);
+            double hue = (i * 137.508) % 360;
+            double saturation = 0.23 + (i % 3) * 0.06;
+            double brightness = 0.98;
+            for (Vertex vertex : component) {
+                VertexView view = vertexVertexViewMap.get(vertex);
+                if (view != null) {
+                    view.changeColorCircle(
+                            Color.hsb(hue, saturation, brightness)
+                    );
+                }
+            }
         }
     }
 }

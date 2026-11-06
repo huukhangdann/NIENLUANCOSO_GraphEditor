@@ -1,4 +1,5 @@
 package com.example.nienluancoso_grapheditor.controller;
+
 import com.example.nienluancoso_grapheditor.model.Vertex;
 import com.example.nienluancoso_grapheditor.view.*;
 import javafx.collections.FXCollections;
@@ -16,6 +17,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
+
 import java.util.List;
 
 public class AppController {
@@ -58,51 +60,30 @@ public class AppController {
     @FXML
     private Label algorithmStatusLabel;
     @FXML
-    private SplitPane detailSplitPane;
-    @FXML
-    private Button toggleDetailButton;
-    private boolean detailsVisible = true;
-    @FXML
-    private VBox resultPanel;
-    @FXML
-    private HBox detailHeader;
-    @FXML
-    private SplitPane workspaceSplitPane;
-    @FXML
     private Label featurePaneLabel;
     @FXML
     private Button zoomInButton;
     @FXML
     private Button zoomOutButton;
-    @FXML
-    private Label componentCountValueLabel;
-    @FXML
-    private Label overallResultsLabel;
-    @FXML
-    private FlowPane componentDetailsPane;
-
     private final GraphViewportController graphViewportController = new GraphViewportController();
     private GraphEditorController graphEditorController;
     private AlgorithmController algorithmController;
     private AlgorithmPanelController algorithmPanelController;
     private final Group graphContent = new Group();
     private final InteractionBlocker interactionBlocker = new InteractionBlocker();
+    private AlgorithmResultController algorithmResultController;
 
     @FXML
     private void initialize() {
+        algorithmResultController = new AlgorithmResultController();
         algorithmPanelController = new AlgorithmPanelController(sourceComboBox, targetComboBox, algorithmComboBox,
-                status -> setResultPanelVisible(status),
-                status -> setExecutionTraceVisible(status));
+                status -> algorithmResultController.setResultPanelVisible(status),
+                status -> algorithmResultController.setExecutionTraceVisible(status));
         graphEditorController = new GraphEditorController(graphPane, graphContent, interactionBlocker, () -> {
             algorithmPanelController.refreshVertexChoices(graphEditorController.getGraph());
             algorithmPanelController.updateAlgorithmControls(graphEditorController.getGraph(), runButton, resetButton, stepButton, algorithmStatusLabel);
         }, this::showNotification);
         algorithmController = new AlgorithmController(graphEditorController.getGraph());
-
-        detailsVisible = true;
-        workspaceSplitPane.getItems().remove(resultPanel);
-        setExecutionTraceVisible(false);
-        updateToggleIcon(true);
         setupButtonIcons();
         root.addEventFilter(KeyEvent.KEY_PRESSED, this::handleKeyPressed);
         graphPane.getChildren().addFirst(graphContent);
@@ -128,13 +109,15 @@ public class AppController {
     }
 
     // Zoom Handle method
-    public void handleZoomIn(){
+    public void handleZoomIn() {
         graphViewportController.zoomIn(zoomSlider);
     }
-    public void handleZoomOut(){
+
+    public void handleZoomOut() {
         graphViewportController.zoomOut(zoomSlider);
     }
-    public void handleResetZoom(){
+
+    public void handleResetZoom() {
         graphViewportController.resetZoom(zoomSlider);
     }
 
@@ -165,23 +148,8 @@ public class AppController {
         zoomOutButton.setGraphic(createIcon(Feather.ZOOM_OUT, 16));
         zoomInButton.setGraphic(createIcon(Feather.ZOOM_IN, 16));
 
-        overallResultsLabel.setGraphic(createIcon(Feather.BAR_CHART_2, 16));
+        algorithmResultController.getOverallResultsLabel().setGraphic(createIcon(Feather.BAR_CHART_2, 16));
 
-    }
-
-
-
-    private void setResultPanelVisible(boolean visible) {
-        if (visible) {
-            if (!workspaceSplitPane.getItems().contains(resultPanel)) {
-                workspaceSplitPane.getItems().add(resultPanel);
-            }
-
-            workspaceSplitPane.setDividerPositions(0.67);
-            workspaceSplitPane.setDividerPositions(0.67);
-        } else {
-            workspaceSplitPane.getItems().remove(resultPanel);
-        }
     }
 
     private void setupLeftNavigation() {
@@ -256,28 +224,9 @@ public class AppController {
         String algorithm = algorithmComboBox.getValue();
         if ("Count Component".equals(algorithm)) {
             List<List<Vertex>> components = algorithmController.findConnectedComponents();
-            componentCountValueLabel.setText(
-                    String.valueOf(components.size())
-            );
-            displayComponentDetails(components);
-
-            // Hiển thị các đỉnh thuộc từng thành phần
-            StringBuilder details = new StringBuilder();
-
-            for (int i = 0; i < components.size(); i++) {
-                List<Vertex> component = components.get(i);
-                double hue = (i * 137.508) % 360;
-                double saturation = 0.23 + (i % 3) * 0.06;
-                double brightness = 0.98;
-                for (Vertex vertex : component) {
-                    VertexView view = graphEditorController.getVertexView(vertex);
-                    if (view != null) {
-                        view.changeColorCircle(
-                                Color.hsb(hue, saturation, brightness)
-                        );
-                    }
-                }
-            }
+            algorithmResultController.setTextComponentCountValueLabel(String.valueOf(components.size()));
+            algorithmResultController.displayComponentDetails(components);
+            graphEditorController.highlightComponents(components);
             algorithmStatusLabel.setText(
                     "Algorithm Status: Completed"
             );
@@ -285,103 +234,8 @@ public class AppController {
     }
 
     @FXML
-    private void handleToggleDetails() {
-        detailsVisible = !detailsVisible;
-        detailHeader.setVisible(detailsVisible);
-        detailHeader.setManaged(detailsVisible);
-        detailSplitPane.setVisible(detailsVisible);
-        detailSplitPane.setManaged(detailsVisible);
-        updateToggleIcon(detailsVisible);
-    }
+    private void handleToggleDetailsAppCtrler() {
 
-    private void updateToggleIcon(boolean visible) {
-        FontIcon icon;
-        if (visible) {
-            icon = new FontIcon(Feather.CHEVRON_DOWN);
-        } else {
-            icon = new FontIcon(Feather.CHEVRON_RIGHT);
-        }
-        icon.setIconSize(14);
-        icon.setIconColor(javafx.scene.paint.Color.valueOf("#52525b"));
-        toggleDetailButton.setText("");
-        toggleDetailButton.setGraphic(icon);
-    }
-
-    private void displayComponentDetails(List<List<Vertex>> components) {
-        componentDetailsPane.getChildren().clear();
-        for (int i = 0; i < components.size(); i++) {
-            List<Vertex> component = components.get(i);
-            double hue = (i * 137.508) % 360;
-            double saturation = 0.23 + (i % 3) * 0.06;
-            double brightness = 0.98;
-            Color componentColor = Color.hsb(hue, saturation, brightness);
-            VBox card = new VBox(10);
-            card.setPadding(new Insets(12));
-            card.setMinWidth(120);
-            card.setMaxWidth(220);
-            card.setStyle(
-                    "-fx-background-color: white;" +
-                            "-fx-border-color: #E4E4E7;" +
-                            "-fx-border-radius: 8px;" +
-                            "-fx-background-radius: 8px;"
-            );
-            Label title = new Label("Component " + (i + 1));
-            title.setStyle(
-                    "-fx-font-size: 13px;" +
-                            "-fx-font-weight: bold;" +
-                            "-fx-text-fill: #3F3F46;"
-            );
-            FlowPane verticesPane = new FlowPane();
-            verticesPane.setHgap(6);
-            verticesPane.setVgap(6);
-            String colorHex = String.format(
-                    "#%02X%02X%02X",
-                    (int) Math.round(componentColor.getRed() * 255),
-                    (int) Math.round(componentColor.getGreen() * 255),
-                    (int) Math.round(componentColor.getBlue() * 255)
-            );
-
-            for (Vertex vertex : component) {
-                Label vertexLabel = new Label(vertex.getLabel());
-                vertexLabel.setMinSize(30, 30);
-                vertexLabel.setPrefSize(30, 30);
-                vertexLabel.setAlignment(Pos.CENTER);
-                vertexLabel.setStyle(
-                        "-fx-background-color: " + colorHex + ";" +
-                                "-fx-background-radius: 50%;" +
-                                "-fx-text-fill: #27272A;" +
-                                "-fx-font-size: 12px;" +
-                                "-fx-font-weight: bold;"
-                );
-                verticesPane.getChildren().add(vertexLabel);
-            }
-            // Cho FlowPane tự xuống hàng theo chiều rộng card
-            verticesPane.setPrefWrapLength(190);
-
-            // Card tự tính chiều cao theo số hàng đỉnh
-            card.setMinWidth(220);
-            card.setPrefWidth(220);
-            card.setMaxWidth(220);
-
-            // Không cố định chiều cao card
-            card.setMinHeight(Region.USE_PREF_SIZE);
-            card.setMaxHeight(Region.USE_PREF_SIZE);
-
-            // Hiển thị trực tiếp danh sách đỉnh bên trong card
-            card.getChildren().setAll(title, verticesPane);
-            componentDetailsPane.getChildren().add(card);
-        }
-    }
-
-    private void setExecutionTraceVisible(boolean visible) {
-        detailHeader.setVisible(visible);
-        detailHeader.setManaged(visible);
-
-        detailSplitPane.setVisible(visible);
-        detailSplitPane.setManaged(visible);
-
-        detailsVisible = visible;
-        updateToggleIcon(visible);
     }
 
     public void deleteAll() {
