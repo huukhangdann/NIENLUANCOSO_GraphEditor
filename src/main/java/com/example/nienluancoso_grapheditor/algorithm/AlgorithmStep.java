@@ -6,15 +6,15 @@ import com.example.nienluancoso_grapheditor.model.Vertex;
 import java.util.*;
 
 public class AlgorithmStep {
-    private int lineNumber;
-    private String description;
-    private Vertex currentVertex;
-    private Vertex currentNeighbor;
-    private Edge currentEdge;
-    private List<Vertex> visitedVertices;
-    private List<Vertex> stack;
-    private List<Vertex> result;
-    private List<Vertex> sortedNeighbors;
+    private final int lineNumber;
+    private final String description;
+    private final Vertex currentVertex;
+    private final Vertex currentNeighbor;
+    private final Edge currentEdge;
+    private final List<Vertex> visitedVertices;
+    private final List<Vertex> stack;
+    private final List<Vertex> result;
+    private final List<Vertex> sortedNeighbors;
 
     public AlgorithmStep(
             int lineNumber,
@@ -64,21 +64,6 @@ public class AlgorithmStep {
     }
     public List<Vertex> getSortedNeighbors() {
         return sortedNeighbors;
-    }
-
-
-    private AlgorithmStep createStep(
-            int lineNumber,
-            String description,
-            Vertex currentVertex,
-            Vertex currentNeighbor,
-            Edge currentEdge,
-            List<Vertex> resultList,
-            Stack<Vertex> stack,
-            List<Vertex> sortedNeighbors
-    ) {
-        // Stack snapshot: Top -> Bottom
-        return getAlgorithmStep(lineNumber, description, currentVertex, currentNeighbor, currentEdge, resultList, stack, sortedNeighbors);
     }
 
     static AlgorithmStep getAlgorithmStep(int lineNumber, String description, Vertex currentVertex, Vertex currentNeighbor, Edge currentEdge, List<Vertex> resultList, Stack<Vertex> stack, List<Vertex> sortedNeighbors) {

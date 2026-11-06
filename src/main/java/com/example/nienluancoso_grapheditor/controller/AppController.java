@@ -257,6 +257,12 @@ public class AppController {
                     "Algorithm Status: Completed"
             );
         }
+        else if ("DFS".equals(algorithm)){
+            if(sourceComboBox.getValue()!=null){
+                algorithmController.stepByStepDFS(sourceComboBox.getValue());
+                System.out.println("NO STEP" + algorithmController.normalDFS(sourceComboBox.getValue()));
+            }
+        }
     }
 
     @FXML

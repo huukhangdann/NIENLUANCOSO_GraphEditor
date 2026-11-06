@@ -14,15 +14,15 @@ import static com.example.nienluancoso_grapheditor.algorithm.AlgorithmStep.getAl
 1.  Khởi tạo visited = {}, Khoi tạo Stack S = rỗng
 2.  Push đỉnh start vào S
 3.  WHILE S không rỗng:
-4.      Lấy đỉnh tron cùng u = Pop(S)
-5.      IF u đã sync duty:
+4.      Lấy đỉnh trên cùng u = Pop(S)
+5.      IF u đã được duyệt:
 6.          Bỏ qua u
-7.      Thêm u vào kết quả, đánh dấu u đã duty
+7.      Thêm u vào kết quả, đánh dấu u đã duyệt
 8.      Sắp xếp các đỉnh kề v theo thứ tự nhãn tăng dần
 9.      Xét các đỉnh kề v theo thứ tự ngược lại:
-10.         IF v Chua sync duty:
+10.         IF v chưa được duyệt:
 11.             Push v vào S
-12. RETURN kết quả duty
+12. RETURN kết quả duyệt
 
  */
 
@@ -35,7 +35,7 @@ public class DepthFirstSearch {
         Stack<Vertex> S = new Stack<>();
         S.push(start);
         List<Vertex> sortedVertices = new ArrayList<>(graph.getVertexList());
-        sortedVertices.sort((v1, v2) ->
+        sortedVertices.sort((v2, v1) ->
                 v2.getLabel().compareTo(v1.getLabel()));
         while(!S.isEmpty()){
             Vertex u = S.pop();
@@ -53,7 +53,7 @@ public class DepthFirstSearch {
 
 
     // Step-by-step run
-    public List<AlgorithmStep> executeWithSteps( Graph graph, Vertex start) {
+    public List<AlgorithmStep> executeWithSteps(Graph graph, Vertex start, List<Vertex> resultList) {
         if (graph == null || start == null || !graph.getVertexList().contains(start)) {
             throw new IllegalArgumentException("Đồ thị hoặc đỉnh bắt đầu không hợp lệ.");
         }
@@ -61,7 +61,6 @@ public class DepthFirstSearch {
         List<AlgorithmStep> steps = new ArrayList<>();
 
         Set<Vertex> visitedVertex = new HashSet<>();
-        List<Vertex> resultList = new ArrayList<>();
         Stack<Vertex> stack = new Stack<>();
 
         Vertex currentVertex = null;
@@ -179,7 +178,27 @@ public class DepthFirstSearch {
                 return edge;
             }
         }
-
         return null;
+    }
+
+    public void printSteps(List<AlgorithmStep> steps) {
+        for (int i = 0; i < steps.size(); i++) {
+            AlgorithmStep step = steps.get(i);
+
+            System.out.println("========== STEP " + (i + 1) + " ==========");
+            System.out.println("Pseudocode line: " + step.getLineNumber());
+            System.out.println("Description: " + step.getDescription());
+
+            System.out.println("Current vertex: " + step.getCurrentVertex());
+            System.out.println("Current neighbor: " + step.getCurrentNeighbor());
+            System.out.println("Current edge: " + step.getCurrentEdge());
+
+            System.out.println("Visited: " + step.getVisitedVertices());
+            System.out.println("Stack (Top -> Bottom): " + step.getStack());
+            System.out.println("Result: " + step.getResult());
+            System.out.println("Sorted neighbors: " + step.getSortedNeighbors());
+
+            System.out.println();
+        }
     }
 }
