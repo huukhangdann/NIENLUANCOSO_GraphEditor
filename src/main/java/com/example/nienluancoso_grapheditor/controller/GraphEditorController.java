@@ -336,4 +336,21 @@ public class GraphEditorController {
             }
         }
     }
+
+    public void highlightDFS(List<Vertex> traversal) {
+        clearAlgorithmColors();
+        for (Vertex vertex : traversal) {
+            VertexView view = vertexVertexViewMap.get(vertex);
+            if (view != null) {
+                view.changeColorCircle(Color.web("#BBF7D0"));
+            }
+        }
+        for (Vertex vertex : graph.getVertexList()) {
+            if (traversal.contains(vertex)) continue;
+            VertexView view = vertexVertexViewMap.get(vertex);
+            if (view != null) {
+                view.changeColorCircle(Color.web("#D1D5DB"));
+            }
+        }
+    }
 }

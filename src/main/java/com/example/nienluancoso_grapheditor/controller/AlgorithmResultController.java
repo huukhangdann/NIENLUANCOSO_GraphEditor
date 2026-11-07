@@ -88,18 +88,9 @@ public class AlgorithmResultController {
             card.setPadding(new Insets(12));
             card.setMinWidth(120);
             card.setMaxWidth(220);
-            card.setStyle(
-                    "-fx-background-color: white;" +
-                            "-fx-border-color: #E4E4E7;" +
-                            "-fx-border-radius: 8px;" +
-                            "-fx-background-radius: 8px;"
-            );
+            card.getStyleClass().add("component-card");
             Label title = new Label("Component " + (i + 1));
-            title.setStyle(
-                    "-fx-font-size: 13px;" +
-                            "-fx-font-weight: bold;" +
-                            "-fx-text-fill: #3F3F46;"
-            );
+            title.getStyleClass().add("component-card-title");
             FlowPane verticesPane = new FlowPane();
             verticesPane.setHgap(6);
             verticesPane.setVgap(6);
@@ -115,31 +106,48 @@ public class AlgorithmResultController {
                 vertexLabel.setMinSize(30, 30);
                 vertexLabel.setPrefSize(30, 30);
                 vertexLabel.setAlignment(Pos.CENTER);
-                vertexLabel.setStyle(
-                        "-fx-background-color: " + colorHex + ";" +
-                                "-fx-background-radius: 50%;" +
-                                "-fx-text-fill: #27272A;" +
-                                "-fx-font-size: 12px;" +
-                                "-fx-font-weight: bold;"
-                );
+                vertexLabel.setStyle("-fx-background-color: " + colorHex + ";" + "-fx-background-radius: 50%;" + "-fx-text-fill: #27272A;" + "-fx-font-size: 12px;" + "-fx-font-weight: bold;");
                 verticesPane.getChildren().add(vertexLabel);
             }
-            // Cho FlowPane tự xuống hàng theo chiều rộng card
+
             verticesPane.setPrefWrapLength(190);
 
             // Card tự tính chiều cao theo số hàng đỉnh
             card.setMinWidth(220);
             card.setPrefWidth(220);
             card.setMaxWidth(220);
-
-            // Không cố định chiều cao card
             card.setMinHeight(Region.USE_PREF_SIZE);
             card.setMaxHeight(Region.USE_PREF_SIZE);
-
-            // Hiển thị trực tiếp danh sách đỉnh bên trong card
             card.getChildren().setAll(title, verticesPane);
             componentDetailsPane.getChildren().add(card);
         }
+    }
+
+    public void displayDFSResult(List<Vertex> traversal) {
+        componentDetailsPane.getChildren().clear();
+        Label title = new Label("Traversal Order");
+        title.getStyleClass().add("DFS-traversal-order");
+        HBox sequenceBox = new HBox(8);
+        sequenceBox.setAlignment(Pos.CENTER_LEFT);
+        for (int i = 0; i < traversal.size(); i++) {
+            Vertex vertex = traversal.get(i);
+            Label vertexLabel = new Label(vertex.getLabel());
+            vertexLabel.setMinSize(32, 32);
+            vertexLabel.setPrefSize(32, 32);
+            vertexLabel.setAlignment(Pos.CENTER);
+            vertexLabel.getStyleClass().add("DFS-vertex-traversal");
+            sequenceBox.getChildren().add(vertexLabel);
+
+            if (i < traversal.size() - 1) {
+                Label arrow = new Label("→");
+                arrow.setStyle("-fx-font-size: 14px;" + "-fx-text-fill: #71717A;");
+                sequenceBox.getChildren().add(arrow);
+            }
+        }
+        componentDetailsPane.getChildren().setAll(
+                title,
+                sequenceBox
+        );
     }
 
     public void handleToggleDetails() {

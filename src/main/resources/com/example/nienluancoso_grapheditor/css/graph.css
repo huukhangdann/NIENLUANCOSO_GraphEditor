@@ -84,3 +84,32 @@
     -fx-padding: 5px;
     -fx-border-radius: 5px;
 }
+
+.component-card {
+    -fx-background-color: white;
+    -fx-border-color: #E4E4E7;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+}
+
+.component-card-title {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3F3F46;
+}
+
+.DFS-traversal-order {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3F3F46;
+}
+
+.DFS-vertex-traversal {
+    -fx-background-color: #DCFCE7;
+    -fx-background-radius: 50%;
+    -fx-border-color: #86EFAC;
+    -fx-border-radius: 50%;
+    -fx-text-fill: #166534;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}

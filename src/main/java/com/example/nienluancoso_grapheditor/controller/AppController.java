@@ -256,6 +256,7 @@ public class AppController {
 
     public void handleRunButton() {
         String algorithm = algorithmComboBox.getValue();
+        componentDetailsPanel.setVisible(true);
         if ("Count Component".equals(algorithm)) {
             List<List<Vertex>> components = algorithmController.findConnectedComponents();
             algorithmResultController.setTextComponentCountValueLabel(String.valueOf(components.size()));
@@ -266,8 +267,12 @@ public class AppController {
             );
         }
         else if ("DFS".equals(algorithm)){
-            if(sourceComboBox.getValue()!=null){
-
+            Vertex sourceVertex = sourceComboBox.getValue();
+            if(sourceVertex!=null){
+                List<Vertex> traversalList = algorithmController.normalDFS(sourceVertex);
+                algorithmResultController.displayDFSResult(traversalList);
+                graphEditorController.highlightDFS(traversalList);
+                algorithmResultController.setTextComponentCountValueLabel(String.valueOf(traversalList.size()));
             }
         }
     }

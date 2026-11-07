@@ -62,12 +62,11 @@ public class AlgorithmPanelController {
                     // Setting for each algorithm
                     if("Count Component".equals(newValue)){
                         algorithmResultController.setResultMetricTitle("Connected Components");
-                        showRightOfOverallResult(true);
+                        componentDetailsPanel.setVisible(false);
                     }
                     else if("DFS".equals(newValue)){
                         algorithmResultController.setResultMetricTitle("Visited Nodes Count");
-                        showRightOfOverallResult(false);
-
+                        componentDetailsPanel.setVisible(false);
                     }
                 }
         );
@@ -81,11 +80,6 @@ public class AlgorithmPanelController {
         );
         updateAlgorithmInputs(graph);
         refreshVertexChoices(graph);
-    }
-
-    public void showRightOfOverallResult(boolean value){
-        componentDetailsPanel.setVisible(value);
-        componentDetailsPanel.setManaged(value);
     }
 
     public void updateAlgorithmControls(Graph graph, Button runButton, Button resetButton, Button stepButton, Label algorithmStatusLabel) {
@@ -146,5 +140,4 @@ public class AlgorithmPanelController {
             targetComboBox.setValue(null);
         }
     }
-
 }
