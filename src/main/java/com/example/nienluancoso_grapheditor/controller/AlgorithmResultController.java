@@ -5,12 +5,11 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 
@@ -28,6 +27,8 @@ public class AlgorithmResultController {
     private final SplitPane workspaceSplitPane;
     private boolean detailsVisible;
     private final Label resultMetricTitleLabel;
+    private final VBox componentCountPanel;
+    private final ScrollPane componentDetailsScrollPane;
 
     public AlgorithmResultController(
             VBox resultPanel,
@@ -38,7 +39,9 @@ public class AlgorithmResultController {
             HBox detailHeader,
             SplitPane detailSplitPane,
             Button toggleDetailButton,
-            SplitPane workspaceSplitPane
+            SplitPane workspaceSplitPane,
+            VBox componentCountPanel,
+            ScrollPane componentDetailsScrollPane
     ) {
         this.resultPanel = resultPanel;
         this.resultMetricTitleLabel = resultMetricTitleLabel;
@@ -49,11 +52,12 @@ public class AlgorithmResultController {
         this.detailSplitPane = detailSplitPane;
         this.toggleDetailButton = toggleDetailButton;
         this.workspaceSplitPane = workspaceSplitPane;
-
+        this.componentCountPanel = componentCountPanel;
+        this.componentDetailsScrollPane = componentDetailsScrollPane;
         detailsVisible = true;
     }
 
-    public void initializeView(){
+    public void initializeView() {
         detailsVisible = true;
         setExecutionTraceVisible(false);
         workspaceSplitPane.getItems().remove(resultPanel);
@@ -125,10 +129,13 @@ public class AlgorithmResultController {
 
     public void displayDFSResult(List<Vertex> traversal) {
         componentDetailsPane.getChildren().clear();
+        VBox traversalContainer = new VBox(10);
+        traversalContainer.setAlignment(Pos.TOP_LEFT);
+        traversalContainer.setPadding(new Insets(8));
         Label title = new Label("Traversal Order");
         title.getStyleClass().add("DFS-traversal-order");
         HBox sequenceBox = new HBox(8);
-        sequenceBox.setAlignment(Pos.CENTER_LEFT);
+        sequenceBox.setAlignment(Pos.CENTER);
         for (int i = 0; i < traversal.size(); i++) {
             Vertex vertex = traversal.get(i);
             Label vertexLabel = new Label(vertex.getLabel());
@@ -137,17 +144,16 @@ public class AlgorithmResultController {
             vertexLabel.setAlignment(Pos.CENTER);
             vertexLabel.getStyleClass().add("DFS-vertex-traversal");
             sequenceBox.getChildren().add(vertexLabel);
-
             if (i < traversal.size() - 1) {
                 Label arrow = new Label("→");
-                arrow.setStyle("-fx-font-size: 14px;" + "-fx-text-fill: #71717A;");
+                arrow.setStyle(
+                        "-fx-font-size: 14px;" + "-fx-text-fill: #71717A;");
                 sequenceBox.getChildren().add(arrow);
             }
         }
-        componentDetailsPane.getChildren().setAll(
-                title,
-                sequenceBox
-        );
+        traversalContainer.getChildren().setAll(title, sequenceBox);
+        traversalContainer.setPrefHeight(200);
+        componentDetailsPane.getChildren().add(traversalContainer);
     }
 
     public void handleToggleDetails() {
@@ -183,7 +189,7 @@ public class AlgorithmResultController {
         updateToggleIcon(visible);
     }
 
-    public void setTextComponentCountValueLabel(String s){
+    public void setTextComponentCountValueLabel(String s) {
         componentCountValueLabel.setText(s);
     }
 
@@ -193,6 +199,15 @@ public class AlgorithmResultController {
 
     public void setResultMetricValue(String value) {
         componentCountValueLabel.setText(value);
+    }
+
+    public void setOverviewCompact(boolean compact) {
+        componentCountPanel.setPrefHeight(compact ? 70 : 99);
+        componentCountPanel.setSpacing(compact ? 3 : 8);
+        resultMetricTitleLabel.setPadding(compact ? new Insets(10, 0, 0, 0) : new Insets(4, 0, 0, 0) );
+        componentCountValueLabel.setFont(Font.font(componentCountValueLabel.getFont().getFamily(), compact ? 30 : 50));
+        componentDetailsScrollPane.setMinHeight(compact ? 58 : 80);
+        componentDetailsScrollPane.setPrefViewportHeight(compact ? 58 : 120);
     }
 
 }

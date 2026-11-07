@@ -61,10 +61,12 @@ public class AlgorithmPanelController {
 
                     // Setting for each algorithm
                     if("Count Component".equals(newValue)){
+                        algorithmResultController.setOverviewCompact(false);
                         algorithmResultController.setResultMetricTitle("Connected Components");
                         componentDetailsPanel.setVisible(false);
                     }
                     else if("DFS".equals(newValue)){
+                        algorithmResultController.setOverviewCompact(true);
                         algorithmResultController.setResultMetricTitle("Visited Nodes Count");
                         componentDetailsPanel.setVisible(false);
                     }

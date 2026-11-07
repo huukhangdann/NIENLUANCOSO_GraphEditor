@@ -27,7 +27,7 @@
 
 <?import com.example.nienluancoso_grapheditor.view.NotificationView?>
 
-<BorderPane fx:id="root" prefHeight="700.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.nienluancoso_grapheditor.controller.AppController">
+<BorderPane fx:id="root" prefHeight="700.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.nienluancoso_grapheditor.controller.AppController">
     <top>
         <VBox id="topContainer" fx:id="topContainer" BorderPane.alignment="CENTER">
             <children>
@@ -243,11 +243,14 @@
                                        <font>
                                           <Font name="System Bold" size="14.0" />
                                        </font>
+                                       <padding>
+                                          <Insets top="10.0" />
+                                       </padding>
                                     </Label>
                                     <Region HBox.hgrow="ALWAYS" />
                                  </children>
                               </HBox>
-                              <HBox>
+                              <HBox prefHeight="69.0" prefWidth="218.0">
                                  <children>
                                     <Region HBox.hgrow="ALWAYS" />
       
@@ -267,7 +270,7 @@
                               </HBox>
                                     </children>
                            <HBox.margin>
-                              <Insets top="20.0" />
+                              <Insets />
                            </HBox.margin>
                                 </VBox>
 
@@ -277,7 +280,7 @@
                                 <VBox fx:id="componentDetailsPanel" spacing="8.0" HBox.hgrow="ALWAYS">
 
                                     <children>
-                                        <ScrollPane fx:id="componentDetailsScrollPane" fitToHeight="false" fitToWidth="true" hbarPolicy="AS_NEEDED" minHeight="80.0" prefViewportHeight="120.0" vbarPolicy="AS_NEEDED" VBox.vgrow="ALWAYS">
+                                        <ScrollPane fx:id="componentDetailsScrollPane" fitToHeight="false" fitToWidth="true" hbarPolicy="AS_NEEDED" minHeight="80.0" prefHeight="108.0" prefViewportHeight="120.0" prefWidth="542.0" vbarPolicy="AS_NEEDED" VBox.vgrow="ALWAYS">
 
                                             <content>
                                                 <FlowPane fx:id="componentDetailsPane" hgap="10.0" prefWrapLength="500.0" vgap="10.0">
