@@ -18,18 +18,20 @@ import java.util.List;
 
 
 public class AlgorithmResultController {
-    private VBox resultPanel;
-    private Label componentCountValueLabel;
-    private Label overallResultsLabel;
-    private FlowPane componentDetailsPane;
-    private HBox detailHeader;
-    private SplitPane detailSplitPane;
-    private Button toggleDetailButton;
-    private SplitPane workspaceSplitPane;
+    private final VBox resultPanel;
+    private final Label componentCountValueLabel;
+    private final Label overallResultsLabel;
+    private final FlowPane componentDetailsPane;
+    private final HBox detailHeader;
+    private final SplitPane detailSplitPane;
+    private final Button toggleDetailButton;
+    private final SplitPane workspaceSplitPane;
     private boolean detailsVisible;
+    private final Label resultMetricTitleLabel;
 
     public AlgorithmResultController(
             VBox resultPanel,
+            Label resultMetricTitleLabel,
             Label componentCountValueLabel,
             Label overallResultsLabel,
             FlowPane componentDetailsPane,
@@ -39,6 +41,7 @@ public class AlgorithmResultController {
             SplitPane workspaceSplitPane
     ) {
         this.resultPanel = resultPanel;
+        this.resultMetricTitleLabel = resultMetricTitleLabel;
         this.componentCountValueLabel = componentCountValueLabel;
         this.overallResultsLabel = overallResultsLabel;
         this.componentDetailsPane = componentDetailsPane;
@@ -174,6 +177,14 @@ public class AlgorithmResultController {
 
     public void setTextComponentCountValueLabel(String s){
         componentCountValueLabel.setText(s);
+    }
+
+    public void setResultMetricTitle(String title) {
+        resultMetricTitleLabel.setText(title);
+    }
+
+    public void setResultMetricValue(String value) {
+        componentCountValueLabel.setText(value);
     }
 
 }

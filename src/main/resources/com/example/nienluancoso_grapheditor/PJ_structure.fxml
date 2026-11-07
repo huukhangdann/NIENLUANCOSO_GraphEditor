@@ -239,7 +239,7 @@
                               <HBox>
                                  <children>
                                     <Region HBox.hgrow="ALWAYS" />
-                                              <Label styleClass="resultCaption" text="Connected Components" textAlignment="CENTER" textFill="#848484" wrapText="true">
+                                              <Label fx:id="resultMetricTitleLabel" styleClass="resultCaption" text="Connected Components" textAlignment="CENTER" textFill="#848484" wrapText="true">
                                        <font>
                                           <Font name="System Bold" size="14.0" />
                                        </font>

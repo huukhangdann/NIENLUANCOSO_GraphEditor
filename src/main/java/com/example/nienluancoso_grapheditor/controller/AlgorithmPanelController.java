@@ -6,6 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 
 import java.util.function.Consumer;
@@ -16,16 +17,18 @@ public class AlgorithmPanelController {
     private final ComboBox<String> algorithmComboBox;
     private final Consumer<Boolean> setResultPanelVisibleCallBack;
     private final Consumer<Boolean> setExecutionTraceVisibleCallBack;
+    private final VBox componentDetailsPanel;
 
-    public AlgorithmPanelController(ComboBox<Vertex> sourceComboBox, ComboBox<Vertex> targetComboBox, ComboBox<String> algorithmComboBox, Consumer<Boolean> setResultPanelVisibleCallBack, Consumer<Boolean> setExecutionTraceVisibleCallBack) {
+    public AlgorithmPanelController(ComboBox<Vertex> sourceComboBox, ComboBox<Vertex> targetComboBox, ComboBox<String> algorithmComboBox, Consumer<Boolean> setResultPanelVisibleCallBack, Consumer<Boolean> setExecutionTraceVisibleCallBack, VBox componentDetailsPanel) {
         this.sourceComboBox = sourceComboBox;
         this.targetComboBox = targetComboBox;
         this.algorithmComboBox = algorithmComboBox;
         this.setResultPanelVisibleCallBack = setResultPanelVisibleCallBack;
         this.setExecutionTraceVisibleCallBack = setExecutionTraceVisibleCallBack;
+        this.componentDetailsPanel = componentDetailsPanel;
     }
 
-    public void setupAlgorithmSelection(Graph graph, Button runButton, Button resetButton, Button stepButton, Label algorithmStatusLabel) {
+    public void setupAlgorithmSelection(AlgorithmResultController algorithmResultController, Graph graph, Button runButton, Button resetButton, Button stepButton, Label algorithmStatusLabel) {
         sourceComboBox.setPromptText("Choose source Vertex");
         targetComboBox.setPromptText("Choose target Vertex");
         sourceComboBox.setItems(FXCollections.observableArrayList());
@@ -55,6 +58,17 @@ public class AlgorithmPanelController {
 
                     updateAlgorithmInputs(graph);
                     updateAlgorithmControls(graph, runButton, resetButton, stepButton, algorithmStatusLabel);
+
+                    // Setting for each algorithm
+                    if("Count Component".equals(newValue)){
+                        algorithmResultController.setResultMetricTitle("Connected Components");
+                        showRightOfOverallResult(true);
+                    }
+                    else if("DFS".equals(newValue)){
+                        algorithmResultController.setResultMetricTitle("Visited Nodes Count");
+                        showRightOfOverallResult(false);
+
+                    }
                 }
         );
         sourceComboBox.valueProperty().addListener(
@@ -67,6 +81,11 @@ public class AlgorithmPanelController {
         );
         updateAlgorithmInputs(graph);
         refreshVertexChoices(graph);
+    }
+
+    public void showRightOfOverallResult(boolean value){
+        componentDetailsPanel.setVisible(value);
+        componentDetailsPanel.setManaged(value);
     }
 
     public void updateAlgorithmControls(Graph graph, Button runButton, Button resetButton, Button stepButton, Label algorithmStatusLabel) {

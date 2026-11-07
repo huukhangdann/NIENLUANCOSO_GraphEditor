@@ -81,6 +81,13 @@ public class AppController {
     private Button toggleDetailButton;
     @FXML
     private SplitPane workspaceSplitPane;
+    @FXML
+    private Label resultMetricTitleLabel;
+    @FXML
+    private VBox componentDetailsPanel;
+
+
+
     private final GraphViewportController graphViewportController = new GraphViewportController();
     private GraphEditorController graphEditorController;
     private AlgorithmController algorithmController;
@@ -93,6 +100,7 @@ public class AppController {
     private void initialize() {
         algorithmResultController = new AlgorithmResultController(
                 resultPanel,
+                resultMetricTitleLabel,
                 componentCountValueLabel,
                 overallResultsLabel,
                 componentDetailsPane,
@@ -104,7 +112,7 @@ public class AppController {
         algorithmResultController.initializeView();
         algorithmPanelController = new AlgorithmPanelController(sourceComboBox, targetComboBox, algorithmComboBox,
                 status -> algorithmResultController.setResultPanelVisible(status),
-                status -> algorithmResultController.setExecutionTraceVisible(status));
+                status -> algorithmResultController.setExecutionTraceVisible(status), componentDetailsPanel);
         graphEditorController = new GraphEditorController(graphPane, graphContent, interactionBlocker, () -> {
             algorithmPanelController.refreshVertexChoices(graphEditorController.getGraph());
             algorithmPanelController.updateAlgorithmControls(graphEditorController.getGraph(), runButton, resetButton, stepButton, algorithmStatusLabel);
@@ -117,7 +125,7 @@ public class AppController {
 
         // SetUp for UI/UX
         setupLeftNavigation();
-        algorithmPanelController.setupAlgorithmSelection(graphEditorController.getGraph(), runButton, resetButton, stepButton, algorithmStatusLabel);
+        algorithmPanelController.setupAlgorithmSelection(algorithmResultController, graphEditorController.getGraph(), runButton, resetButton, stepButton, algorithmStatusLabel);
         algorithmPanelController.updateAlgorithmControls(graphEditorController.getGraph(), runButton, resetButton, stepButton, algorithmStatusLabel);
 
         graphEditorController.setUpGraphCanvas(notificationView, zoomSliderLabel);
@@ -259,8 +267,7 @@ public class AppController {
         }
         else if ("DFS".equals(algorithm)){
             if(sourceComboBox.getValue()!=null){
-                algorithmController.stepByStepDFS(sourceComboBox.getValue());
-                System.out.println("NO STEP" + algorithmController.normalDFS(sourceComboBox.getValue()));
+
             }
         }
     }
