@@ -36,7 +36,7 @@ public class DepthFirstSearch {
         S.push(start);
         List<Vertex> sortedVertices = new ArrayList<>(graph.getVertexList());
         sortedVertices.sort((v2, v1) ->
-                v2.getLabel().compareTo(v1.getLabel()));
+                v1.getLabel().compareTo(v2.getLabel()));
         while(!S.isEmpty()){
             Vertex u = S.pop();
             if(visitedVertex.contains(u)) continue;
@@ -57,7 +57,6 @@ public class DepthFirstSearch {
         if (graph == null || start == null || !graph.getVertexList().contains(start)) {
             throw new IllegalArgumentException("Đồ thị hoặc đỉnh bắt đầu không hợp lệ.");
         }
-
         List<AlgorithmStep> steps = new ArrayList<>();
 
         Set<Vertex> visitedVertex = new HashSet<>();
