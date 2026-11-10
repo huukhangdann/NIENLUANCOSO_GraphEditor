@@ -54,6 +54,14 @@ public class AppController {
     @FXML
     private Button runButton;
     @FXML
+    private Button runStepByStepButton;
+    @FXML
+    private Button prevStepButton;
+    @FXML
+    private Button pauseButton;
+    @FXML
+    private Button nextStepButton;
+    @FXML
     private Button stepButton;
     @FXML
     private Button resetButton;
@@ -168,9 +176,12 @@ public class AppController {
         // =========================
         // 4. Các nút điều khiển thuật toán
         // =========================
+        runStepByStepButton.setGraphic(createIcon(Feather.ACTIVITY, 16));
         runButton.setGraphic(createIcon(Feather.PLAY, 16));
-        stepButton.setGraphic(createIcon(Feather.SKIP_FORWARD, 16));
         resetButton.setGraphic(createIcon(Feather.ROTATE_CCW, 16));
+        prevStepButton.setGraphic(createIcon(Feather.SKIP_BACK, 16));
+        pauseButton.setGraphic(createIcon(Feather.PAUSE, 16));
+        nextStepButton.setGraphic(createIcon(Feather.SKIP_FORWARD, 16));
 
         // Trạng thái thuật toán
         algorithmStatusLabel.setGraphic(createIcon(Feather.ACTIVITY, 14));
@@ -271,6 +282,11 @@ public class AppController {
                 algorithmResultController.setTextComponentCountValueLabel(String.valueOf(traversalList.size()));
             }
         }
+    }
+
+    @FXML
+    private void handleRunStepByStepButton(){
+
     }
 
     @FXML

@@ -53,20 +53,17 @@ public class AlgorithmPanelController {
 
                     setResultPanelVisibleCallBack.accept(newValue != null);
 
-                    boolean showTrace = !"Count Component".equals(newValue);
-                    setExecutionTraceVisibleCallBack.accept(showTrace);
+                    setExecutionTraceVisibleCallBack.accept(false);
 
                     updateAlgorithmInputs(graph);
                     updateAlgorithmControls(graph, runButton, resetButton, stepButton, algorithmStatusLabel);
 
                     // Setting for each algorithm
                     if("Count Component".equals(newValue)){
-                        algorithmResultController.setOverviewCompact(false);
                         algorithmResultController.setResultMetricTitle("Connected Components");
                         componentDetailsPanel.setVisible(false);
                     }
                     else if("DFS".equals(newValue)){
-                        algorithmResultController.setOverviewCompact(true);
                         algorithmResultController.setResultMetricTitle("Visited Nodes Count");
                         componentDetailsPanel.setVisible(false);
                     }
@@ -100,7 +97,6 @@ public class AlgorithmPanelController {
                 && validSource
                 && validTarget;
         runButton.setDisable(!canRun);
-        stepButton.setDisable(!canRun);
 
         // Chưa có kết quả thuật toán để reset ở giai đoạn này.
         resetButton.setDisable(true);

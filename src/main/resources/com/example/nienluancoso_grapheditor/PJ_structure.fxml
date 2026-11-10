@@ -27,7 +27,7 @@
 
 <?import com.example.nienluancoso_grapheditor.view.NotificationView?>
 
-<BorderPane fx:id="root" prefHeight="700.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.nienluancoso_grapheditor.controller.AppController">
+<BorderPane fx:id="root" prefHeight="700.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.nienluancoso_grapheditor.controller.AppController">
     <top>
         <VBox id="topContainer" fx:id="topContainer" BorderPane.alignment="CENTER">
             <children>
@@ -182,11 +182,18 @@
                                     <children>
                                         <HBox spacing="8.0">
                                             <children>
-                                                <Button fx:id="runButton" maxWidth="1.17649232938E30" mnemonicParsing="false" onAction="#handleRunButton" text="Run" HBox.hgrow="ALWAYS" />
-                                                <Button fx:id="stepButton" maxWidth="1.17649232938E30" mnemonicParsing="false" text="Step" HBox.hgrow="ALWAYS" />
-                                                <Button fx:id="resetButton" maxWidth="1.17649232938E30" mnemonicParsing="false" text="Reset" HBox.hgrow="ALWAYS" />
+                                                <Button fx:id="runStepByStepButton" maxWidth="1.17649232938E30" mnemonicParsing="false" onAction="#handleRunStepByStepButton" prefHeight="26.0" prefWidth="103.0" text="Visualization" HBox.hgrow="ALWAYS" />
+                                    <Button fx:id="runButton" maxWidth="1.17649232938E30" mnemonicParsing="false" onAction="#handleRunButton" prefHeight="26.0" prefWidth="59.0" text="Run" HBox.hgrow="ALWAYS" />
                                             </children>
                                         </HBox>
+                              <HBox spacing="8.0">
+                                 <children>
+                                    <Button fx:id="prevStepButton" maxWidth="1.17649232938E30" mnemonicParsing="false" prefHeight="26.0" prefWidth="12.0" HBox.hgrow="ALWAYS" />
+                                    <Button fx:id="pauseButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="50.0" />
+                                    <Button fx:id="nextStepButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="50.0" />
+                                    <Button fx:id="resetButton" maxWidth="1.17649232938E30" mnemonicParsing="false" prefHeight="26.0" prefWidth="30.0" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
                                         <Label fx:id="algorithmStatusLabel" styleClass="statusLabel" text="Algorithm Status: Ready" />
                                     </children>
                                 </VBox>
