@@ -152,7 +152,6 @@ public class AlgorithmResultController {
             }
         }
         traversalContainer.getChildren().setAll(title, sequenceBox);
-        traversalContainer.setPrefHeight(200);
         componentDetailsPane.getChildren().add(traversalContainer);
     }
 

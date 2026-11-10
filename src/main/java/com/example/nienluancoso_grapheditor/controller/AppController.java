@@ -252,8 +252,8 @@ public class AppController {
 
     public void handleRunButton() {
         String algorithm = algorithmComboBox.getValue();
+        componentDetailsPanel.setVisible(true);
         if ("Count Component".equals(algorithm)) {
-            algorithmResultController.setOverviewCompact(false);
             List<List<Vertex>> components = algorithmController.findConnectedComponents();
             algorithmResultController.setTextComponentCountValueLabel(String.valueOf(components.size()));
             algorithmResultController.displayComponentDetails(components);
