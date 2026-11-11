@@ -14,9 +14,11 @@ public class AlgorithmStepManager {
 
     public void setSteps(List<AlgorithmStep> steps) {
         this.steps = List.copyOf(steps);
-        if (!steps.isEmpty()) {
-            currentStepIndex = 0;
-        }
+        reset();
+    }
+
+    public void reset() {
+        currentStepIndex = steps.isEmpty() ? -1 : 0;
     }
 
     public int getCurrentStepIndex() {
@@ -52,7 +54,5 @@ public class AlgorithmStepManager {
         currentStepIndex--;
         return true;
     }
-
-
 }
 
