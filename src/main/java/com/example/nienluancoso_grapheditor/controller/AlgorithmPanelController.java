@@ -16,15 +16,22 @@ public class AlgorithmPanelController {
     private final ComboBox<Vertex> targetComboBox;
     private final ComboBox<String> algorithmComboBox;
     private final Consumer<Boolean> setResultPanelVisibleCallBack;
-    private final Consumer<Boolean> setExecutionTraceVisibleCallBack;
+    private final Runnable showOverviewTabCallBack;
     private final VBox componentDetailsPanel;
 
-    public AlgorithmPanelController(ComboBox<Vertex> sourceComboBox, ComboBox<Vertex> targetComboBox, ComboBox<String> algorithmComboBox, Consumer<Boolean> setResultPanelVisibleCallBack, Consumer<Boolean> setExecutionTraceVisibleCallBack, VBox componentDetailsPanel) {
+    public AlgorithmPanelController(
+            ComboBox<Vertex> sourceComboBox,
+            ComboBox<Vertex> targetComboBox,
+            ComboBox<String> algorithmComboBox,
+            Consumer<Boolean> setResultPanelVisibleCallBack,
+            Runnable showOverviewTabCallBack,
+            VBox componentDetailsPanel
+    ) {
         this.sourceComboBox = sourceComboBox;
         this.targetComboBox = targetComboBox;
         this.algorithmComboBox = algorithmComboBox;
         this.setResultPanelVisibleCallBack = setResultPanelVisibleCallBack;
-        this.setExecutionTraceVisibleCallBack = setExecutionTraceVisibleCallBack;
+        this.showOverviewTabCallBack = showOverviewTabCallBack;
         this.componentDetailsPanel = componentDetailsPanel;
     }
 
@@ -53,7 +60,7 @@ public class AlgorithmPanelController {
 
                     setResultPanelVisibleCallBack.accept(newValue != null);
 
-                    setExecutionTraceVisibleCallBack.accept(false);
+                    showOverviewTabCallBack.run();
 
                     updateAlgorithmInputs(graph);
                     updateAlgorithmControls(graph, runButton, resetButton, algorithmStatusLabel);

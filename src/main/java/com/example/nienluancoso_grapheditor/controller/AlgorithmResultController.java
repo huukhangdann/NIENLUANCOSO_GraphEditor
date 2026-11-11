@@ -3,10 +3,7 @@ package com.example.nienluancoso_grapheditor.controller;
 import com.example.nienluancoso_grapheditor.model.Vertex;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.SplitPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -19,46 +16,51 @@ import java.util.List;
 public class AlgorithmResultController {
     private final VBox resultPanel;
     private final Label componentCountValueLabel;
-    private final Label overallResultsLabel;
     private final FlowPane componentDetailsPane;
-    private final SplitPane detailSplitPane;
     private final SplitPane workspaceSplitPane;
     private boolean detailsVisible;
     private final Label resultMetricTitleLabel;
     private final VBox componentCountPanel;
     private final ScrollPane componentDetailsScrollPane;
+    private final TabPane resultTabPane;
+    private final Tab overviewTab;
+    private final Tab executionTraceTab;
 
     public AlgorithmResultController(
             VBox resultPanel,
+            TabPane resultTabPane,
+            Tab overviewTab,
+            Tab executionTraceTab,
             Label resultMetricTitleLabel,
             Label componentCountValueLabel,
-            Label overallResultsLabel,
             FlowPane componentDetailsPane,
-            SplitPane detailSplitPane,
             SplitPane workspaceSplitPane,
             VBox componentCountPanel,
             ScrollPane componentDetailsScrollPane
     ) {
         this.resultPanel = resultPanel;
+        this.resultTabPane = resultTabPane;
+        this.overviewTab = overviewTab;
+        this.executionTraceTab = executionTraceTab;
         this.resultMetricTitleLabel = resultMetricTitleLabel;
         this.componentCountValueLabel = componentCountValueLabel;
-        this.overallResultsLabel = overallResultsLabel;
         this.componentDetailsPane = componentDetailsPane;
-        this.detailSplitPane = detailSplitPane;
         this.workspaceSplitPane = workspaceSplitPane;
         this.componentCountPanel = componentCountPanel;
         this.componentDetailsScrollPane = componentDetailsScrollPane;
-        detailsVisible = true;
     }
 
     public void initializeView() {
-        detailsVisible = true;
-        setExecutionTraceVisible(false);
+        showOverviewTab();
         workspaceSplitPane.getItems().remove(resultPanel);
     }
 
-    public Label getOverallResultsLabel() {
-        return overallResultsLabel;
+    public void showOverviewTab() {
+        resultTabPane.getSelectionModel().select(overviewTab);
+    }
+
+    public void showExecutionTraceTab() {
+        resultTabPane.getSelectionModel().select(executionTraceTab);
     }
 
     public void setResultPanelVisible(boolean visible) {
@@ -67,8 +69,7 @@ public class AlgorithmResultController {
                 workspaceSplitPane.getItems().add(resultPanel);
             }
 
-            workspaceSplitPane.setDividerPositions(0.67);
-            workspaceSplitPane.setDividerPositions(0.67);
+            workspaceSplitPane.setDividerPositions(0.75);
         } else {
             workspaceSplitPane.getItems().remove(resultPanel);
         }
@@ -147,32 +148,6 @@ public class AlgorithmResultController {
         }
         traversalContainer.getChildren().setAll(title, sequenceBox);
         componentDetailsPane.getChildren().add(traversalContainer);
-    }
-
-    public void handleToggleDetails() {
-        detailsVisible = !detailsVisible;
-        detailSplitPane.setVisible(detailsVisible);
-        detailSplitPane.setManaged(detailsVisible);
-        updateToggleIcon(detailsVisible);
-    }
-
-    public void updateToggleIcon(boolean visible) {
-        FontIcon icon;
-        if (visible) {
-            icon = new FontIcon(Feather.CHEVRON_DOWN);
-        } else {
-            icon = new FontIcon(Feather.CHEVRON_RIGHT);
-        }
-        icon.setIconSize(14);
-        icon.setIconColor(javafx.scene.paint.Color.valueOf("#52525b"));
-    }
-
-    public void setExecutionTraceVisible(boolean visible) {
-        detailSplitPane.setVisible(visible);
-        detailSplitPane.setManaged(visible);
-
-        detailsVisible = visible;
-        updateToggleIcon(visible);
     }
 
     public void setTextComponentCountValueLabel(String s) {

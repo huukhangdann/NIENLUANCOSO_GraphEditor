@@ -76,13 +76,15 @@ public class AppController {
     @FXML
     private Label componentCountValueLabel;
     @FXML
-    private Label overallResultsLabel;
-    @FXML
     private FlowPane componentDetailsPane;
     @FXML
     private SplitPane detailSplitPane;
     @FXML
-    private Button toggleDetailButton;
+    private TabPane resultTabPane;
+    @FXML
+    private Tab overviewTab;
+    @FXML
+    private Tab executionTraceTab;
     @FXML
     private SplitPane workspaceSplitPane;
     @FXML
@@ -94,8 +96,6 @@ public class AppController {
     @FXML
     private ScrollPane componentDetailsScrollPane;
 
-
-
     private final GraphViewportController graphViewportController = new GraphViewportController();
     private GraphEditorController graphEditorController;
     private AlgorithmController algorithmController;
@@ -106,13 +106,11 @@ public class AppController {
 
     @FXML
     private void initialize() {
-        algorithmResultController = new AlgorithmResultController(
-                resultPanel, resultMetricTitleLabel, componentCountValueLabel, overallResultsLabel, componentDetailsPane,
-                detailSplitPane, workspaceSplitPane, componentCountPanel, componentDetailsScrollPane);
+        algorithmResultController = new AlgorithmResultController(resultPanel, resultTabPane, overviewTab, executionTraceTab, resultMetricTitleLabel,
+                componentCountValueLabel, componentDetailsPane, workspaceSplitPane, componentCountPanel, componentDetailsScrollPane);
         algorithmResultController.initializeView();
-        algorithmPanelController = new AlgorithmPanelController(sourceComboBox, targetComboBox, algorithmComboBox,
-                status -> algorithmResultController.setResultPanelVisible(status),
-                status -> algorithmResultController.setExecutionTraceVisible(status), componentDetailsPanel);
+        algorithmPanelController = new AlgorithmPanelController(sourceComboBox, targetComboBox, algorithmComboBox, status -> algorithmResultController.setResultPanelVisible(status),
+                () -> algorithmResultController.showOverviewTab(), componentDetailsPanel);
         graphEditorController = new GraphEditorController(graphPane, graphContent, interactionBlocker, () -> {
             algorithmPanelController.refreshVertexChoices(graphEditorController.getGraph());
             algorithmPanelController.updateAlgorithmControls(graphEditorController.getGraph(), runButton, resetButton, algorithmStatusLabel);
@@ -184,9 +182,6 @@ public class AppController {
 
         zoomOutButton.setGraphic(createIcon(Feather.ZOOM_OUT, 16));
         zoomInButton.setGraphic(createIcon(Feather.ZOOM_IN, 16));
-
-        algorithmResultController.getOverallResultsLabel().setGraphic(createIcon(Feather.BAR_CHART_2, 16));
-
     }
 
     private void setupLeftNavigation() {
@@ -268,6 +263,7 @@ public class AppController {
             algorithmStatusLabel.setText(
                     "Algorithm Status: Completed"
             );
+            algorithmResultController.showOverviewTab();
         }
         else if ("DFS".equals(algorithm)){
             Vertex sourceVertex = sourceComboBox.getValue();
@@ -276,18 +272,14 @@ public class AppController {
                 algorithmResultController.displayDFSResult(traversalList);
                 graphEditorController.highlightDFS(traversalList);
                 algorithmResultController.setTextComponentCountValueLabel(String.valueOf(traversalList.size()));
+                algorithmResultController.showOverviewTab();
             }
         }
     }
 
     @FXML
     private void handleRunStepByStepButton(){
-
-    }
-
-    @FXML
-    private void handleToggleDetailsAppCtrler() {
-        algorithmResultController.handleToggleDetails();
+        algorithmResultController.showExecutionTraceTab();
     }
 
     public void deleteAll() {

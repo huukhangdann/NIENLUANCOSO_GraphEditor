@@ -213,7 +213,7 @@
     </left>
 
     <center>
-        <SplitPane fx:id="workspaceSplitPane" dividerPositions="0.67" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" BorderPane.alignment="CENTER">
+        <SplitPane fx:id="workspaceSplitPane" dividerPositions="0.75" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" BorderPane.alignment="CENTER">
             <items>
                 <!-- 1. Vùng vẽ đồ thị -->
                 <Pane fx:id="graphPane" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
