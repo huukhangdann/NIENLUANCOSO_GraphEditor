@@ -403,4 +403,190 @@
     -fx-padding: 8px 0 0 0;
 }
 
-/* Nhánh mới */
+/* ==========================================================================
+   9. TAB PANE & EXECUTION TRACE (OBSIDIAN MODERN STYLING)
+   ========================================================================== */
+
+/* --- TAB PANE --- */
+.tab-pane {
+    -fx-background-color: transparent;
+}
+
+.tab-pane .tab-header-area {
+    -fx-padding: 0 4px;
+}
+
+.tab-pane .tab-header-background {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent #E4E4E7 transparent;
+    -fx-border-width: 1px;
+}
+
+.tab-pane .tab {
+    -fx-background-color: transparent;
+    -fx-background-radius: 6px 6px 0 0;
+    -fx-padding: 6px 14px;
+    -fx-cursor: hand;
+}
+
+.tab-pane .tab .tab-label {
+    -fx-text-fill: #71717a;
+    -fx-font-size: 12px;
+    -fx-font-weight: 500;
+}
+
+.tab-pane .tab:hover {
+    -fx-background-color: #F4F4F5;
+}
+
+.tab-pane .tab:hover .tab-label {
+    -fx-text-fill: #09090b;
+}
+
+.tab-pane .tab:selected {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E4E4E7 #E4E4E7 #FFFFFF #E4E4E7;
+    -fx-border-width: 1px 1px 1px 1px;
+    -fx-border-radius: 6px 6px 0 0;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.04), 4, 0, 0, -1);
+}
+
+.tab-pane .tab:selected .tab-label {
+    -fx-text-fill: #09090b;
+    -fx-font-weight: 600;
+}
+
+.tab-pane .tab-content-area {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: transparent;
+}
+
+/* --- EXECUTION TRACE --- */
+#detailSplitPane {
+    -fx-background-color: transparent;
+    -fx-padding: 4px 0 0 0;
+}
+
+#stepsPanel,
+#pseudocodePanel {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 6px;
+    -fx-padding: 10px;
+}
+
+#stepsPanel {
+    -fx-border-color: transparent;
+}
+
+#stepsPanel .fieldLabel,
+#pseudocodePanel .fieldLabel {
+    -fx-font-size: 12px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #3f3f46;
+}
+
+/* --- PSEUDOCODE SCROLL PANE --- */
+#pseudocodePanel .scroll-pane {
+    -fx-background-color: #FAFAFA;
+    -fx-background: #FAFAFA;
+    -fx-border-color: #E4E4E7;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-padding: 4px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.03), 3, 0, 0, 1);
+}
+
+#pseudocodePanel .scroll-pane > .viewport {
+    -fx-background-color: #FAFAFA;
+    -fx-background-radius: 4px;
+}
+
+/* --- SCROLLBAR CHUNG CHO SCROLLPANE --- */
+.scroll-pane .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-pref-width: 8px;
+    -fx-padding: 0 1px;
+}
+
+.scroll-pane .scroll-bar:vertical .thumb {
+    -fx-background-color: #D4D4D8;
+    -fx-background-radius: 4px;
+}
+
+.scroll-pane .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #A1A1AA;
+}
+
+.scroll-pane .scroll-bar:horizontal {
+    -fx-background-color: transparent;
+    -fx-pref-height: 8px;
+    -fx-padding: 1px 0;
+}
+
+.scroll-pane .scroll-bar:horizontal .thumb {
+    -fx-background-color: #D4D4D8;
+    -fx-background-radius: 4px;
+}
+
+.scroll-pane .scroll-bar:horizontal .thumb:hover {
+    -fx-background-color: #A1A1AA;
+}
+
+.tab-pane .tab {
+    -fx-background-color: transparent;
+    -fx-background-radius: 6px 6px 0 0;
+    -fx-padding: 6px 14px;
+    -fx-cursor: hand;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.tab-pane .tab:focused {
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+/* ==========================================================================
+   10. STEPS PANEL (CURRENT ACTION & TRACE VALUES)
+   ========================================================================== */
+
+/* Thẻ chứa hành động hiện tại (Current Action) */
+#currentActionBlock {
+    -fx-background-color: #FAFAFA;
+    -fx-border-color: #E4E4E7;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-padding: 10px 12px;
+}
+
+#currentActionTitle {
+    -fx-font-weight: bold;
+    -fx-font-size: 11px;
+    -fx-text-fill: #71717a;
+}
+
+#stepDescriptionLabel {
+    -fx-font-size: 13px;
+    -fx-font-weight: 500;
+    -fx-text-fill: #09090b;
+}
+
+/* Kiểu chữ tiêu đề các hàng dữ liệu (Stack, Visited, Result) */
+.trace-title {
+    -fx-font-weight: 600;
+    -fx-font-size: 12px;
+    -fx-text-fill: #52525b;
+}
+
+/* Kiểu chữ hiển thị giá trị dữ liệu trace */
+.trace-value {
+    -fx-font-size: 13px;
+    -fx-font-weight: 500;
+    -fx-text-fill: #18181b;
+}
+
+/* Style riêng nếu muốn ô Kết quả (Result) nổi bật hơn một chút */
+#traversalValueLabel {
+    -fx-font-weight: bold;
+    -fx-text-fill: #09090b;
+}
