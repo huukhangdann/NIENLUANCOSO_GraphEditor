@@ -28,7 +28,7 @@ public class AlgorithmPanelController {
         this.componentDetailsPanel = componentDetailsPanel;
     }
 
-    public void setupAlgorithmSelection(AlgorithmResultController algorithmResultController, Graph graph, Button runButton, Button resetButton, Button stepButton, Label algorithmStatusLabel) {
+    public void setupAlgorithmSelection(AlgorithmResultController algorithmResultController, Graph graph, Button runButton, Button resetButton, Label algorithmStatusLabel) {
         sourceComboBox.setPromptText("Choose source Vertex");
         targetComboBox.setPromptText("Choose target Vertex");
         sourceComboBox.setItems(FXCollections.observableArrayList());
@@ -56,7 +56,7 @@ public class AlgorithmPanelController {
                     setExecutionTraceVisibleCallBack.accept(false);
 
                     updateAlgorithmInputs(graph);
-                    updateAlgorithmControls(graph, runButton, resetButton, stepButton, algorithmStatusLabel);
+                    updateAlgorithmControls(graph, runButton, resetButton, algorithmStatusLabel);
 
                     // Setting for each algorithm
                     if("Count Component".equals(newValue)){
@@ -71,17 +71,17 @@ public class AlgorithmPanelController {
         );
         sourceComboBox.valueProperty().addListener(
                 (observable, oldValue, newValue) ->
-                        updateAlgorithmControls(graph, runButton, resetButton, stepButton, algorithmStatusLabel)
+                        updateAlgorithmControls(graph, runButton, resetButton, algorithmStatusLabel)
         );
         targetComboBox.valueProperty().addListener(
                 (observable, oldValue, newValue) ->
-                        updateAlgorithmControls(graph, runButton, resetButton, stepButton, algorithmStatusLabel)
+                        updateAlgorithmControls(graph, runButton, resetButton, algorithmStatusLabel)
         );
         updateAlgorithmInputs(graph);
         refreshVertexChoices(graph);
     }
 
-    public void updateAlgorithmControls(Graph graph, Button runButton, Button resetButton, Button stepButton, Label algorithmStatusLabel) {
+    public void updateAlgorithmControls(Graph graph, Button runButton, Button resetButton, Label algorithmStatusLabel) {
         String algorithm = algorithmComboBox.getValue();
         boolean hasVertices = !graph.getVertexList().isEmpty();
         boolean hasAlgorithm = algorithm != null;

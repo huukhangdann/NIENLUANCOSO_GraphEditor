@@ -62,8 +62,6 @@ public class AppController {
     @FXML
     private Button nextStepButton;
     @FXML
-    private Button stepButton;
-    @FXML
     private Button resetButton;
     @FXML
     private Label algorithmStatusLabel;
@@ -119,7 +117,7 @@ public class AppController {
                 status -> algorithmResultController.setExecutionTraceVisible(status), componentDetailsPanel);
         graphEditorController = new GraphEditorController(graphPane, graphContent, interactionBlocker, () -> {
             algorithmPanelController.refreshVertexChoices(graphEditorController.getGraph());
-            algorithmPanelController.updateAlgorithmControls(graphEditorController.getGraph(), runButton, resetButton, stepButton, algorithmStatusLabel);
+            algorithmPanelController.updateAlgorithmControls(graphEditorController.getGraph(), runButton, resetButton, algorithmStatusLabel);
         }, this::showNotification);
         algorithmController = new AlgorithmController(graphEditorController.getGraph());
         setupButtonIcons();
@@ -129,8 +127,8 @@ public class AppController {
 
         // SetUp for UI/UX
         setupLeftNavigation();
-        algorithmPanelController.setupAlgorithmSelection(algorithmResultController, graphEditorController.getGraph(), runButton, resetButton, stepButton, algorithmStatusLabel);
-        algorithmPanelController.updateAlgorithmControls(graphEditorController.getGraph(), runButton, resetButton, stepButton, algorithmStatusLabel);
+        algorithmPanelController.setupAlgorithmSelection(algorithmResultController, graphEditorController.getGraph(), runButton, resetButton, algorithmStatusLabel);
+        algorithmPanelController.updateAlgorithmControls(graphEditorController.getGraph(), runButton, resetButton, algorithmStatusLabel);
 
         graphEditorController.setUpGraphCanvas(notificationView, zoomSliderLabel);
         setUpInteractionBlocker();
