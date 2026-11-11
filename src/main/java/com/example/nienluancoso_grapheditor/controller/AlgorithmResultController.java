@@ -21,9 +21,7 @@ public class AlgorithmResultController {
     private final Label componentCountValueLabel;
     private final Label overallResultsLabel;
     private final FlowPane componentDetailsPane;
-    private final HBox detailHeader;
     private final SplitPane detailSplitPane;
-    private final Button toggleDetailButton;
     private final SplitPane workspaceSplitPane;
     private boolean detailsVisible;
     private final Label resultMetricTitleLabel;
@@ -36,9 +34,7 @@ public class AlgorithmResultController {
             Label componentCountValueLabel,
             Label overallResultsLabel,
             FlowPane componentDetailsPane,
-            HBox detailHeader,
             SplitPane detailSplitPane,
-            Button toggleDetailButton,
             SplitPane workspaceSplitPane,
             VBox componentCountPanel,
             ScrollPane componentDetailsScrollPane
@@ -48,9 +44,7 @@ public class AlgorithmResultController {
         this.componentCountValueLabel = componentCountValueLabel;
         this.overallResultsLabel = overallResultsLabel;
         this.componentDetailsPane = componentDetailsPane;
-        this.detailHeader = detailHeader;
         this.detailSplitPane = detailSplitPane;
-        this.toggleDetailButton = toggleDetailButton;
         this.workspaceSplitPane = workspaceSplitPane;
         this.componentCountPanel = componentCountPanel;
         this.componentDetailsScrollPane = componentDetailsScrollPane;
@@ -157,8 +151,6 @@ public class AlgorithmResultController {
 
     public void handleToggleDetails() {
         detailsVisible = !detailsVisible;
-        detailHeader.setVisible(detailsVisible);
-        detailHeader.setManaged(detailsVisible);
         detailSplitPane.setVisible(detailsVisible);
         detailSplitPane.setManaged(detailsVisible);
         updateToggleIcon(detailsVisible);
@@ -173,14 +165,9 @@ public class AlgorithmResultController {
         }
         icon.setIconSize(14);
         icon.setIconColor(javafx.scene.paint.Color.valueOf("#52525b"));
-        toggleDetailButton.setText("");
-        toggleDetailButton.setGraphic(icon);
     }
 
     public void setExecutionTraceVisible(boolean visible) {
-        detailHeader.setVisible(visible);
-        detailHeader.setManaged(visible);
-
         detailSplitPane.setVisible(visible);
         detailSplitPane.setManaged(visible);
 

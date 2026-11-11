@@ -80,8 +80,6 @@ public class AppController {
     @FXML
     private FlowPane componentDetailsPane;
     @FXML
-    private HBox detailHeader;
-    @FXML
     private SplitPane detailSplitPane;
     @FXML
     private Button toggleDetailButton;
@@ -109,8 +107,8 @@ public class AppController {
     @FXML
     private void initialize() {
         algorithmResultController = new AlgorithmResultController(
-                resultPanel, resultMetricTitleLabel, componentCountValueLabel, overallResultsLabel, componentDetailsPane, detailHeader,
-                detailSplitPane, toggleDetailButton, workspaceSplitPane, componentCountPanel, componentDetailsScrollPane);
+                resultPanel, resultMetricTitleLabel, componentCountValueLabel, overallResultsLabel, componentDetailsPane,
+                detailSplitPane, workspaceSplitPane, componentCountPanel, componentDetailsScrollPane);
         algorithmResultController.initializeView();
         algorithmPanelController = new AlgorithmPanelController(sourceComboBox, targetComboBox, algorithmComboBox,
                 status -> algorithmResultController.setResultPanelVisible(status),
