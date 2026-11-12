@@ -7,8 +7,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import org.kordamp.ikonli.feather.Feather;
-import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.util.List;
 
@@ -18,7 +16,6 @@ public class AlgorithmResultController {
     private final Label componentCountValueLabel;
     private final FlowPane componentDetailsPane;
     private final SplitPane workspaceSplitPane;
-    private boolean detailsVisible;
     private final Label resultMetricTitleLabel;
     private final VBox componentCountPanel;
     private final ScrollPane componentDetailsScrollPane;
@@ -53,6 +50,20 @@ public class AlgorithmResultController {
     public void initializeView() {
         showOverviewTab();
         workspaceSplitPane.getItems().remove(resultPanel);
+        overviewTab.selectedProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    if (newValue) {
+                        updateWorkspaceDivider();
+                    }
+                }
+        );
+        executionTraceTab.selectedProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    if (newValue) {
+                        updateWorkspaceDivider();
+                    }
+                }
+        );
     }
 
     public void showOverviewTab() {
@@ -68,10 +79,17 @@ public class AlgorithmResultController {
             if (!workspaceSplitPane.getItems().contains(resultPanel)) {
                 workspaceSplitPane.getItems().add(resultPanel);
             }
-
-            workspaceSplitPane.setDividerPositions(0.75);
+            updateWorkspaceDivider();
         } else {
             workspaceSplitPane.getItems().remove(resultPanel);
+        }
+    }
+
+    private void updateWorkspaceDivider() {
+        if (overviewTab.isSelected()) {
+            workspaceSplitPane.setDividerPositions(0.75);
+        } else if (executionTraceTab.isSelected()) {
+            workspaceSplitPane.setDividerPositions(0.63);
         }
     }
 
