@@ -54,7 +54,7 @@ public class AlgorithmTraceController {
     private void updateTraversalOrder(AlgorithmStep step) {
         StringBuilder traversalOrderString = new StringBuilder();
         List<Vertex> traversalOrder = step.getResult();
-        Label arrow = new Label("→");
+        Label arrow = new Label("→ ");
         arrow.setStyle("-fx-font-size: 14px;" + "-fx-text-fill: #71717A;");
         for (int i = 0; i < traversalOrder.size(); i++) {
             if (i != 0) traversalOrderString.append(" ").append(arrow.getText());
@@ -64,9 +64,14 @@ public class AlgorithmTraceController {
     }
 
     private void highlightPseudocode(int lineNumber) {
-        for(int i=1; i<13; i++){
-            if(i==lineNumber) indexPseudoMap.get(i).setStyle("-fx-text-fill: RED;");
-            else indexPseudoMap.get(i).setStyle("-fx-text-fill: BLACK;");
+        for (int i = 1; i < 13; i++) {
+            if (indexPseudoMap.containsKey(i)) {
+                if (i == lineNumber) {
+                    indexPseudoMap.get(i).setStyle("-fx-background-color: #DCFCE7; " + "-fx-text-fill: #15803D; " + "-fx-font-weight: bold; " + "-fx-background-radius: 4px; " + "-fx-padding: 3px");
+                } else {
+                    indexPseudoMap.get(i).setStyle("-fx-background-color: transparent; " + "-fx-text-fill: #000; " + "-fx-font-weight: normal; ");
+                }
+            }
         }
     }
 
