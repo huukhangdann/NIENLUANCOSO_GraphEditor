@@ -317,13 +317,7 @@
                                                 <VBox fx:id="componentDetailsPanel" spacing="8.0" HBox.hgrow="ALWAYS">
 
                                                     <children>
-                                                        <ScrollPane fx:id="componentDetailsScrollPane"
-                                                                    fitToHeight="false" fitToWidth="true"
-                                                                    hbarPolicy="AS_NEEDED" minHeight="80.0"
-                                                                    prefHeight="108.0" prefViewportHeight="120.0"
-                                                                    prefWidth="542.0" vbarPolicy="AS_NEEDED"
-                                                                    VBox.vgrow="ALWAYS">
-
+                                                        <ScrollPane fx:id="componentDetailsScrollPane" fitToHeight="false" fitToWidth="true" hbarPolicy="AS_NEEDED" minHeight="80.0" prefHeight="108.0" prefViewportHeight="120.0" prefWidth="542.0" vbarPolicy="AS_NEEDED" VBox.vgrow="ALWAYS">
                                                             <content>
                                                                 <FlowPane fx:id="componentDetailsPane" hgap="10.0"
                                                                           prefWrapLength="500.0" vgap="10.0">
@@ -354,152 +348,58 @@
                                                     <!-- CURRENT ACTION -->
                                                     <VBox id="currentActionBlock" spacing="5.0">
                                                         <children>
-                                                            <Label
-                                                                    id="currentActionTitle"
-                                                                    styleClass="fieldLabel"
-                                                                    text="Current Action" />
-
-                                                            <Label
-                                                                    fx:id="stepDescriptionLabel"
-                                                                    id="stepDescriptionLabel"
-                                                                    styleClass="trace-value"
-                                                                    text="Waiting for execution..."
-                                                                    wrapText="true" />
+                                                            <Label id="currentActionTitle" styleClass="fieldLabel" text="Current Action" />
+                                                            <Label fx:id="stepDescriptionLabel" id="stepDescriptionLabel" styleClass="trace-value" text="Waiting for execution..." wrapText="true" />
                                                         </children>
                                                     </VBox>
-
                                                     <Separator />
 
                                                     <!-- STACK -->
-                                                    <HBox
-                                                            id="stackRow"
-                                                            alignment="TOP_LEFT"
-                                                            spacing="12.0">
+                                                    <HBox id="stackRow" alignment="TOP_LEFT" spacing="12.0">
                                                         <children>
-                                                            <Label
-                                                                    id="stackTitle"
-                                                                    styleClass="fieldLabel trace-title"
-                                                                    text="Stack:"
-                                                                    minWidth="105.0"
-                                                                    prefWidth="105.0" />
-
-                                                            <Label
-                                                                    fx:id="stackValueLabel"
-                                                                    id="stackValueLabel"
-                                                                    styleClass="trace-value"
-                                                                    text="Empty"
-                                                                    wrapText="true"
-                                                                    maxWidth="1.7976931348623157E308"
-                                                                    HBox.hgrow="ALWAYS" />
+                                                            <Label id="stackTitle" styleClass="fieldLabel trace-title"  text="Stack:" minWidth="105.0" prefWidth="105.0" />
+                                                            <Label fx:id="stackValueLabel" id="stackValueLabel" styleClass="trace-value" text="Empty" wrapText="true" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
                                                         </children>
                                                     </HBox>
-
                                                     <!-- VISITED -->
-                                                    <HBox
-                                                            id="visitedRow"
-                                                            alignment="TOP_LEFT"
-                                                            spacing="12.0">
+                                                    <HBox id="visitedRow" alignment="TOP_LEFT" spacing="12.0">
                                                         <children>
-                                                            <Label
-                                                                    id="visitedTitle"
-                                                                    styleClass="fieldLabel trace-title"
-                                                                    text="Visited:"
-                                                                    minWidth="105.0"
-                                                                    prefWidth="105.0" />
+                                                            <Label id="visitedTitle" styleClass="fieldLabel trace-title" text="Visited:" minWidth="105.0" prefWidth="105.0" />
 
-                                                            <Label
-                                                                    fx:id="visitedValueLabel"
-                                                                    id="visitedValueLabel"
-                                                                    styleClass="trace-value"
-                                                                    text="Empty"
-                                                                    wrapText="true"
-                                                                    maxWidth="1.7976931348623157E308"
-                                                                    HBox.hgrow="ALWAYS" />
+                                                            <Label fx:id="visitedValueLabel" id="visitedValueLabel" styleClass="trace-value" text="Empty" wrapText="true" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
                                                         </children>
                                                     </HBox>
 
                                                     <!-- TRAVERSAL RESULT -->
-                                                    <HBox
-                                                            id="traversalRow"
-                                                            alignment="TOP_LEFT"
-                                                            spacing="12.0">
+                                                    <HBox id="traversalRow" alignment="TOP_LEFT" spacing="12.0">
                                                         <children>
-                                                            <Label
-                                                                    id="traversalTitle"
-                                                                    styleClass="fieldLabel trace-title"
-                                                                    text="Result:"
-                                                                    minWidth="105.0"
-                                                                    prefWidth="105.0" />
-
-                                                            <Label
-                                                                    fx:id="traversalValueLabel"
-                                                                    id="traversalValueLabel"
-                                                                    styleClass="trace-value"
-                                                                    text="Empty"
-                                                                    wrapText="true"
-                                                                    maxWidth="1.7976931348623157E308"
-                                                                    HBox.hgrow="ALWAYS" />
+                                                            <Label id="traversalTitle" styleClass="fieldLabel trace-title" text="Result:" minWidth="105.0" prefWidth="105.0" />
+                                                            <Label fx:id="traversalValueLabel" id="traversalValueLabel" styleClass="trace-value" text="Empty" wrapText="true" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
                                                         </children>
                                                     </HBox>
                                                 </VBox>
                                                 <!-- RIGHT: PSEUDOCODE -->
-                                                <VBox fx:id="pseudocodePanel"
-                                                      minWidth="0.0"
-                                                      minHeight="0.0"
-                                                      spacing="8.0">
-
+                                                <VBox fx:id="pseudocodePanel" minWidth="0.0" minHeight="0.0" spacing="8.0">
                                                     <children>
-                                                        <ScrollPane fx:id="pseudocodeScrollPane"
-                                                                    id="pseudocodeScrollPane"
-                                                                    fitToWidth="true"
-                                                                    fitToHeight="false"
-                                                                    hbarPolicy="NEVER"
-                                                                    vbarPolicy="AS_NEEDED"
-                                                                    minWidth="0.0"
-                                                                    minHeight="0.0"
-                                                                    VBox.vgrow="ALWAYS">
+                                                        <ScrollPane fx:id="pseudocodeScrollPane" id="pseudocodeScrollPane" fitToWidth="true" fitToHeight="false" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" minWidth="0.0" minHeight="0.0" VBox.vgrow="ALWAYS">
                                                             <content>
                                                                 <VBox id="pseudocodeLines" spacing="8.0">
                                                                     <padding>
-                                                                        <Insets top="12.0" right="12.0"
-                                                                                bottom="12.0" left="12.0"/>
+                                                                        <Insets top="12.0" right="12.0" bottom="12.0" left="12.0"/>
                                                                     </padding>
                                                                     <children>
-                                                                        <Label id="pseudoLine1"
-                                                                               text="1. Initialize visited = {}, Stack S = empty"
-                                                                               wrapText="true"/>
-                                                                        <Label id="pseudoLine2"
-                                                                               text="2. Push start into S"
-                                                                               wrapText="true"/>
-                                                                        <Label id="pseudoLine3"
-                                                                               text="3. WHILE S is not empty:"
-                                                                               wrapText="true"/>
-                                                                        <Label id="pseudoLine4"
-                                                                               text="4.     Pop vertex u from S"
-                                                                               wrapText="true"/>
-                                                                        <Label id="pseudoLine5"
-                                                                               text="5.     IF u has been visited:"
-                                                                               wrapText="true"/>
-                                                                        <Label id="pseudoLine6" text="6.         Skip u"
-                                                                               wrapText="true"/>
-                                                                        <Label id="pseudoLine7"
-                                                                               text="7.     Add u to result and mark visited"
-                                                                               wrapText="true"/>
-                                                                        <Label id="pseudoLine8"
-                                                                               text="8.     Sort adjacent vertices ascending"
-                                                                               wrapText="true"/>
-                                                                        <Label id="pseudoLine9"
-                                                                               text="9.     Iterate adjacent vertices in reverse"
-                                                                               wrapText="true"/>
-                                                                        <Label id="pseudoLine10"
-                                                                               text="10.        IF v is not visited:"
-                                                                               wrapText="true"/>
-                                                                        <Label id="pseudoLine11"
-                                                                               text="11.            Push v into S"
-                                                                               wrapText="true"/>
-                                                                        <Label id="pseudoLine12"
-                                                                               text="12. RETURN result"
-                                                                               wrapText="true"/>
+                                                                        <Label id="pseudoLine1" text="1. Initialize visited = {}, Stack S = empty" wrapText="true"/>
+                                                                        <Label id="pseudoLine2" text="2. Push start into S" wrapText="true"/>
+                                                                        <Label id="pseudoLine3" text="3. WHILE S is not empty:" wrapText="true"/>
+                                                                        <Label id="pseudoLine4" text="4.     Pop vertex u from S" wrapText="true"/>
+                                                                        <Label id="pseudoLine5" text="5.     IF u has been visited:" wrapText="true"/>
+                                                                        <Label id="pseudoLine6" text="6.         Skip u" wrapText="true"/>
+                                                                        <Label id="pseudoLine7" text="7.     Add u to result and mark visited" wrapText="true"/>
+                                                                        <Label id="pseudoLine8" text="8.     Sort adjacent vertices ascending" wrapText="true"/>
+                                                                        <Label id="pseudoLine9" text="9.     Iterate adjacent vertices in reverse" wrapText="true"/>
+                                                                        <Label id="pseudoLine10" text="10.        IF v is not visited:" wrapText="true"/>
+                                                                        <Label id="pseudoLine11" text="11.            Push v into S" wrapText="true"/>
+                                                                        <Label id="pseudoLine12" text="12. RETURN result" wrapText="true"/>
                                                                     </children>
                                                                 </VBox>
                                                             </content>

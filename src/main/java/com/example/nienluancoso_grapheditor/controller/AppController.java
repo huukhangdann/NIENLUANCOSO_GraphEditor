@@ -1,5 +1,6 @@
 package com.example.nienluancoso_grapheditor.controller;
 
+import com.example.nienluancoso_grapheditor.algorithm.AlgorithmStep;
 import com.example.nienluancoso_grapheditor.model.Vertex;
 import com.example.nienluancoso_grapheditor.view.*;
 import javafx.collections.FXCollections;
@@ -18,7 +19,10 @@ import javafx.geometry.Pos;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AppController {
     @FXML
@@ -95,6 +99,39 @@ public class AppController {
     private VBox componentCountPanel;
     @FXML
     private ScrollPane componentDetailsScrollPane;
+    @FXML
+    private Label stepDescriptionLabel;
+    @FXML
+    private Label stackValueLabel;
+    @FXML
+    private Label visitedValueLabel;
+    @FXML
+    private Label traversalValueLabel;
+    @FXML
+    private Label pseudoLine1;
+    @FXML
+    private Label pseudoLine2;
+    @FXML
+    private Label pseudoLine3;
+    @FXML
+    private Label pseudoLine4;
+    @FXML
+    private Label pseudoLine5;
+    @FXML
+    private Label pseudoLine6;
+    @FXML
+    private Label pseudoLine7;
+    @FXML
+    private Label pseudoLine8;
+    @FXML
+    private Label pseudoLine9;
+    @FXML
+    private Label pseudoLine10;
+    @FXML
+    private Label pseudoLine11;
+    @FXML
+    private Label pseudoLine12;
+
 
     private final GraphViewportController graphViewportController = new GraphViewportController();
     private GraphEditorController graphEditorController;
@@ -103,6 +140,7 @@ public class AppController {
     private final Group graphContent = new Group();
     private final InteractionBlocker interactionBlocker = new InteractionBlocker();
     private AlgorithmResultController algorithmResultController;
+    private AlgorithmTraceController algorithmTraceController;
 
     @FXML
     private void initialize() {
@@ -117,6 +155,9 @@ public class AppController {
         }, this::showNotification);
         algorithmController = new AlgorithmController(graphEditorController.getGraph());
         setupButtonIcons();
+        Map<Integer, Label> integerLabelHashMap = initPseudocodeMap();
+        algorithmTraceController = new AlgorithmTraceController(stepDescriptionLabel, stackValueLabel, visitedValueLabel, traversalValueLabel, integerLabelHashMap);
+
         root.addEventFilter(KeyEvent.KEY_PRESSED, this::handleKeyPressed);
         graphPane.getChildren().addFirst(graphContent);
         graphContent.getTransforms().add(graphViewportController.getZoomTransform());
@@ -134,6 +175,23 @@ public class AppController {
         graphViewportController.setUpZoomSlider(graphPane, interactionBlocker, zoomSlider, zoomSliderLabel);
         graphViewportController.setUpScrollZoom(graphPane, interactionBlocker, zoomSlider);
         graphViewportController.setUpPan(graphPane, interactionBlocker);
+    }
+
+    private Map<Integer, Label> initPseudocodeMap() {
+        Map<Integer, Label> pseudoMap = new HashMap<>();
+        pseudoMap.put(1, pseudoLine1);
+        pseudoMap.put(2, pseudoLine2);
+        pseudoMap.put(3, pseudoLine3);
+        pseudoMap.put(4, pseudoLine4);
+        pseudoMap.put(5, pseudoLine5);
+        pseudoMap.put(6, pseudoLine6);
+        pseudoMap.put(7, pseudoLine7);
+        pseudoMap.put(8, pseudoLine8);
+        pseudoMap.put(9, pseudoLine9);
+        pseudoMap.put(10, pseudoLine10);
+        pseudoMap.put(11, pseudoLine11);
+        pseudoMap.put(12, pseudoLine12);
+        return pseudoMap;
     }
 
     private void handleKeyPressed(KeyEvent keyEvent) {
@@ -279,7 +337,21 @@ public class AppController {
 
     @FXML
     private void handleRunStepByStepButton(){
-        algorithmResultController.showExecutionTraceTab();
+        String algorithm = algorithmComboBox.getValue();
+        if ("DFS".equals(algorithm)){
+            Vertex sourceVertex = sourceComboBox.getValue();
+            if(sourceVertex!=null){
+                List<Vertex> traversalList = algorithmController.stepByStepDFS(sourceVertex);
+                algorithmController.resetStep();
+                algorithmResultController.showExecutionTraceTab();
+                algorithmController.nextStep();
+                algorithmController.nextStep();
+                algorithmController.nextStep();
+                algorithmController.nextStep();
+                AlgorithmStep currentStep = algorithmController.getCurrentStep();
+                algorithmTraceController.displayStep(currentStep);
+            }
+        }
     }
 
     public void deleteAll() {
