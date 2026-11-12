@@ -1,5 +1,6 @@
 package com.example.nienluancoso_grapheditor.controller;
 
+import com.example.nienluancoso_grapheditor.algorithm.AlgorithmStep;
 import com.example.nienluancoso_grapheditor.model.Edge;
 import com.example.nienluancoso_grapheditor.model.Graph;
 import com.example.nienluancoso_grapheditor.model.Vertex;
@@ -12,6 +13,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 
 import java.util.HashMap;
@@ -320,7 +322,7 @@ public class GraphEditorController {
         }
     }
 
-    public void highlightComponents(List<List<Vertex>> components){
+    public void highlightComponents(List<List<Vertex>> components) {
         for (int i = 0; i < components.size(); i++) {
             List<Vertex> component = components.get(i);
             double hue = (i * 137.508) % 360;
@@ -349,8 +351,33 @@ public class GraphEditorController {
             if (traversal.contains(vertex)) continue;
             VertexView view = vertexVertexViewMap.get(vertex);
             if (view != null) {
-                view.changeColorCircle(Color.web("#D1D5DB"));
+                view.changeColorCircle(Color.web("#D1D5DB")); // disabled color for vertex
             }
         }
     }
+
+    public void highlightDFSStep(AlgorithmStep step) {
+        clearAlgorithmColors();
+        List<Vertex> visitedList = step.getVisitedVertices();
+        colorizeList(Color.web("#D1D5DB"), graph.getVertexList());
+        colorizeList(Color.web("#BBF7D0"), visitedList);
+        Vertex currentVertex = step.getCurrentVertex();
+        if (currentVertex != null)
+            vertexVertexViewMap.get(currentVertex).changeColorCircle(Color.web("#BFDBFE"));
+        for (Vertex v : step.getSortedNeighbors()) {
+            if(visitedList.contains(v)) continue;
+            else vertexVertexViewMap.get(v).changeColorCircle(Color.web("FEF08A"));
+        }
+        if(step.getLineNumber()==12)
+            if(currentVertex!=null && visitedList.contains(currentVertex)){
+                vertexVertexViewMap.get(currentVertex).changeColorCircle(Color.web("#BBF7D0"));
+            }
+    }
+
+    public void colorizeList(Paint color, List<Vertex> list) {
+        for (Vertex e : list) {
+            vertexVertexViewMap.get(e).changeColorCircle(color);
+        }
+    }
+
 }

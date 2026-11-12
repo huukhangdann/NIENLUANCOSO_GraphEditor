@@ -322,10 +322,9 @@ public class AppController {
                     "Algorithm Status: Completed"
             );
             algorithmResultController.showOverviewTab();
-        }
-        else if ("DFS".equals(algorithm)){
+        } else if ("DFS".equals(algorithm)) {
             Vertex sourceVertex = sourceComboBox.getValue();
-            if(sourceVertex!=null){
+            if (sourceVertex != null) {
                 List<Vertex> traversalList = algorithmController.normalDFS(sourceVertex);
                 algorithmResultController.displayDFSResult(traversalList);
                 graphEditorController.highlightDFS(traversalList);
@@ -336,22 +335,35 @@ public class AppController {
     }
 
     @FXML
-    private void handleRunStepByStepButton(){
+    private void handleRunStepByStepButton() {
         String algorithm = algorithmComboBox.getValue();
-        if ("DFS".equals(algorithm)){
+        if ("DFS".equals(algorithm)) {
             Vertex sourceVertex = sourceComboBox.getValue();
-            if(sourceVertex!=null){
+            if (sourceVertex != null) {
                 List<Vertex> traversalList = algorithmController.stepByStepDFS(sourceVertex);
                 algorithmController.resetStep();
                 algorithmResultController.showExecutionTraceTab();
-                algorithmController.nextStep();
-                algorithmController.nextStep();
-                algorithmController.nextStep();
-                algorithmController.nextStep();
                 AlgorithmStep currentStep = algorithmController.getCurrentStep();
                 algorithmTraceController.displayStep(currentStep);
+                graphEditorController.highlightDFSStep(currentStep);
             }
         }
+    }
+
+    @FXML
+    private void handleNextStepButton() {
+        if(!algorithmController.nextStep()) return;
+        AlgorithmStep currentStep = algorithmController.getCurrentStep();
+        algorithmTraceController.displayStep(currentStep);
+        graphEditorController.highlightDFSStep(currentStep);
+    }
+
+    @FXML
+    private void handlePreviousStepButton() {
+        if(!algorithmController.previousStep()) return;
+        AlgorithmStep currentStep = algorithmController.getCurrentStep();
+        algorithmTraceController.displayStep(currentStep);
+        graphEditorController.highlightDFSStep(currentStep);
     }
 
     public void deleteAll() {

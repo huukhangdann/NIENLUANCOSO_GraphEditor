@@ -57,8 +57,8 @@ public class AlgorithmTraceController {
         Label arrow = new Label("→");
         arrow.setStyle("-fx-font-size: 14px;" + "-fx-text-fill: #71717A;");
         for (int i = 0; i < traversalOrder.size(); i++) {
-            if (i != 0) traversalOrderString.append(" ").append(arrow);
-            traversalOrderString.append(traversalOrder.get(i));
+            if (i != 0) traversalOrderString.append(" ").append(arrow.getText());
+            traversalOrderString.append(traversalOrder.get(i).toString());
         }
         traversalValueLabel.setText(String.valueOf(traversalOrderString));
     }

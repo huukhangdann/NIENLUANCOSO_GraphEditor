@@ -175,18 +175,4 @@ public class AlgorithmResultController {
     public void setResultMetricTitle(String title) {
         resultMetricTitleLabel.setText(title);
     }
-
-    public void setResultMetricValue(String value) {
-        componentCountValueLabel.setText(value);
-    }
-
-    public void setOverviewCompact(boolean compact) {
-        componentCountPanel.setPrefHeight(compact ? 70 : 99);
-        componentCountPanel.setSpacing(compact ? 3 : 8);
-        resultMetricTitleLabel.setPadding(compact ? new Insets(10, 0, 0, 0) : new Insets(4, 0, 0, 0) );
-        componentCountValueLabel.setFont(Font.font(componentCountValueLabel.getFont().getFamily(), compact ? 30 : 50));
-        componentDetailsScrollPane.setMinHeight(compact ? 58 : 80);
-        componentDetailsScrollPane.setPrefViewportHeight(compact ? 58 : 120);
-    }
-
 }

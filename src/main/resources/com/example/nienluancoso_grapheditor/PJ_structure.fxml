@@ -202,32 +202,19 @@
                                     <children>
                                         <HBox spacing="8.0">
                                             <children>
-                                                <Button fx:id="runStepByStepButton" maxWidth="1.17649232938E30"
-                                                        mnemonicParsing="false" onAction="#handleRunStepByStepButton"
-                                                        prefHeight="26.0" prefWidth="103.0" text="Visualization"
-                                                        HBox.hgrow="ALWAYS"/>
-                                                <Button fx:id="runButton" maxWidth="1.17649232938E30"
-                                                        mnemonicParsing="false" onAction="#handleRunButton"
-                                                        prefHeight="26.0" prefWidth="59.0" text="Run"
-                                                        HBox.hgrow="ALWAYS"/>
+                                                <Button fx:id="runStepByStepButton" maxWidth="1.17649232938E30" mnemonicParsing="false" onAction="#handleRunStepByStepButton" prefHeight="26.0" prefWidth="103.0" text="Visualization" HBox.hgrow="ALWAYS"/>
+                                                <Button fx:id="runButton" maxWidth="1.17649232938E30" mnemonicParsing="false" onAction="#handleRunButton" prefHeight="26.0" prefWidth="59.0" text="Run" HBox.hgrow="ALWAYS"/>
                                             </children>
                                         </HBox>
                                         <HBox spacing="8.0">
                                             <children>
-                                                <Button fx:id="prevStepButton" maxWidth="1.17649232938E30"
-                                                        mnemonicParsing="false" prefHeight="26.0" prefWidth="12.0"
-                                                        HBox.hgrow="ALWAYS"/>
-                                                <Button fx:id="pauseButton" mnemonicParsing="false" prefHeight="26.0"
-                                                        prefWidth="50.0"/>
-                                                <Button fx:id="nextStepButton" mnemonicParsing="false" prefHeight="26.0"
-                                                        prefWidth="50.0"/>
-                                                <Button fx:id="resetButton" maxWidth="1.17649232938E30"
-                                                        mnemonicParsing="false" prefHeight="26.0" prefWidth="30.0"
-                                                        HBox.hgrow="ALWAYS"/>
+                                                <Button fx:id="prevStepButton" maxWidth="1.17649232938E30" mnemonicParsing="false" prefHeight="26.0" prefWidth="12.0" HBox.hgrow="ALWAYS" onAction="#handlePreviousStepButton"/>
+                                                <Button fx:id="pauseButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="50.0"/>
+                                                <Button fx:id="nextStepButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="50.0" onAction="#handleNextStepButton"/>
+                                                <Button fx:id="resetButton" maxWidth="1.17649232938E30" mnemonicParsing="false" prefHeight="26.0" prefWidth="30.0" HBox.hgrow="ALWAYS"/>
                                             </children>
                                         </HBox>
-                                        <Label fx:id="algorithmStatusLabel" styleClass="statusLabel"
-                                               text="Algorithm Status: Ready"/>
+                                        <Label fx:id="algorithmStatusLabel" styleClass="statusLabel" text="Algorithm Status: Ready"/>
                                     </children>
                                 </VBox>
                             </children>
@@ -388,18 +375,18 @@
                                                                         <Insets top="12.0" right="12.0" bottom="12.0" left="12.0"/>
                                                                     </padding>
                                                                     <children>
-                                                                        <Label id="pseudoLine1" text="1. Initialize visited = {}, Stack S = empty" wrapText="true"/>
-                                                                        <Label id="pseudoLine2" text="2. Push start into S" wrapText="true"/>
-                                                                        <Label id="pseudoLine3" text="3. WHILE S is not empty:" wrapText="true"/>
-                                                                        <Label id="pseudoLine4" text="4.     Pop vertex u from S" wrapText="true"/>
-                                                                        <Label id="pseudoLine5" text="5.     IF u has been visited:" wrapText="true"/>
-                                                                        <Label id="pseudoLine6" text="6.         Skip u" wrapText="true"/>
-                                                                        <Label id="pseudoLine7" text="7.     Add u to result and mark visited" wrapText="true"/>
-                                                                        <Label id="pseudoLine8" text="8.     Sort adjacent vertices ascending" wrapText="true"/>
-                                                                        <Label id="pseudoLine9" text="9.     Iterate adjacent vertices in reverse" wrapText="true"/>
-                                                                        <Label id="pseudoLine10" text="10.        IF v is not visited:" wrapText="true"/>
-                                                                        <Label id="pseudoLine11" text="11.            Push v into S" wrapText="true"/>
-                                                                        <Label id="pseudoLine12" text="12. RETURN result" wrapText="true"/>
+                                                                        <Label fx:id="pseudoLine1" text="1. Initialize visited = {}, Stack S = empty" wrapText="true"/>
+                                                                        <Label fx:id="pseudoLine2" text="2. Push start into S" wrapText="true"/>
+                                                                        <Label fx:id="pseudoLine3" text="3. WHILE S is not empty:" wrapText="true"/>
+                                                                        <Label fx:id="pseudoLine4" text="4.     Pop vertex u from S" wrapText="true"/>
+                                                                        <Label fx:id="pseudoLine5" text="5.     IF u has been visited:" wrapText="true"/>
+                                                                        <Label fx:id="pseudoLine6" text="6.         Skip u" wrapText="true"/>
+                                                                        <Label fx:id="pseudoLine7" text="7.     Add u to result and mark visited" wrapText="true"/>
+                                                                        <Label fx:id="pseudoLine8" text="8.     Sort adjacent vertices ascending" wrapText="true"/>
+                                                                        <Label fx:id="pseudoLine9" text="9.     Iterate adjacent vertices in reverse" wrapText="true"/>
+                                                                        <Label fx:id="pseudoLine10" text="10.        IF v is not visited:" wrapText="true"/>
+                                                                        <Label fx:id="pseudoLine11" text="11.            Push v into S" wrapText="true"/>
+                                                                        <Label fx:id="pseudoLine12" text="12. RETURN result" wrapText="true"/>
                                                                     </children>
                                                                 </VBox>
                                                             </content>
