@@ -18,6 +18,7 @@ public class AlgorithmPanelController {
     private final Consumer<Boolean> setResultPanelVisibleCallBack;
     private final Runnable showOverviewTabCallBack;
     private final VBox componentDetailsPanel;
+    private final VBox resultPanel;
 
     public AlgorithmPanelController(
             ComboBox<Vertex> sourceComboBox,
@@ -25,7 +26,8 @@ public class AlgorithmPanelController {
             ComboBox<String> algorithmComboBox,
             Consumer<Boolean> setResultPanelVisibleCallBack,
             Runnable showOverviewTabCallBack,
-            VBox componentDetailsPanel
+            VBox componentDetailsPanel,
+            VBox resultPanel
     ) {
         this.sourceComboBox = sourceComboBox;
         this.targetComboBox = targetComboBox;
@@ -33,6 +35,7 @@ public class AlgorithmPanelController {
         this.setResultPanelVisibleCallBack = setResultPanelVisibleCallBack;
         this.showOverviewTabCallBack = showOverviewTabCallBack;
         this.componentDetailsPanel = componentDetailsPanel;
+        this.resultPanel = resultPanel;
     }
 
     public void setupAlgorithmSelection(AlgorithmResultController algorithmResultController, Graph graph, Button runButton, Button resetButton, Label algorithmStatusLabel) {
@@ -57,11 +60,7 @@ public class AlgorithmPanelController {
                 (observable, oldValue, newValue) -> {
                     sourceComboBox.setValue(null);
                     targetComboBox.setValue(null);
-
-                    setResultPanelVisibleCallBack.accept(newValue != null);
-
                     showOverviewTabCallBack.run();
-
                     updateAlgorithmInputs(graph);
                     updateAlgorithmControls(graph, runButton, resetButton, algorithmStatusLabel);
 
@@ -144,5 +143,10 @@ public class AlgorithmPanelController {
         } else {
             targetComboBox.setValue(null);
         }
+    }
+
+    public void setResultPanel(boolean value) {
+        resultPanel.setVisible(value);
+        resultPanel.setManaged(value);
     }
 }

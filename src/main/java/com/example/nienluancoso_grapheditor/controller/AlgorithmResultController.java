@@ -85,7 +85,7 @@ public class AlgorithmResultController {
         }
     }
 
-    private void updateWorkspaceDivider() {
+    public void updateWorkspaceDivider() {
         if (overviewTab.isSelected()) {
             workspaceSplitPane.setDividerPositions(0.75);
         } else if (executionTraceTab.isSelected()) {

@@ -113,3 +113,15 @@
     -fx-font-size: 13px;
     -fx-font-weight: bold;
 }
+
+.edge-weight-field:focused {
+    -fx-background-color: #ececec;
+    -fx-text-fill: #18181b;
+    -fx-prompt-text-fill: #A1A1AA;
+    -fx-border-color: transparent;
+    -fx-background-radius: 6px;
+    -fx-padding: 6px 10px;
+    -fx-font-size: 13px;
+    -fx-font-weight: 500;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.08), 4, 0, 0, 1);
+}

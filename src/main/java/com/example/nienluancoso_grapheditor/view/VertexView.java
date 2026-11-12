@@ -57,6 +57,7 @@ public class VertexView extends StackPane {
         // CSS
         circle.getStyleClass().add("vertex");
         label.getStyleClass().add("vertex-label");
+        labelTextField.getStyleClass().add("edge-weight-field");
         this.getChildren().addAll(circle, label, labelTextField);
         this.setLayoutX(vertex.getX() - RADIUS);
         this.setLayoutY(vertex.getY() - RADIUS);

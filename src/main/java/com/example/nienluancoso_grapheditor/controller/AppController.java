@@ -148,10 +148,12 @@ public class AppController {
                 componentCountValueLabel, componentDetailsPane, workspaceSplitPane, componentCountPanel, componentDetailsScrollPane);
         algorithmResultController.initializeView();
         algorithmPanelController = new AlgorithmPanelController(sourceComboBox, targetComboBox, algorithmComboBox, status -> algorithmResultController.setResultPanelVisible(status),
-                () -> algorithmResultController.showOverviewTab(), componentDetailsPanel);
+                () -> algorithmResultController.showOverviewTab(), componentDetailsPanel, resultPanel);
         graphEditorController = new GraphEditorController(graphPane, graphContent, interactionBlocker, () -> {
             algorithmPanelController.refreshVertexChoices(graphEditorController.getGraph());
             algorithmPanelController.updateAlgorithmControls(graphEditorController.getGraph(), runButton, resetButton, algorithmStatusLabel);
+            algorithmPanelController.setResultPanel(false);
+            workspaceSplitPane.setDividerPositions(1);
         }, this::showNotification);
         algorithmController = new AlgorithmController(graphEditorController.getGraph());
         setupButtonIcons();
@@ -314,6 +316,10 @@ public class AppController {
         String algorithm = algorithmComboBox.getValue();
         componentDetailsPanel.setVisible(true);
         if ("Count Component".equals(algorithm)) {
+            // Turn on resultPanel
+            algorithmPanelController.setResultPanel(true);
+            algorithmResultController.updateWorkspaceDivider();
+
             List<List<Vertex>> components = algorithmController.findConnectedComponents();
             algorithmResultController.setTextComponentCountValueLabel(String.valueOf(components.size()));
             algorithmResultController.displayComponentDetails(components);
@@ -323,8 +329,13 @@ public class AppController {
             );
             algorithmResultController.showOverviewTab();
         } else if ("DFS".equals(algorithm)) {
+            algorithmPanelController.setResultPanel(true);
             Vertex sourceVertex = sourceComboBox.getValue();
             if (sourceVertex != null) {
+                // Turn on resultPanel
+                algorithmPanelController.setResultPanel(true);
+                algorithmResultController.updateWorkspaceDivider();
+
                 List<Vertex> traversalList = algorithmController.normalDFS(sourceVertex);
                 algorithmResultController.displayDFSResult(traversalList);
                 graphEditorController.highlightDFS(traversalList);
@@ -338,9 +349,14 @@ public class AppController {
     private void handleRunStepByStepButton() {
         String algorithm = algorithmComboBox.getValue();
         if ("DFS".equals(algorithm)) {
+            algorithmPanelController.setResultPanel(true);
             Vertex sourceVertex = sourceComboBox.getValue();
             if (sourceVertex != null) {
-                List<Vertex> traversalList = algorithmController.stepByStepDFS(sourceVertex);
+                // Turn on resultPanel
+                algorithmPanelController.setResultPanel(true);
+                algorithmResultController.updateWorkspaceDivider();
+
+                algorithmController.stepByStepDFS(sourceVertex);
                 algorithmController.resetStep();
                 algorithmResultController.showExecutionTraceTab();
                 AlgorithmStep currentStep = algorithmController.getCurrentStep();
