@@ -146,7 +146,6 @@ public class AlgorithmPanelController {
     }
 
     public void setResultPanel(boolean value) {
-        resultPanel.setVisible(value);
-        resultPanel.setManaged(value);
+        setResultPanelVisibleCallBack.accept(value);
     }
 }

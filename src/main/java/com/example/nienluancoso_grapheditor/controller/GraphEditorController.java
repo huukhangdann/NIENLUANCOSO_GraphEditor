@@ -155,6 +155,9 @@ public class GraphEditorController {
         clearAlgorithmColors();
 
         if (graph.addEdge(edge)) {
+
+            onGraphChanged.run();
+
             // Init and connect model-view
             EdgeView edgeView = new EdgeView(vertexVertexViewMap.get(u), vertexVertexViewMap.get(v), edge);
             setEdgeCallBack(edgeView);

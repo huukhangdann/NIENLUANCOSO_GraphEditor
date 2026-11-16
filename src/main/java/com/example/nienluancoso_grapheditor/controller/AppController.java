@@ -153,7 +153,6 @@ public class AppController {
             algorithmPanelController.refreshVertexChoices(graphEditorController.getGraph());
             algorithmPanelController.updateAlgorithmControls(graphEditorController.getGraph(), runButton, resetButton, algorithmStatusLabel);
             algorithmPanelController.setResultPanel(false);
-            workspaceSplitPane.setDividerPositions(1);
         }, this::showNotification);
         algorithmController = new AlgorithmController(graphEditorController.getGraph());
         setupButtonIcons();
