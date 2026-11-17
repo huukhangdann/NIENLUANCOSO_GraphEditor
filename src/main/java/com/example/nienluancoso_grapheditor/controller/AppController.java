@@ -370,7 +370,7 @@ public class AppController {
     }
 
     private void initPauseTimer() {
-        autoPlayTimer = new PauseTransition(Duration.seconds(1));
+        autoPlayTimer = new PauseTransition(Duration.seconds(0.5));
         autoPlayTimer.setOnFinished(event -> playNextStepAutomatically());
     }
 
@@ -381,11 +381,12 @@ public class AppController {
     }
 
     private void playNextStepAutomatically() {
-        if(!algorithmController.nextStep()){
+        if(!algorithmController.hasNextStep()){
             autoPlayTimer.stop();
             return;
         }
         algorithmController.nextStep();
+        displayCurrentStep();
         autoPlayTimer.playFromStart();
     }
 
