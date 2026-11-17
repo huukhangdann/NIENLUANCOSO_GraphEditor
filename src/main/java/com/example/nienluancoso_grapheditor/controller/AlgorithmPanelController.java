@@ -18,7 +18,6 @@ public class AlgorithmPanelController {
     private final Consumer<Boolean> setResultPanelVisibleCallBack;
     private final Runnable showOverviewTabCallBack;
     private final VBox componentDetailsPanel;
-    private final VBox resultPanel;
 
     public AlgorithmPanelController(
             ComboBox<Vertex> sourceComboBox,
@@ -26,19 +25,16 @@ public class AlgorithmPanelController {
             ComboBox<String> algorithmComboBox,
             Consumer<Boolean> setResultPanelVisibleCallBack,
             Runnable showOverviewTabCallBack,
-            VBox componentDetailsPanel,
-            VBox resultPanel
+            VBox componentDetailsPanel, VBox resultPanel
     ) {
         this.sourceComboBox = sourceComboBox;
         this.targetComboBox = targetComboBox;
         this.algorithmComboBox = algorithmComboBox;
         this.setResultPanelVisibleCallBack = setResultPanelVisibleCallBack;
         this.showOverviewTabCallBack = showOverviewTabCallBack;
-        this.componentDetailsPanel = componentDetailsPanel;
-        this.resultPanel = resultPanel;
-    }
+        this.componentDetailsPanel = componentDetailsPanel;}
 
-    public void setupAlgorithmSelection(AlgorithmResultController algorithmResultController, Graph graph, Button runButton, Button resetButton, Label algorithmStatusLabel) {
+    public void setupAlgorithmSelection(AlgorithmResultController algorithmResultController, Graph graph, Button runButton, Button runStepByStepButton, Button resetButton, Label algorithmStatusLabel) {
         sourceComboBox.setPromptText("Choose source Vertex");
         targetComboBox.setPromptText("Choose target Vertex");
         sourceComboBox.setItems(FXCollections.observableArrayList());
@@ -62,7 +58,7 @@ public class AlgorithmPanelController {
                     targetComboBox.setValue(null);
                     showOverviewTabCallBack.run();
                     updateAlgorithmInputs(graph);
-                    updateAlgorithmControls(graph, runButton, resetButton, algorithmStatusLabel);
+                    updateAlgorithmControls(graph, runButton, resetButton, runStepByStepButton, algorithmStatusLabel);
 
                     // Setting for each algorithm
                     if("Count Component".equals(newValue)){
@@ -77,17 +73,17 @@ public class AlgorithmPanelController {
         );
         sourceComboBox.valueProperty().addListener(
                 (observable, oldValue, newValue) ->
-                        updateAlgorithmControls(graph, runButton, resetButton, algorithmStatusLabel)
+                        updateAlgorithmControls(graph, runButton, runStepByStepButton, resetButton, algorithmStatusLabel)
         );
         targetComboBox.valueProperty().addListener(
                 (observable, oldValue, newValue) ->
-                        updateAlgorithmControls(graph, runButton, resetButton, algorithmStatusLabel)
+                        updateAlgorithmControls(graph, runButton, runStepByStepButton, resetButton, algorithmStatusLabel)
         );
         updateAlgorithmInputs(graph);
         refreshVertexChoices(graph);
     }
 
-    public void updateAlgorithmControls(Graph graph, Button runButton, Button resetButton, Label algorithmStatusLabel) {
+    public void updateAlgorithmControls(Graph graph, Button runButton, Button runStepByStepButton, Button resetButton , Label algorithmStatusLabel) {
         String algorithm = algorithmComboBox.getValue();
         boolean hasVertices = !graph.getVertexList().isEmpty();
         boolean hasAlgorithm = algorithm != null;
@@ -103,6 +99,7 @@ public class AlgorithmPanelController {
                 && validSource
                 && validTarget;
         runButton.setDisable(!canRun);
+        runStepByStepButton.setDisable(!canRun);
 
         // Chưa có kết quả thuật toán để reset ở giai đoạn này.
         resetButton.setDisable(true);

@@ -209,7 +209,7 @@
                                         <HBox spacing="8.0">
                                             <children>
                                                 <Button fx:id="prevStepButton" maxWidth="1.17649232938E30" mnemonicParsing="false" prefHeight="26.0" prefWidth="12.0" HBox.hgrow="ALWAYS" onAction="#handlePreviousStepButton"/>
-                                                <Button fx:id="pauseButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="50.0"/>
+                                                <Button fx:id="pauseButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="50.0" onAction="#handlePauseButton"/>
                                                 <Button fx:id="nextStepButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="50.0" onAction="#handleNextStepButton"/>
                                                 <Button fx:id="resetButton" maxWidth="1.17649232938E30" mnemonicParsing="false" prefHeight="26.0" prefWidth="30.0" HBox.hgrow="ALWAYS"/>
                                             </children>

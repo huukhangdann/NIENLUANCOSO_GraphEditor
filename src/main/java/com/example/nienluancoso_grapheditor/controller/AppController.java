@@ -149,6 +149,9 @@ public class AppController {
     private AlgorithmTraceController algorithmTraceController;
     private PauseTransition autoPlayTimer;
 
+    private boolean isVisualizationRunning = false;
+    private boolean isVisualizationPaused = false;
+
 
     @FXML
     private void initialize() {
@@ -162,7 +165,8 @@ public class AppController {
 
         graphEditorController = new GraphEditorController(graphPane, graphContent, interactionBlocker, () -> {
             algorithmPanelController.refreshVertexChoices(graphEditorController.getGraph());
-            algorithmPanelController.updateAlgorithmControls(graphEditorController.getGraph(), runButton, resetButton, algorithmStatusLabel);
+            algorithmPanelController.updateAlgorithmControls(graphEditorController.getGraph(),
+                    runButton, runStepByStepButton, resetButton, algorithmStatusLabel);
             algorithmPanelController.setResultPanel(false);
         }, this::showNotification);
 
@@ -180,19 +184,30 @@ public class AppController {
 
         // SetUp for UI/UX
         setupLeftNavigation();
-        algorithmPanelController.setupAlgorithmSelection(algorithmResultController, graphEditorController.getGraph(), runButton, resetButton, algorithmStatusLabel);
-        algorithmPanelController.updateAlgorithmControls(graphEditorController.getGraph(), runButton, resetButton, algorithmStatusLabel);
+        algorithmPanelController.setupAlgorithmSelection(algorithmResultController, graphEditorController.getGraph(),
+                runButton, runStepByStepButton, resetButton, algorithmStatusLabel);
+        algorithmPanelController.updateAlgorithmControls(graphEditorController.getGraph(),
+                runButton, runStepByStepButton, resetButton, algorithmStatusLabel);
 
         graphEditorController.setUpGraphCanvas(notificationView, zoomSliderLabel);
         setUpInteractionBlocker();
         setUpNotificationView();
         setUpGraphPanelClip();
+        setUpAlgorithmButton();
 
         graphViewportController.setUpZoomSlider(graphPane, interactionBlocker, zoomSlider, zoomSliderLabel);
         graphViewportController.setUpScrollZoom(graphPane, interactionBlocker, zoomSlider);
         graphViewportController.setUpPan(graphPane, interactionBlocker);
 
         initPauseTimer();
+    }
+
+    private void setUpAlgorithmButton() {
+        nextStepButton.setDisable(true);
+        prevStepButton.setDisable(true);
+        pauseButton.setDisable(true);
+        isVisualizationPaused = false;
+        isVisualizationRunning = false;
     }
 
     private Map<Integer, Label> initPseudocodeMap() {
@@ -363,6 +378,9 @@ public class AppController {
 
     @FXML
     private void handleRunStepByStepButton() {
+        isVisualizationRunning = true;
+        pauseButton.setDisable(false);
+
         String algorithm = algorithmComboBox.getValue();
         if ("DFS".equals(algorithm)) {
             algorithmPanelController.setResultPanel(true);
@@ -376,6 +394,7 @@ public class AppController {
                 algorithmController.resetStep();
                 algorithmResultController.showExecutionTraceTab();
 
+                displayCurrentStep();
                 playNextStepAutomatically();
             }
         }
@@ -430,6 +449,26 @@ public class AppController {
         AlgorithmStep currentStep = algorithmController.getCurrentStep();
         algorithmTraceController.displayStep(currentStep);
         graphEditorController.highlightDFSStep(currentStep);
+    }
+
+    @FXML
+    private void handlePauseButton() {
+        if(!isVisualizationPaused) {
+            prevStepButton.setDisable(!algorithmController.hasPreviousStep());
+            nextStepButton.setDisable(!algorithmController.hasNextStep());
+            pauseButton.setGraphic(createIcon(Feather.PLAY, 16));
+            isVisualizationRunning = false;
+            isVisualizationPaused = true;
+            autoPlayTimer.stop();
+        }
+        else {
+            pauseButton.setGraphic(createIcon(Feather.PAUSE, 16));
+            playNextStepAutomatically();
+            prevStepButton.setDisable(true);
+            nextStepButton.setDisable(true);
+            isVisualizationRunning = true;
+            isVisualizationPaused = false;
+        }
     }
 
     public void deleteAll() {
