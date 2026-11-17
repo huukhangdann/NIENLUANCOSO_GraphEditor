@@ -3,6 +3,7 @@ package com.example.nienluancoso_grapheditor.controller;
 import com.example.nienluancoso_grapheditor.algorithm.AlgorithmStep;
 import com.example.nienluancoso_grapheditor.model.Vertex;
 import com.example.nienluancoso_grapheditor.view.*;
+import javafx.animation.PauseTransition;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
@@ -11,6 +12,7 @@ import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 import javafx.util.StringConverter;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
@@ -141,6 +143,7 @@ public class AppController {
     private final InteractionBlocker interactionBlocker = new InteractionBlocker();
     private AlgorithmResultController algorithmResultController;
     private AlgorithmTraceController algorithmTraceController;
+    private PauseTransition autoPlayTimer;
 
     @FXML
     private void initialize() {
@@ -176,6 +179,8 @@ public class AppController {
         graphViewportController.setUpZoomSlider(graphPane, interactionBlocker, zoomSlider, zoomSliderLabel);
         graphViewportController.setUpScrollZoom(graphPane, interactionBlocker, zoomSlider);
         graphViewportController.setUpPan(graphPane, interactionBlocker);
+
+        initPauseTimer();
     }
 
     private Map<Integer, Label> initPseudocodeMap() {
@@ -358,11 +363,30 @@ public class AppController {
                 algorithmController.stepByStepDFS(sourceVertex);
                 algorithmController.resetStep();
                 algorithmResultController.showExecutionTraceTab();
-                AlgorithmStep currentStep = algorithmController.getCurrentStep();
-                algorithmTraceController.displayStep(currentStep);
-                graphEditorController.highlightDFSStep(currentStep);
+
+                playNextStepAutomatically();
             }
         }
+    }
+
+    private void initPauseTimer() {
+        autoPlayTimer = new PauseTransition(Duration.seconds(1));
+        autoPlayTimer.setOnFinished(event -> playNextStepAutomatically());
+    }
+
+    private void displayCurrentStep() {
+        AlgorithmStep currentStep = algorithmController.getCurrentStep();
+        algorithmTraceController.displayStep(currentStep);
+        graphEditorController.highlightDFSStep(currentStep);
+    }
+
+    private void playNextStepAutomatically() {
+        if(!algorithmController.nextStep()){
+            autoPlayTimer.stop();
+            return;
+        }
+        algorithmController.nextStep();
+        autoPlayTimer.playFromStart();
     }
 
     @FXML
