@@ -369,7 +369,7 @@ public class GraphEditorController {
             vertexVertexViewMap.get(currentVertex).changeColorCircle(Color.web("#BFDBFE"));
         for (Vertex v : step.getSortedNeighbors()) {
             if(visitedList.contains(v)) continue;
-            else vertexVertexViewMap.get(v).changeColorCircle(Color.web("FEF08A"));
+            else vertexVertexViewMap.get(v).changeColorCircle(Color.web("#F3E7C6"));
         }
         if(step.getLineNumber()==12)
             if(currentVertex!=null && visitedList.contains(currentVertex)){

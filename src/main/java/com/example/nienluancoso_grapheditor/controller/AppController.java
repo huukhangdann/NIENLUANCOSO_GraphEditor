@@ -133,6 +133,10 @@ public class AppController {
     private Label pseudoLine11;
     @FXML
     private Label pseudoLine12;
+    @FXML
+    private Slider speedSlider;
+    @FXML
+    private ScrollPane pseudocodeScrollPane;
 
 
     private final GraphViewportController graphViewportController = new GraphViewportController();
@@ -145,22 +149,30 @@ public class AppController {
     private AlgorithmTraceController algorithmTraceController;
     private PauseTransition autoPlayTimer;
 
+
     @FXML
     private void initialize() {
         algorithmResultController = new AlgorithmResultController(resultPanel, resultTabPane, overviewTab, executionTraceTab, resultMetricTitleLabel,
                 componentCountValueLabel, componentDetailsPane, workspaceSplitPane, componentCountPanel, componentDetailsScrollPane);
         algorithmResultController.initializeView();
-        algorithmPanelController = new AlgorithmPanelController(sourceComboBox, targetComboBox, algorithmComboBox, status -> algorithmResultController.setResultPanelVisible(status),
+
+        algorithmPanelController = new AlgorithmPanelController(sourceComboBox, targetComboBox, algorithmComboBox,
+                status -> algorithmResultController.setResultPanelVisible(status),
                 () -> algorithmResultController.showOverviewTab(), componentDetailsPanel, resultPanel);
+
         graphEditorController = new GraphEditorController(graphPane, graphContent, interactionBlocker, () -> {
             algorithmPanelController.refreshVertexChoices(graphEditorController.getGraph());
             algorithmPanelController.updateAlgorithmControls(graphEditorController.getGraph(), runButton, resetButton, algorithmStatusLabel);
             algorithmPanelController.setResultPanel(false);
         }, this::showNotification);
+
         algorithmController = new AlgorithmController(graphEditorController.getGraph());
+
         setupButtonIcons();
+
         Map<Integer, Label> integerLabelHashMap = initPseudocodeMap();
-        algorithmTraceController = new AlgorithmTraceController(stepDescriptionLabel, stackValueLabel, visitedValueLabel, traversalValueLabel, integerLabelHashMap);
+        algorithmTraceController = new AlgorithmTraceController(stepDescriptionLabel, stackValueLabel,
+                visitedValueLabel, traversalValueLabel, integerLabelHashMap, pseudocodeScrollPane);
 
         root.addEventFilter(KeyEvent.KEY_PRESSED, this::handleKeyPressed);
         graphPane.getChildren().addFirst(graphContent);
@@ -370,8 +382,22 @@ public class AppController {
     }
 
     private void initPauseTimer() {
-        autoPlayTimer = new PauseTransition(Duration.seconds(0.5));
+        autoPlayTimer = new PauseTransition(getDurationFromSpeedSlider());
         autoPlayTimer.setOnFinished(event -> playNextStepAutomatically());
+        speedSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+                    autoPlayTimer.setDuration(getDurationFromSpeedSlider());
+                }
+        );
+    }
+
+    private Duration getDurationFromSpeedSlider() {
+        double progress = (speedSlider.getValue() - speedSlider.getMin())
+                / (speedSlider.getMax() - speedSlider.getMin());
+        double maxDuration = 1000;
+        double minDuration = 100;
+        double duration = maxDuration
+                - progress * (maxDuration - minDuration);
+        return Duration.millis(duration);
     }
 
     private void displayCurrentStep() {

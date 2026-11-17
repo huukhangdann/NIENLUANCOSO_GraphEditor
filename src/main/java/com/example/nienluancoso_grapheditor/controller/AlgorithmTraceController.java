@@ -3,6 +3,7 @@ package com.example.nienluancoso_grapheditor.controller;
 import com.example.nienluancoso_grapheditor.algorithm.AlgorithmStep;
 import com.example.nienluancoso_grapheditor.model.Vertex;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ public class AlgorithmTraceController {
     private final Label visitedValueLabel;
     private final Label traversalValueLabel;
     private final Map<Integer, Label> indexPseudoMap;
+    private final ScrollPane pseudocodeScrollPane;
 
 
     public AlgorithmTraceController(
@@ -20,13 +22,15 @@ public class AlgorithmTraceController {
             Label stackValueLabel,
             Label visitedValueLabel,
             Label traversalValueLabel,
-            Map<Integer, Label> indexPseudoMap
+            Map<Integer, Label> indexPseudoMap,
+            ScrollPane pseudocodeScrollPane
     ) {
         this.stepDescriptionLabel = stepDescriptionLabel;
         this.stackValueLabel = stackValueLabel;
         this.visitedValueLabel = visitedValueLabel;
         this.traversalValueLabel = traversalValueLabel;
         this.indexPseudoMap = indexPseudoMap;
+        this.pseudocodeScrollPane = pseudocodeScrollPane;
     }
 
     public void displayStep(AlgorithmStep step) {
@@ -73,6 +77,26 @@ public class AlgorithmTraceController {
                 }
             }
         }
+        scrollToLine(lineNumber);
+    }
+
+    private void scrollToLine(int lineNumber) {
+        Label targetLine = indexPseudoMap.get(lineNumber);
+        if (targetLine == null) return;
+        pseudocodeScrollPane.applyCss();
+        pseudocodeScrollPane.layout();
+        double contentHeight = pseudocodeScrollPane.getContent().getBoundsInLocal().getHeight();
+        double viewportHeight = pseudocodeScrollPane.getViewportBounds().getHeight();
+        double maxScroll = contentHeight - viewportHeight;
+        if (maxScroll <= 0) {
+            pseudocodeScrollPane.setVvalue(0);
+            return;
+        }
+        double lineCenterY = targetLine.getBoundsInParent().getMinY()
+                + targetLine.getBoundsInParent().getHeight() / 2;
+        double targetY = lineCenterY - viewportHeight / 2;
+        double scrollValue = Math.clamp(targetY / maxScroll, 0, 1);
+        pseudocodeScrollPane.setVvalue(scrollValue);
     }
 
     private String convertToString(List<Vertex> list) {
