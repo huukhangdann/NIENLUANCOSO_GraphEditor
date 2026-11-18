@@ -163,12 +163,7 @@ public class AppController {
                 status -> algorithmResultController.setResultPanelVisible(status),
                 () -> algorithmResultController.showOverviewTab(), componentDetailsPanel, resultPanel);
 
-        graphEditorController = new GraphEditorController(graphPane, graphContent, interactionBlocker, () -> {
-            algorithmPanelController.refreshVertexChoices(graphEditorController.getGraph());
-            algorithmPanelController.updateAlgorithmControls(graphEditorController.getGraph(),
-                    runButton, runStepByStepButton, resetButton, algorithmStatusLabel);
-            algorithmPanelController.setResultPanel(false);
-        }, this::showNotification);
+        graphEditorController = new GraphEditorController(graphPane, graphContent, interactionBlocker, () -> handleGraphChanged(), this::showNotification);
 
         algorithmController = new AlgorithmController(graphEditorController.getGraph());
 
@@ -200,6 +195,15 @@ public class AppController {
         graphViewportController.setUpPan(graphPane, interactionBlocker);
 
         initPauseTimer();
+    }
+
+    private void handleGraphChanged() {
+            algorithmPanelController.refreshVertexChoices(graphEditorController.getGraph());
+            algorithmPanelController.updateAlgorithmControls(graphEditorController.getGraph(),
+                    runButton, runStepByStepButton, resetButton, algorithmStatusLabel);
+            algorithmPanelController.setResultPanel(false);
+            autoPlayTimer.stop();
+            algorithmController.resetStep();
     }
 
     private void setUpAlgorithmButton() {
@@ -379,7 +383,10 @@ public class AppController {
     @FXML
     private void handleRunStepByStepButton() {
         isVisualizationRunning = true;
+        isVisualizationPaused = false;
+        pauseButton.setGraphic(createIcon(Feather.PAUSE, 16));
         pauseButton.setDisable(false);
+        updateStatusStepButton();
 
         String algorithm = algorithmComboBox.getValue();
         if ("DFS".equals(algorithm)) {
@@ -429,8 +436,7 @@ public class AppController {
         if(!algorithmController.hasNextStep()){
             autoPlayTimer.stop();
             pauseButton.setDisable(true);
-            nextStepButton.setDisable(true);
-            prevStepButton.setDisable(true);
+            updateStatusStepButton();
             return;
         }
         algorithmController.nextStep();
@@ -444,7 +450,7 @@ public class AppController {
         AlgorithmStep currentStep = algorithmController.getCurrentStep();
         algorithmTraceController.displayStep(currentStep);
         graphEditorController.highlightDFSStep(currentStep);
-        nextStepButton.setDisable(!algorithmController.hasNextStep());
+        updateStatusStepButton();
     }
 
     @FXML
@@ -453,14 +459,18 @@ public class AppController {
         AlgorithmStep currentStep = algorithmController.getCurrentStep();
         algorithmTraceController.displayStep(currentStep);
         graphEditorController.highlightDFSStep(currentStep);
+        updateStatusStepButton();
+    }
+
+    public void updateStatusStepButton(){
+        nextStepButton.setDisable(!algorithmController.hasNextStep());
         prevStepButton.setDisable(!algorithmController.hasPreviousStep());
     }
 
     @FXML
     private void handlePauseButton() {
         if(!isVisualizationPaused) {
-            prevStepButton.setDisable(!algorithmController.hasPreviousStep());
-            nextStepButton.setDisable(!algorithmController.hasNextStep());
+            updateStatusStepButton();
             pauseButton.setGraphic(createIcon(Feather.PLAY, 16));
             isVisualizationRunning = false;
             isVisualizationPaused = true;
@@ -469,8 +479,7 @@ public class AppController {
         else {
             pauseButton.setGraphic(createIcon(Feather.PAUSE, 16));
             playNextStepAutomatically();
-            prevStepButton.setDisable(true);
-            nextStepButton.setDisable(true);
+            updateStatusStepButton();
             isVisualizationRunning = true;
             isVisualizationPaused = false;
         }
