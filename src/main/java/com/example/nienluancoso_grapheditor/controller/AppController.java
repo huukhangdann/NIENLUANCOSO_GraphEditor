@@ -428,6 +428,9 @@ public class AppController {
     private void playNextStepAutomatically() {
         if(!algorithmController.hasNextStep()){
             autoPlayTimer.stop();
+            pauseButton.setDisable(true);
+            nextStepButton.setDisable(true);
+            prevStepButton.setDisable(true);
             return;
         }
         algorithmController.nextStep();
@@ -441,6 +444,7 @@ public class AppController {
         AlgorithmStep currentStep = algorithmController.getCurrentStep();
         algorithmTraceController.displayStep(currentStep);
         graphEditorController.highlightDFSStep(currentStep);
+        nextStepButton.setDisable(!algorithmController.hasNextStep());
     }
 
     @FXML
@@ -449,6 +453,7 @@ public class AppController {
         AlgorithmStep currentStep = algorithmController.getCurrentStep();
         algorithmTraceController.displayStep(currentStep);
         graphEditorController.highlightDFSStep(currentStep);
+        prevStepButton.setDisable(!algorithmController.hasPreviousStep());
     }
 
     @FXML

@@ -58,7 +58,7 @@ public class AlgorithmPanelController {
                     targetComboBox.setValue(null);
                     showOverviewTabCallBack.run();
                     updateAlgorithmInputs(graph);
-                    updateAlgorithmControls(graph, runButton, resetButton, runStepByStepButton, algorithmStatusLabel);
+                    updateAlgorithmControls(graph, runButton, runStepByStepButton, resetButton, algorithmStatusLabel);
 
                     // Setting for each algorithm
                     if("Count Component".equals(newValue)){
